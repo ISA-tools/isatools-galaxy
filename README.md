@@ -1,7 +1,7 @@
 ![Logo](logo.png)
 
 # MetaboLights Labs Uploader
-Version: 1.0.0
+Version: 0.1.0
 
 ## Short Description
 
@@ -42,25 +42,31 @@ MetaboLights semantic quality will be based on various controlled vocabularies l
 
 - http://www.ebi.ac.uk/metabolights/
 
-
 ## Git Repository
 
+- https://github.com/EBI-Metabolights/MetaboLightsLabs-PythonCLI
 - https://github.com/phnmnl/container-mtbl-labs-uploader
 
 ## Installation 
 
-For local individual installation:
+This tool is preloaded in PhenoMeNal Galaxy deployments.
+
+For local individual installation of the container:
 
 ```bash
-docker pull docker-registry.phenomenal-h2020.eu/phnmnl/mtbl-labs-uploader
+docker pull container-registry.phenomenal-h2020.eu/phnmnl/mtbl-labs-uploader
 ```
 
 ## Usage Instructions
 
+Available on PhenoMeNal Galaxy instances under "PhenoMeNal H2020 Tools", under the section "Transfer".
+
 For direct docker usage:
 
 ```bash
-docker run docker-registry.phenomenal-h2020.eu/phnmnl/mtbl-labs-uploader ...
+docker run -v $PWD:/data container-registry.phenomenal-h2020.eu/phnmnl/mtbl-labs-uploader -t "your-metabolights_labs_key" \
+                                                                                          -i /data/maf.zip /data/data.tar /data/isa.zip \
+                                                                                          -n -s
 ```
 
 ## Publications
