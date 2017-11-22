@@ -1,7 +1,7 @@
 Galaxy wrappers for ISA-tools
 ==============================
 
-[![Build Status](https://travis-ci.org/isa-tools/isa-tools-galaxy.svg?branch=master)](https://travis-ci.org/isa-tools/isa-tools-galaxy)
+[![Build Status](https://travis-ci.org/ISA-tools/isatools-galaxy.svg?branch=master)](https://travis-ci.org/ISA-tools/isatools-galaxy)
 
 Galaxy
 ------
