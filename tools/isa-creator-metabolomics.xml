@@ -7,18 +7,19 @@
         <requirement type="package">isa-api</requirement>
     </requirements>
   
-    <command interpreter="bash">
+   <!-- <command interpreter="bash">
         output.sh $script_file
-    </command>
+    </command> -->
+    <command>echo -e "is the study balanced?: $group_balanced",
+                        study group size is: $study_group_size"</command>
   
     <configfiles>
-        <configfile name="script_file">
-            echo -e "study type: $study_type"
-
-        </configfile>
-        <configfile>
-    
-        </configfile>
+        <!--<configfile name="script_file">
+            echo -e "study type: $study_type, 
+                    interventions: $single_or_multiple,
+                    intervention_types: $select_intervention_type"
+        </configfile>-->
+        <configfile></configfile>
     </configfiles> 
 
     <inputs>
