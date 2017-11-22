@@ -1,0 +1,17 @@
+language: python
+
+before_install:
+ - export GALAXY_RELEASE=release_17.09
+ - export PLANEMO_RELEASE=0.40.0
+
+install:
+ - sudo apt-get install -y python-virtualenv
+ - virtualenv planemo-venv
+ - . planemo-venv/bin/activate
+ - pip install --upgrade pip setuptools
+ - pip install planemo==$PLANEMO_RELEASE
+
+script:
+ - planemo lint ${TRAVIS_BUILD_DIR}/tools/isa-creator-metabolomics.xml
+ - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_branch $GALAXY_RELEASE --no_cache_galaxy ${TRAVIS_BUILD_DIR}/tools/isa-creator-metabolomics.xml
+
