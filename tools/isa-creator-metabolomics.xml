@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tool id="isa_create" name="create ISA in Galaxy" version="1.0.0">
+<tool id="isa_creator_metabolomics" name="create ISA in Galaxy" version="1.0.0">
     <description>interactive tool to create ISA archives</description>
-    
-    
+
     <requirements>
-        <requirement type="package">isa-api</requirement>
+        <requirement type="package" version="0.9.3">isatools</requirement>
     </requirements>
-  
+    <stdio>
+        <exit_code range="1:" />
+    </stdio>
    <!-- <command interpreter="bash">
         output.sh $script_file
     </command> -->
-    <command>echo -e "is the study balanced?: $group_balanced",
-                        study group size is: $study_group_size"</command>
+    <command><![CDATA[
+        echo -e "is the study balanced?: $group_balanced"
+        &&
+        echo -e "study group size is: $study_group_size"
+    ]]></command>
   
     <configfiles>
         <!--<configfile name="script_file">
@@ -19,7 +23,8 @@
                     interventions: $single_or_multiple,
                     intervention_types: $select_intervention_type"
         </configfile>-->
-        <configfile></configfile>
+        <configfile name="script_file">
+        </configfile>
     </configfiles> 
 
     <inputs>
@@ -359,19 +364,12 @@
         
         <!-- INPUT FOR ASSAY PLAN -->       
 
-        
-        
-        
     </inputs>
   
-  
-    
     <outputs>
         <data format="json" name="isa_study_summary1" />
     </outputs>
-    
 
-   
     <tests>
     </tests>    
    
