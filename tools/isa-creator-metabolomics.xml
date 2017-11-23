@@ -99,7 +99,7 @@ isatab.dump(isa_obj=i, output_path='./isa', i_file_name='i_investigation.txt')
 
     <inputs>
    
-        <conditional name="study_type">
+        <conditional name="study_type_cond">
             <param name="study_type" type="select" label="which type of study" help="see example below">
                 <option value="intervention">intervention</option>
                 <option value="observation">observation</option>
@@ -147,7 +147,7 @@ isatab.dump(isa_obj=i, output_path='./isa', i_file_name='i_investigation.txt')
                         </conditional>                        
                     </when>
                     <when value="multiple">
-                        <repeat name="intervention_record_series" title="Repeated Intervention">
+                        <repeat name="multiple_intervention" title="Repeated Intervention">
                             <conditional name="intervention_type">
                                 <param name="select_intervention_type" type="select" label="Select an intervention type" argument="--trtype">
                                     <option value="chemical intervention" selected="True">chemical intervention</option>
@@ -195,7 +195,7 @@ isatab.dump(isa_obj=i, output_path='./isa', i_file_name='i_investigation.txt')
         <!-- INPUT FOR SAMPLING PLAN -->  
        <repeat name="sample_record_series" title="sampling plan"> 
            <conditional name="sample_type_conditional">
-               <param name="sample_type" type="select" label="study sample types" argument="--sample_type">
+               <param name="rad_sample_type" type="select" label="study sample types" argument="--rad_sample_type">
                    <option value="blood">blood</option>
                    <option value="sweat" selected="True">sweat</option>
                    <option value="tears">tears</option>
@@ -215,7 +215,7 @@ isatab.dump(isa_obj=i, output_path='./isa', i_file_name='i_investigation.txt')
                    
                </when>
                <when value="user_defined">
-                <param name="sample_type_ud" type="text" label="user defined sample type"/>
+                <param name="rad_sample_type_ud" type="text" label="user defined sample type"/>
                </when>
            </conditional>
             
@@ -449,7 +449,7 @@ isatab.dump(isa_obj=i, output_path='./isa', i_file_name='i_investigation.txt')
             <output name="s_study" value="isa/s_study.txt" />
             <output name="a_assay" value="isa/a_assay.txt" />
         </test>
-    </tests>    
+    </tests>
    
     <help>
         **What it does**
