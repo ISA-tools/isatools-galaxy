@@ -16,7 +16,33 @@
         &&
         echo -e "study group size is: $study_group_size"
         &&
-        echo -e "${study_type_cond.study_type.one_or_more.single_or_multiple}"  
+        echo -e "${study_type_cond.study_type}"
+        &&
+        echo -e "${study_type_cond.one_or_more.single_or_multiple}" 
+        &&
+        #for $i, $s in enumerate( $sample_record_series )
+            echo -e "sample_type $i : ${s.sample_type_conditional.rad_sample_type}"
+            &&
+            echo -e "sample_type $i : ${s.sample_size}"   
+            &&
+            #for $j, $a in enumerate( $s.assay_record_series )
+                echo -e "$a.assay_type_conditional.rad_assay_type"
+                &&
+                #for $k, $f in enumerate($a.assay_type_conditional.samp_frac_series)
+                    echo -e "sample_type $i assay_type $j, fraction $k: ${f.fraction}"
+                    &&
+                #end for 
+                #for $l, $inj in enumerate($a.assay_type_conditional.inj_mod_series)
+                    echo -e "sample_type $i assay_type $j, injection $l: ${inj.inj_mod_cond.inj_mod}"
+                    &&
+                    #for $m, $acq in enumerate($inj.inj_mod_cond.acq_mod_series)
+                        echo -e "${acq.acq_mod}
+                        &&
+                    #end for
+                #end for 
+            #end for 
+        #end for
+        
     ]]></command>
   
     <configfiles>
@@ -30,7 +56,8 @@
     </configfiles> 
 
     <inputs>
-   
+    <!-- <section name="Treatment Plan">
+    </section> -->
         <conditional name="study_type_cond">
             <param name="study_type" type="select" label="which type of study" help="see example below">
                 <option value="intervention">intervention</option>
@@ -123,9 +150,10 @@
             <option value="unbalanced">unbalanced</option>
         </param>
         <param name="study_group_size" type="integer" label="study group size" argument="--group_size" value="3"/>
-        
+
+ 
         <!-- INPUT FOR SAMPLING PLAN -->  
-       <repeat name="sample_record_series" title="sampling plan"> 
+       <repeat name="sample_record_series" title="Sampling Plan"> 
            <conditional name="sample_type_conditional">
                <param name="rad_sample_type" type="select" label="study sample types" argument="--rad_sample_type">
                    <option value="blood">blood</option>
@@ -149,11 +177,10 @@
                <when value="user_defined">
                 <param name="rad_sample_type_ud" type="text" label="user defined sample type"/>
                </when>
-           </conditional>
-            
+           </conditional>           
            <param name="sample_size" type="integer" label="number of sample collections" argument="--sample_size"  value="1"></param> 
-           <repeat name="assay_record_series" title="assay plan"> 
-               <conditional name="assay_type">
+           <repeat name="assay_record_series" title="Assay Plan"> 
+               <conditional name="assay_type_conditional">
                    <param name="rad_assay_type" type="select" label="study assay types" argument="--rad_assay_type">
                        <option value="mass spectrometry"  selected="True">mass spectrometry</option>
                        <option value="nmr spectroscopy">nmr spectroscopy</option>
@@ -161,17 +188,14 @@
                        <option value="DNA microarray">DNA microarray</option>
                        <option value="DNA sequencing">DNA sequencing</option>
                     -->
-                   </param>   
-                   
+                   </param>                      
                    <when value="mass spectrometry">
                        <repeat name="samp_frac_series" title="sample fractions">
                            <param name="fraction" type="select" label="sample fraction of interest" argument="--sp_frac">
                                <option value="polar"/>
                                <option value="non-polar"></option>
-                               <option value=""></option>
                            </param>                   
-                       </repeat>
-                       
+                       </repeat>                     
                        <repeat name="inj_mod_series" title="injection series">
                            <conditional name="inj_mod_cond">
                                <param name="inj_mod" type="select" label="sample introduction method" argument="--inj_mod">
@@ -183,30 +207,29 @@
                                <when value="DI">
                                    <param name="instrument" type="select" label="MS instrument" argument="--instrument">
                                        <option value="agilent ABC"/>
-                                       <option value="thermofisher XYZ"></option>
-                                       <option value="shimadzu 123"></option>
+                                       <option value="thermofisher XYZ"/>
+                                       <option value="shimadzu 123"/>
                                    </param>
-                                   <repeat name="acq_mod_repeat" title="acquisition series">
-                                   <param name="acq_mod" type="select" label="acquisition method" argument="--acq_mod">
-                                       <option value="negative" selected="True"/>
-                                       <option value="positive"></option>
-                                       <option value="positive/negative"></option>
-                                   </param>
-                                   <param name="technical_replicates" type="integer" label="number of technical repeats" argument="--tech_rep"  value="1"></param>
+                                   <repeat name="acq_mod_series" title="acquisition series">
+                                      <param name="acq_mod" type="select" label="acquisition method" argument="--acq_mod">
+                                          <option value="negative" selected="True"/>
+                                          <option value="positive"/>
+                                          <option value="positive/negative"/>
+                                      </param>
+                                      <param name="technical_replicates" type="integer" label="number of technical repeats" argument="--tech_rep"  value="1"></param>
                                    </repeat>
                                </when>
                                <when value="FIA">
                                    <param name="instrument" type="select" label="MS instrument" argument="--instrument">
                                        <option value="agilent ABC"/>
-                                       <option value="thermofisher XYZ"></option>
-                                       <option value="shimadzu 123"></option>
+                                       <option value="thermofisher XYZ"/>
+                                       <option value="shimadzu 123"/>
                                    </param>
-                                   <repeat  name="acq_mod_repeat" title="acquisition series">
+                                   <repeat  name="acq_mod_series" title="acquisition series">
                                        <param name="acq_mod" type="select" label="acquisition method" argument="--acq_mod">
                                            <option value="negative" selected="True"/>
-                                           <option value="positive"></option>
-                                           <option value="positive/negative"></option>
-                                           
+                                           <option value="positive"/>
+                                           <option value="positive/negative"/>
                                        </param>
                                        <param name="technical_replicates" type="integer" label="number of technical repeats" argument="--tech_rep"  value="1"></param>
                                    </repeat>                                 
@@ -219,14 +242,14 @@
                                    </param>
                                    <param name="instrument" type="select" label="MS instrument" argument="--instrument">
                                        <option value="agilent ABC"/>
-                                       <option value="thermofisher XYZ"></option>
-                                       <option value="shimadzu 123"></option>
+                                       <option value="thermofisher XYZ"/>
+                                       <option value="shimadzu 123"/>
                                    </param>
-                                   <repeat  name="acq_mod_repeat" title="acquisition series">
+                                   <repeat  name="acq_mod_series" title="acquisition series">
                                        <param name="acq_mod" type="select" label="acquisition method" argument="--acq_mod">
                                            <option value="negative" selected="True"/>
-                                           <option value="positive"></option>
-                                           <option value="positive/negative"></option>
+                                           <option value="positive"/>
+                                           <option value="positive/negative"/>
                                        </param>
                                        <param name="technical_replicates" type="integer" label="number of technical repeats" argument="--tech_rep"  value="1"></param>
                                    </repeat>
@@ -253,7 +276,7 @@
                                        <option value="thermofisher XYZ"></option>
                                        <option value="shimadzu 123"></option>
                                    </param>
-                                   <repeat  name="acq_mod_repeat" title="acquisition series">
+                                   <repeat  name="acq_mod_series" title="acquisition series">
                                        <param name="acq_mod" type="select" label="acquisition method" argument="--acq_mod">
                                            <option value="negative" selected="True"/>
                                            <option value="positive"></option>
