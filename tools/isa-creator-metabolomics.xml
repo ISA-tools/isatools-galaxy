@@ -12,7 +12,9 @@
     <command interpreter="python">$script_file</command>
   
     <configfiles>
-        <!--<configfile name="script_file">
+        <configfile name="bash_script_file">
+            <!-- TODO: implement IF to test depending on value of assay_type && and value to acquisition mode (GCMS requires an additional element -->
+            <![CDATA[
         echo -e "is the study balanced?: $group_balanced"
         &&
         echo -e "study group size is: $study_group_size"
@@ -42,9 +44,9 @@
                     #end for
                 #end for 
             #end for 
-        #end for
-        
-        </configfile>-->
+        #end for    
+        ]]>
+        </configfile>
         <configfile name="script_file">
 from isatools import isatab
 from isatools.create.models import (
