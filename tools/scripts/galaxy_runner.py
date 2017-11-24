@@ -58,6 +58,7 @@ def main():
     acquisition_modes = {'positive', 'negative'}
     chromatography_instruments = {'Agilent Q12324A'}
 
+    # MSAssayTopologyModifiers class not yet in isatools pip package
     # ms_top_mods = MSAssayTopologyModifiers(
     #     instruments=instruments,
     #     technical_replicates=technical_replicates,
@@ -79,8 +80,93 @@ def main():
     i = Investigation()
     s.filename = 's_study.txt'
     i.studies = [s]
-    print(isatab.dumps(i))
+    print(isatab.dumps(i))  # just dump to stdout for now
 
 
 if __name__ == '__main__':
     main()
+
+# def saved():
+#     from isatools import isatab
+#     from isatools.create.models import (
+#         SampleAssayPlan,
+#         TreatmentSequence,
+#         INTERVENTIONS,
+#         BASE_FACTORS,
+#         TreatmentFactory,
+#         IsaModelObjectFactory,
+#         AssayType,
+#         AssayTopologyModifiers
+#     )
+#     from isatools.model import Investigation
+#
+#     if ${study_type.study_type} == 'intervention':
+#
+#     if ${group_balanced.balanced}:
+#         print('group is balanced')
+#     else:
+#         print('group not balanced')
+#     agent_levels = []
+#     dose_levels = []
+#     duration_of_exposure_levels = []
+#     group_size = ${study_group_size}
+#     if $(single_or_multiple.single):
+#         agent_levels = [${agent}]
+#         dose_levels = [${intensity}]
+#         duration_of_exposure_levels = [${duration}]
+#         else:
+#         for $intervention_record in $intervention_record_series:
+#             agent_levels.append(${intervention_record.agent})
+#             dose_levels.append(${intervention_record.intensity})
+#             duration_of_exposure_levels.append(${intervention_record.duration})
+#
+#             sample_types = [$(sample_type)]  # just one sample_type for now
+#
+#
+#             sample_sizes = [int(x) for x in '5'.split(',')]
+#             plan = SampleAssayPlan(
+#                 group_size=group_size)  # if balanced, group_size is fixed
+#
+#             for sample_type, sample_size in $(sample_record_series):
+#                 for sample_type, sample_size in zip(sample_types, sample_sizes):
+#                     plan.add_sample_type(sample_type)
+#                     plan.add_sample_plan_record(sample_type, sample_size)
+#
+#             treatment_factory = TreatmentFactory(
+#                 intervention_type=INTERVENTIONS['CHEMICAL'],
+#                 factors=BASE_FACTORS)
+#             for agent_level in agent_levels:
+#                 treatment_factory.add_factor_value(BASE_FACTORS[0],
+#                                                    agent_level.strip())
+#             for dose_level in dose_levels:
+#                 treatment_factory.add_factor_value(BASE_FACTORS[1],
+#                                                    dose_level.strip())
+#             for duration_of_exposure_level in duration_of_exposure_levels:
+#                 treatment_factory.add_factor_value(BASE_FACTORS[2],
+#                                                    duration_of_exposure_level.strip())
+#             treatment_sequence = TreatmentSequence(
+#                 ranked_treatments=treatment_factory.compute_full_factorial_design())
+#             isa_object_factory = IsaModelObjectFactory(plan, treatment_sequence)
+#
+#             measurement_type = 'metabolite profiling'
+#             technology_type = 'mass spectrometry'
+#             instruments = {'Agilent QTOF'}
+#             technical_replicates = 2
+#             injection_modes = {'LC'}
+#             acquisition_modes = {'positive', 'negative'}
+#             chromatography_instruments = {'Agilent Q12324A'}
+#             ms_top_mods = AssayTopologyModifiers(
+#                 instruments=instruments,
+#                 technical_replicates=technical_replicates)
+#             ms_assay_type = AssayType(measurement_type=measurement_type,
+#                                       technology_type=technology_type)
+#
+#             ms_assay_type.topology_modifiers = ms_top_mods
+#             plan.add_assay_type(ms_assay_type)
+#             plan.add_assay_plan_record(sample_type, ms_assay_type)
+#
+#             s = isa_object_factory.create_assays_from_plan()
+#             i = Investigation()
+#             s.filename = 's_study.txt'
+#             i.studies = [s]
+#             print(isatab.dumps(i))
