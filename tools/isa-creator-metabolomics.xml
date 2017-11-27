@@ -8,45 +8,94 @@
     <stdio>
         <exit_code range="1:" />
     </stdio>
-
-    <command interpreter="python">$script_file</command>
-  
-    <configfiles>
-        <configfile name="bash_script_file">
-            <!-- TODO: implement IF to test depending on value of assay_type && and value to acquisition mode (GCMS requires an additional element -->
-            <![CDATA[
-        echo -e "is the study balanced?: $group_balanced"
-        &&
-        echo -e "study group size is: $study_group_size"
-        &&
-        echo -e "${study_type_cond.study_type}"
-        &&
-        echo -e "${study_type_cond.one_or_more.single_or_multiple}" 
-        &&
-        #for $i, $s in enumerate( $sample_record_series )
-            echo -e "sample_type $i : ${s.sample_type_conditional.rad_sample_type}"
-            &&
-            echo -e "sample_type $i : ${s.sample_size}"   
-            &&
-            #for $j, $a in enumerate( $s.assay_record_series )
-                echo -e "$a.assay_type_conditional.rad_assay_type"
-                &&
-                #for $k, $f in enumerate($a.assay_type_conditional.samp_frac_series)
-                    echo -e "sample_type $i assay_type $j, fraction $k: ${f.fraction}"
+  <command interpreter="bash">
+<![CDATA[
+echo -e "is the study balanced?: $group_balanced"
+&&
+echo -e "study group size is: $study_group_size"
+&&
+echo -e "${study_type_cond.study_type}"
+&&
+echo -e "${study_type_cond.one_or_more.single_or_multiple}" 
+&&
+#for $i, $s in enumerate( $sample_record_series )
+    echo -e "sample type -> ${s.sample_type_conditional.rad_sample_type}"
+    &&
+    echo -e "sample size -> ${s.sample_size}"   
+    #for $j, $a in enumerate( $s.assay_record_series )               
+        #if  $a.assay_type_conditional.rad_assay_type == 'mass spectrometry' 
+            echo -e "WHAAZZAAA: $a.assay_type_conditional.rad_assay_type"
+            #for $k, $f in enumerate($a.assay_type_conditional.samp_frac_series)
+                 echo -e "fraction: ${f.fraction}"
+                 &&
+            #end for 
+            #for $l, $inj in enumerate($a.assay_type_conditional.inj_mod_series)
+                 echo -e "injection: ${inj.inj_mod_cond.inj_mod}"
+                 &&
+                 echo -e "instrument: $inj.inj_mod_cond.instrument"
+                 &&  
+                 #if $inj.inj_mod_cond.inj_mod == 'LC'
+                    echo -e "injection mode: $inj.inj_mod_cond.inj_mod"
                     &&
-                #end for 
-                #for $l, $inj in enumerate($a.assay_type_conditional.inj_mod_series)
-                    echo -e "sample_type $i assay_type $j, injection $l: ${inj.inj_mod_cond.inj_mod}"
+                    echo -e "chromatography instrument: $inj.inj_mod_cond.chromato"
                     &&
-                    #for $m, $acq in enumerate($inj.inj_mod_cond.acq_mod_series)
-                        echo -e "${acq.acq_mod}
+                    #for $o, $e in enumerate($inj.inj_mod_cond.acq_mod_series)
+                        echo -e "acquisition: $e.acq_mod"
+                        &&
+                        echo -e "acquisition: $e.technical_replicates"
+                        &&
+                    #end for                    
+                 #elif $inj.inj_mod_cond.inj_mod == 'GC' 
+                    echo -e "injection mode: $inj.inj_mod_cond.inj_mod"
+                    &&
+                    echo -e "chromatography instrument: $inj.inj_mod_cond.chromato"
+                    &&
+                    #for $o, $d in enumerate($inj.inj_mod_cond.derivatization_series)
+                        echo -e "derivatization: $d.derivatization"
+                        &&
+                    #end for 
+                    #for $o, $e in enumerate($inj.inj_mod_cond.acq_mod_series)
+                        echo -e "acquisition: $e.acq_mod"
+                        &&
+                        echo -e "acquisition: $e.technical_replicates"
                         &&
                     #end for
-                #end for 
-            #end for 
-        #end for    
-        ]]>
-        </configfile>
+                 #else
+                    echo -e "injection mode:$inj.inj_mod_cond.inj_mod"
+                    &&
+                    #for $o, $e in enumerate($inj.inj_mod_cond.acq_mod_series)
+                        echo -e "acquisition: $e.acq_mod"
+                        &&
+                        echo -e "acquisition: $e.technical_replicates"
+                        &&                            
+                    #end for                    
+                 #end if
+            #end for
+
+        #elif $a.assay_type_conditional.rad_assay_type == 'nmr spectroscopy' 
+            echo -e "WHIZZBANG: $a.assay_type_conditional.rad_assay_type" 
+            &&         
+            echo -e "acquisition: $a.assay_type_conditional.acq_mod_cond.acq_mod"
+            &&
+            echo -e "pulse sequence: $a.assay_type_conditional.acq_mod_cond.pulse_seq"
+            &&
+            echo -e "magnet power: $a.assay_type_conditional.acq_mod_cond.magnet"
+            &&
+            echo -e "technical replicates: $a.assay_type_conditional.acq_mod_cond.technical_replicates
+        #else
+            echo -e "something went wrong"
+        #end if  
+    #end for 
+#end for    
+]]>
+  </command>
+
+    <!-- <command interpreter="python">$script_file</command> -->
+    <configfiles>
+        <!--<configfile name="bash_script_file"> -->
+            <!-- TODO: implement IF to test depending on value of assay_type && and value to acquisition mode (GCMS requires an additional element -->
+            
+       <!-- </configfile>-->
         <configfile name="script_file">
 from isatools import isatab
 from isatools.create.models import (
@@ -126,8 +175,8 @@ isatab.dump(isa_obj=i, output_path='./isa', i_file_name='i_investigation.txt')
     </configfiles> 
 
     <inputs>
-    <!-- <section name="Treatment Plan">
-    </section> -->
+        <section name="Treatment Plan" title="Treatment Plan">
+
         <conditional name="study_type_cond">
             <param name="study_type" type="select" label="which type of study" help="see example below">
                 <option value="intervention">intervention</option>
@@ -220,10 +269,10 @@ isatab.dump(isa_obj=i, output_path='./isa', i_file_name='i_investigation.txt')
             <option value="unbalanced">unbalanced</option>
         </param>
         <param name="study_group_size" type="integer" label="study group size" argument="--group_size" value="3"/>
-
- 
+    </section>
+        <section name="Sampling and Assay Plans" title="Sampling and Assay Plans"> 
         <!-- INPUT FOR SAMPLING PLAN -->  
-       <repeat name="sample_record_series" title="Sampling Plan"> 
+       <repeat name="sample_record_series" title="Sampling plan"> 
            <conditional name="sample_type_conditional">
                <param name="rad_sample_type" type="select" label="study sample types" argument="--rad_sample_type">
                    <option value="blood">blood</option>
@@ -249,6 +298,7 @@ isatab.dump(isa_obj=i, output_path='./isa', i_file_name='i_investigation.txt')
                </when>
            </conditional>           
            <param name="sample_size" type="integer" label="number of sample collections" argument="--sample_size"  value="1"></param> 
+           <!-- INPUT FOR ASSAY PLAN -->  
            <repeat name="assay_record_series" title="Assay Plan"> 
                <conditional name="assay_type_conditional">
                    <param name="rad_assay_type" type="select" label="study assay types" argument="--rad_assay_type">
@@ -324,18 +374,7 @@ isatab.dump(isa_obj=i, output_path='./isa', i_file_name='i_investigation.txt')
                                        <param name="technical_replicates" type="integer" label="number of technical repeats" argument="--tech_rep"  value="1"></param>
                                    </repeat>
                                </when>
-                               <when value="GC">
-                                   <repeat name="derivatization_series" title="derivations">
-                                       <param name="derivatization" type="select" label="derivatization" argument="--deriv">
-                                           <option value="acetylation"/>
-                                           <option value="trifluoroacetylation"/>
-                                           <option value="alkylation"/>
-                                           <option value="methylation"/>
-                                           <option value="oxymation"/>
-                                           <option value="silylation"/>
-                                       </param>
-                                   </repeat>
-                                   
+                               <when value="GC">                                 
                                    <param name="chromato" type="select" label="chromatography instrument" argument="--chromato">
                                        <option value="c18"/>
                                        <option value="butyl"></option>
@@ -354,6 +393,16 @@ isatab.dump(isa_obj=i, output_path='./isa', i_file_name='i_investigation.txt')
                                        </param>
                                        <param name="technical_replicates" type="integer" label="number of technical repeats" argument="--tech_rep"  value="1"></param>
                                    </repeat>
+                                   <repeat name="derivatization_series" title="derivations">
+                                       <param name="derivatization" type="select" label="derivatization" argument="--deriv">
+                                           <option value="acetylation"/>
+                                           <option value="trifluoroacetylation"/>
+                                           <option value="alkylation"/>
+                                           <option value="methylation"/>
+                                           <option value="oxymation"/>
+                                           <option value="silylation"/>
+                                       </param>
+                                   </repeat>
                                </when>
                            </conditional>    
                        </repeat>
@@ -362,11 +411,11 @@ isatab.dump(isa_obj=i, output_path='./isa', i_file_name='i_investigation.txt')
                    <when value="nmr spectroscopy">
                        <conditional name="acq_mod_cond">
                            <param name="acq_mod" type="select" label="acquisition method" argument="--acq_mod">
-                               <option value="1D 1H NMR" selected="True"/>
-                               <option value="1D 13C NMR"></option>
-                               <option value="2D 1H-1H NMR"></option>
-                               <option value="2D 13C-13C NMR"></option>
-                               <option value="2D 1H-13C NMR"></option>
+                               <option value="1D 1H NMR"/>
+                               <option value="1D 13C NMR"/>
+                               <option value="2D 1H-1H NMR"/>
+                               <option value="2D 13C-13C NMR"/>
+                               <option value="2D 1H-13C NMR"/>
                            </param>
                            <when value="1D 1H NMR">
                                <param name="pulse_seq" type="select" label="pulse sequence" argument="--pulse">
@@ -389,16 +438,6 @@ isatab.dump(isa_obj=i, output_path='./isa', i_file_name='i_investigation.txt')
                                <param name="technical_replicates" type="integer" label="number of technical repeats" argument="--tech_rep" value="1"></param>
                            </when>
                            <when value="2D 1H-1H NMR">
-                               <param name="pulse_seq" type="select" label="pulse sequence" argument="--pulse">
-                                   <option value="NOESY"></option>
-                                   <option value="TOCSY"></option>
-                                   <option value="watergate"></option>
-                                   <option value="flip-flop"></option>
-                               </param>  
-                               <param name="magnet" type="text" label="nmr magnet power" argument="--magnet"></param>                            
-                               <param name="technical_replicates" type="integer" label="number of technical repeats" argument="--tech_rep" value="1"></param>
-                           </when>
-                           <when value="2D 13C-13C NMR">
                                <param name="pulse_seq" type="select" label="pulse sequence" argument="--pulse">
                                    <option value="NOESY"></option>
                                    <option value="TOCSY"></option>
@@ -455,10 +494,51 @@ isatab.dump(isa_obj=i, output_path='./isa', i_file_name='i_investigation.txt')
                </conditional>
            </repeat>
        </repeat>
-        
-        
-        <!-- INPUT FOR ASSAY PLAN -->       
-
+       </section> 
+        <section name="Quality Control / Quality Assurance Plan" title="Quality Control / Quality Assurance Plan">  
+       <repeat name="qc_record_series" title="Quality Control / Quality Assurance Plan">
+           <conditional name="qc_type_conditional">
+               <param name="qc_type" type="select" label="study qc types" argument="--qc_type">
+                   <option value="long term reference">long term reference</option>
+                   <option value="study reference" selected="True">study reference</option>
+                   <option value="reference compound">reference compound</option>
+                   <option value="reference compound mix">reference compound mix</option>
+                   <option value="sample preparation blank">sample preparation blank</option>
+                   <option value="solvent blank">solvent blank</option>
+                   <option value="dilution series reference">dilution series reference</option>
+               </param>
+               <when value="long term reference">
+                   <param name="nb_injection" type="integer" label="number of injections" argument="--nb_inj" value="0"></param>
+                   <param name="injection_freq" type="integer" label="injection frequency" argument="--inj_freq" value="0"></param>
+               </when>
+               <when value="study reference">
+                   <param name="nb_injection" type="integer" label="number of injections" argument="--nb_inj" value="0"></param>
+                   <param name="injection_freq" type="integer" label="injection frequency" argument="--inj_freq"  value="0"></param>                   
+               </when>
+               <when value="reference compound">
+                   <param name="nb_injection" type="integer" label="number of injections" argument="--nb_inj"  value="0"></param>
+                   <param name="injection_freq" type="integer" label="injection frequency" argument="--inj_freq"  value="0"></param>                  
+               </when>
+               <when value="reference compound mix">
+                   <param name="nb_injection" type="integer" label="number of injections" argument="--nb_inj" value="0"></param>
+                   <param name="injection_freq" type="integer" label="injection frequency" argument="--inj_freq"  value="0"></param>                 
+               </when>
+               <when value="sample preparation blank">
+                   <param name="nb_injection" type="integer" label="number of injections" argument="--nb_inj"  value="0"></param>
+                   <param name="injection_freq" type="integer" label="injection frequency" argument="--inj_freq"  value="0"></param>                  
+               </when>
+               <when value="solvent blank">
+                   <param name="nb_injection" type="integer" label="number of injections" argument="--nb_inj"  value="0"></param>
+                   <param name="injection_freq" type="integer" label="injection frequency" argument="--inj_freq"  value="0"></param>                  
+               </when>
+               <when value="dilution series reference">
+                   <param name="nb_injection" type="integer" label="number of injections" argument="--nb_inj"  value="0"></param>
+                   <param name="injection_freq" type="integer" label="injection frequency" argument="--inj_freq"  value="0"></param>
+                   <param name="nb_dil_step" type="integer" label="number of dilution steps" argument="--nb_dil_step"  value="0"></param>
+               </when>
+           </conditional>    
+       </repeat> 
+    </section>   
     </inputs>
   
     <outputs>
