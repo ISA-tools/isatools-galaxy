@@ -8,7 +8,8 @@
     <stdio>
         <exit_code range="1:" />
     </stdio>
-  <command interpreter="bash">
+    <command interpreter="python">$script_file</command>
+<!-- <command interpreter="bash">
 <![CDATA[
 echo -e "is the study balanced?: $group_balanced"
 &&
@@ -16,24 +17,24 @@ echo -e "study group size is: $study_group_size"
 &&
 echo -e "${study_type_cond.study_type}"
 &&
-echo -e "${study_type_cond.one_or_more.single_or_multiple}" 
+echo -e "${study_type_cond.one_or_more.single_or_multiple}"
 &&
 #for $i, $s in enumerate( $sample_record_series )
     echo -e "sample type -> ${s.sample_type_conditional.rad_sample_type}"
     &&
-    echo -e "sample size -> ${s.sample_size}"   
-    #for $j, $a in enumerate( $s.assay_record_series )               
-        #if  $a.assay_type_conditional.rad_assay_type == 'mass spectrometry' 
+    echo -e "sample size -> ${s.sample_size}"
+    #for $j, $a in enumerate( $s.assay_record_series )
+        #if  $a.assay_type_conditional.rad_assay_type == 'mass spectrometry'
             echo -e "WHAAZZAAA: $a.assay_type_conditional.rad_assay_type"
             #for $k, $f in enumerate($a.assay_type_conditional.samp_frac_series)
                  echo -e "fraction: ${f.fraction}"
                  &&
-            #end for 
+            #end for
             #for $l, $inj in enumerate($a.assay_type_conditional.inj_mod_series)
                  echo -e "injection: ${inj.inj_mod_cond.inj_mod}"
                  &&
                  echo -e "instrument: $inj.inj_mod_cond.instrument"
-                 &&  
+                 &&
                  #if $inj.inj_mod_cond.inj_mod == 'LC'
                     echo -e "injection mode: $inj.inj_mod_cond.inj_mod"
                     &&
@@ -44,8 +45,8 @@ echo -e "${study_type_cond.one_or_more.single_or_multiple}"
                         &&
                         echo -e "acquisition: $e.technical_replicates"
                         &&
-                    #end for                    
-                 #elif $inj.inj_mod_cond.inj_mod == 'GC' 
+                    #end for
+                 #elif $inj.inj_mod_cond.inj_mod == 'GC'
                     echo -e "injection mode: $inj.inj_mod_cond.inj_mod"
                     &&
                     echo -e "chromatography instrument: $inj.inj_mod_cond.chromato"
@@ -53,7 +54,7 @@ echo -e "${study_type_cond.one_or_more.single_or_multiple}"
                     #for $o, $d in enumerate($inj.inj_mod_cond.derivatization_series)
                         echo -e "derivatization: $d.derivatization"
                         &&
-                    #end for 
+                    #end for
                     #for $o, $e in enumerate($inj.inj_mod_cond.acq_mod_series)
                         echo -e "acquisition: $e.acq_mod"
                         &&
@@ -67,14 +68,14 @@ echo -e "${study_type_cond.one_or_more.single_or_multiple}"
                         echo -e "acquisition: $e.acq_mod"
                         &&
                         echo -e "acquisition: $e.technical_replicates"
-                        &&                            
-                    #end for                    
+                        &&
+                    #end for
                  #end if
             #end for
 
-        #elif $a.assay_type_conditional.rad_assay_type == 'nmr spectroscopy' 
-            echo -e "WHIZZBANG: $a.assay_type_conditional.rad_assay_type" 
-            &&         
+        #elif $a.assay_type_conditional.rad_assay_type == 'nmr spectroscopy'
+            echo -e "WHIZZBANG: $a.assay_type_conditional.rad_assay_type"
+            &&
             echo -e "acquisition: $a.assay_type_conditional.acq_mod_cond.acq_mod"
             &&
             echo -e "pulse sequence: $a.assay_type_conditional.acq_mod_cond.pulse_seq"
@@ -84,17 +85,14 @@ echo -e "${study_type_cond.one_or_more.single_or_multiple}"
             echo -e "technical replicates: $a.assay_type_conditional.acq_mod_cond.technical_replicates
         #else
             echo -e "something went wrong"
-        #end if  
-    #end for 
-#end for    
+        #end if
+    #end for
+#end for
 ]]>
-  </command>
-
-    <!-- <command interpreter="python">$script_file</command> -->
+  </command> -->
     <configfiles>
         <!--<configfile name="bash_script_file"> -->
             <!-- TODO: implement IF to test depending on value of assay_type && and value to acquisition mode (GCMS requires an additional element -->
-            
        <!-- </configfile>-->
         <configfile name="script_file">
 from isatools import isatab
@@ -169,8 +167,14 @@ i = Investigation()
 s.filename = "s_study.txt"
 i.studies = [s]
 import os
+import logging
+log = logging.getLogger('isatools')
+log.setLevel(logging.DEBUG)
 os.mkdir('isa')
-isatab.dump(isa_obj=i, output_path='./isa', i_file_name='i_investigation.txt')
+cwd = os.getcwd()
+log.debug('cwd is {}'.format(cwd))
+log.debug('output_path is set to {}'.format(os.path.join(cwd, 'isa')))
+isatab.dump(isa_obj=i, output_path=os.path.join(cwd, 'isa'), i_file_name='i_investigation.txt')
         </configfile>
     </configfiles> 
 
