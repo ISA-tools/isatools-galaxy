@@ -3,12 +3,27 @@
     <description>interactive tool to create ISA archives</description>
 
     <requirements>
+        <requirement type="package" version="6.7">click</requirement>
         <requirement type="package" version="0.9.3">isatools</requirement>
     </requirements>
     <stdio>
         <exit_code range="1:" />
     </stdio>
-    <command interpreter="python">$script_file</command>
+    <command interpreter="python"><![CDATA[
+        #set $study_group_size = $treatment_plan.study_group_size
+        #set $agent_levels = "$treatment_plan.agent"
+        #set $dose_levels = "$treatment_plan.intensity"
+        #set $duration_of_exposure_levels = "$treatment_plan.duration"
+        #set $sample_types = "$treatment_plan.sample_types"
+        #set $sample_sizes = "$treatment_plan.sample_sizes"
+
+        cli.py --group_size $study_group_size
+               --agent_levels $agent_levels
+               --dose_levels $dose_levels
+               --duration_of_exposure_levels $duration_of_exposure_levels
+               --sample_types $sample_types
+               --sample_sizes $sample_sizes
+    ]]></command>
 <!-- <command interpreter="bash">
 <![CDATA[
 echo -e "is the study balanced?: $group_balanced"
@@ -90,90 +105,9 @@ echo -e "${study_type_cond.one_or_more.single_or_multiple}"
 #end for
 ]]>
   </command> -->
-    <configfiles>
-        <!--<configfile name="bash_script_file"> -->
-            <!-- TODO: implement IF to test depending on value of assay_type && and value to acquisition mode (GCMS requires an additional element -->
-       <!-- </configfile>-->
-        <configfile name="script_file">
-from isatools import isatab
-from isatools.create.models import (
-    SampleAssayPlan,
-    TreatmentSequence,
-    INTERVENTIONS,
-    BASE_FACTORS,
-    TreatmentFactory,
-    IsaModelObjectFactory,
-    AssayType,
-    AssayTopologyModifiers
-)
-from isatools.model import Investigation
-# agent_levels = sys.argv[1]  # agent_levels
-# dose_levels = sys.argv[2]  # dose_levels
-# duration_of_exposure_levels = sys.argv[3]  # duration_of_exposure_levels
-# sample_types = sys.argv[4]  # sample_types
-# sample_sizes = sys.argv[5]  # sample_sizes
-group_size = 5
-agent_levels = 'cocaine, calpol'.split(',')
-dose_levels = 'low, high'.split(',')
-duration_of_exposure_levels = 'short, long'.split(',')
-sample_types = 'blood'.split(',')
-sample_sizes = [int(x) for x in '5'.split(',')]
-
-plan = SampleAssayPlan(group_size=group_size)  # if balanced, group_size is fixed
-for sample_type, sample_size in zip(sample_types, sample_sizes):
-    plan.add_sample_type(sample_type)
-    plan.add_sample_plan_record(sample_type, sample_size)
-treatment_factory = TreatmentFactory(
-    intervention_type=INTERVENTIONS['CHEMICAL'], factors=BASE_FACTORS)
-for agent_level in agent_levels:
-    treatment_factory.add_factor_value(BASE_FACTORS[0], agent_level.strip())
-for dose_level in dose_levels:
-    treatment_factory.add_factor_value(BASE_FACTORS[1], dose_level.strip())
-for duration_of_exposure_level in duration_of_exposure_levels:
-    treatment_factory.add_factor_value(BASE_FACTORS[2],
-                                       duration_of_exposure_level.strip())
-treatment_sequence = TreatmentSequence(
-    ranked_treatments=treatment_factory.compute_full_factorial_design())
-isa_object_factory = IsaModelObjectFactory(plan, treatment_sequence)
-
-measurement_type = 'metabolite profiling'
-technology_type = 'mass spectrometry'
-instruments = {'Agilent QTOF'}
-technical_replicates = 2
-injection_modes = {'LC'}
-acquisition_modes = {'positive', 'negative'}
-chromatography_instruments = {'Agilent Q12324A'}
-
-# MSAssayTopologyModifiers class not yet in isatools pip package
-# ms_top_mods = MSAssayTopologyModifiers(
-#     instruments=instruments,
-#     technical_replicates=technical_replicates,
-#     injection_modes=injection_modes,
-#     acquisition_modes=acquisition_modes,
-#     chromatography_instruments=chromatography_instruments)
-
-ms_top_mods = AssayTopologyModifiers(
-    instruments=instruments,
-    technical_replicates=technical_replicates)
-ms_assay_type = AssayType(measurement_type=measurement_type,
-                          technology_type=technology_type)
-
-ms_assay_type.topology_modifiers = ms_top_mods
-plan.add_assay_type(ms_assay_type)
-plan.add_assay_plan_record(sample_type, ms_assay_type)
-
-s = isa_object_factory.create_assays_from_plan()
-i = Investigation()
-s.filename = "s_study.txt"
-i.studies = [s]
-import os
-os.mkdir('isa')
-isatab.dump(isa_obj=i, output_path='isa', i_file_name='i_investigation.txt')
-        </configfile>
-    </configfiles> 
 
     <inputs>
-        <section name="Treatment Plan" title="Treatment Plan">
+        <section name="treatment_plan" title="Treatment Plan">
 
         <conditional name="study_type_cond">
             <param name="study_type" type="select" label="which type of study" help="see example below">
@@ -540,13 +474,13 @@ isatab.dump(isa_obj=i, output_path='isa', i_file_name='i_investigation.txt')
     </inputs>
   
     <outputs>
-        <data name="i_investigation" format="tsv" from_work_dir="isa/i_investigation.txt" />
-        <collection type="list" label="S Files" name="s_files">
-            <discover_datasets pattern="(?P&lt;designation&gt;s_.+)\.txt" directory="isa" format="tsv"/>
+        <collection type="list" label="A Files" name="a_files">
+            <discover_datasets pattern="(?P&lt;designation&gt;a_.+)\.txt" directory="isa/" format="tsv"/>
         </collection>
-        <!--<collection type="list" label="A Files" name="a_files">-->
-            <!--<discover_datasets pattern="(?P&lt;designation&gt;a_.+)\.txt" directory="isa" format="tsv"/>-->
-        <!--</collection>-->
+        <collection type="list" label="S Files" name="s_files">
+            <discover_datasets pattern="(?P&lt;designation&gt;s_.+)\.txt" directory="isa/" format="tsv"/>
+        </collection>
+        <data name="i_investigation" format="tsv" from_work_dir="isa/i_investigation.txt" />
     </outputs>
 
     <tests>
@@ -560,13 +494,18 @@ isatab.dump(isa_obj=i, output_path='isa', i_file_name='i_investigation.txt')
                     </assert_contents>
                 </element>
             </output_collection>
-            <!--<output_collection name="a_files" type="list" count="1">-->
-                <!--<element name="a_assay">-->
-                    <!--<assert_contents>-->
-                        <!--<has_n_columns n="77" />-->
-                    <!--</assert_contents>-->
-                <!--</element>-->
-            <!--</output_collection>-->
+            <output_collection name="a_files" type="list" count="2">
+                <element name="a_blood_ms_LC_positive_assay">
+                    <assert_contents>
+                        <has_n_columns n="77" />
+                    </assert_contents>
+                </element>
+                <element name="a_blood_ms_LC_negative_assay">
+                    <assert_contents>
+                        <has_n_columns n="77" />
+                    </assert_contents>
+                </element>
+            </output_collection>
         </test>
     </tests>
    
