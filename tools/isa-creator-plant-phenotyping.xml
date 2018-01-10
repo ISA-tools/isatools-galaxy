@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tool id="isa_creator_metabolomics" name="create ISA in Galaxy" version="1.0.0">
     <description>interactive tool to create ISA archives</description>
+
     <requirements>
         <requirement type="package" version="0.9.3">isatools</requirement>
     </requirements>
@@ -8,7 +9,8 @@
         <exit_code range="1:" />
     </stdio>
   <command interpreter="bash">
-<![CDATA[echo -e "is the study balanced?: $group_balanced"
+<![CDATA[
+echo -e "is the study balanced?: $group_balanced"
 &&
 echo -e "study group size is: $study_group_size"
 &&
@@ -79,13 +81,14 @@ echo -e "${study_type_cond.one_or_more.single_or_multiple}"
             &&
             echo -e "magnet power: $a.assay_type_conditional.acq_mod_cond.magnet"
             &&
-            echo -e "technical replicates: $a.assay_type_conditional.acq_mod_cond.technical_replicates"
+            echo -e "technical replicates: $a.assay_type_conditional.acq_mod_cond.technical_replicates
         #else
             echo -e "something went wrong"
         #end if  
     #end for 
 #end for    
-]]></command>
+]]>
+  </command>
 
     <!-- <command interpreter="python">$script_file</command> -->
     <configfiles>
@@ -170,15 +173,34 @@ os.mkdir('isa')
 isatab.dump(isa_obj=i, output_path='./isa', i_file_name='i_investigation.txt')
         </configfile>
     </configfiles> 
-    <inputs>       
-        <section name="Treatment Plan" title="Treatment Plan">
+
+    <inputs>
+        
+        <section name="Protocol Declaration" title="Protocols">
+            <repeat name="protocol_seroes" title="">
+                <conditional name="protocol_conditional">
+                    <param name="protocol type" type="select" label="protocol type" argument="--protocols">
+                        <option value="watering"></option>
+                        <option value="fertilization"></option>
+                        <option value="rooting conditions"></option>
+                    </param>
+                    <when value="watering">
+                        <param name="quantity"  type="integer" label="quantity of water" argument="--qw" value="0"></param>
+                        <param name="frequence"  type="integer" label="frequency of watering events" argument="--fqw" value="0"></param>
+                    </when>
+                    <when value="fertilization">
+                        <param name="quantity"  type="integer" label="quantity of water" argument="--qw" value="0"></param>
+                        <param name="frequence"  type="integer" label="frequency of watering events" argument="--fqw" value="0"></param>
+                    </when>
+                    <when value="rooting conditions">
+                        <param name="quantity"  type="integer" label="quantity of water" argument="--qw" value="0"></param>
+                        <param name="frequence"  type="integer" label="frequency of watering events" argument="--fqw" value="0"></param>
+                    </when>
+                </conditional>
+            </repeat>  
         </section>
-            <!-- INPUT FOR SETTING CHARACTERISTICS OF STUDY GROUPS -->
-            <param name="group_balanced" type="select" label="study design balance" argument="--group_balanced">
-                <option value="balanced">balanced</option>
-                <option value="unbalanced">unbalanced</option>
-            </param>
-            <param name="study_group_size" type="integer" label="study group size" argument="--group_size" value="3"/>
+        <section name="Treatment Plan" title="Treatment Plan">
+
         <conditional name="study_type_cond">
             <param name="study_type" type="select" label="which type of study" help="see example below">
                 <option value="intervention">intervention</option>
@@ -264,8 +286,15 @@ isatab.dump(isa_obj=i, output_path='./isa', i_file_name='i_investigation.txt')
             <when value="observation">
             </when>
         </conditional>
-    
-     <!--   <section name="Sampling and Assay Plans" title="Sampling and Assay Plans"> -->
+        
+        <!-- INPUT FOR SETTING CHARACTERISTICS OF STUDY GROUPS -->
+        <param name="group_balanced" type="select" label="study design balance" argument="--group_balanced">
+            <option value="balanced" selected="True">balanced</option>
+            <option value="unbalanced">unbalanced</option>
+        </param>
+        <param name="study_group_size" type="integer" label="study group size" argument="--group_size" value="3"/>
+    </section>
+        <section name="Sampling and Assay Plans" title="Sampling and Assay Plans"> 
         <!-- INPUT FOR SAMPLING PLAN -->  
        <repeat name="sample_record_series" title="Sampling plan"> 
            <conditional name="sample_type_conditional">
@@ -299,6 +328,10 @@ isatab.dump(isa_obj=i, output_path='./isa', i_file_name='i_investigation.txt')
                    <param name="rad_assay_type" type="select" label="study assay types" argument="--rad_assay_type">
                        <option value="mass spectrometry"  selected="True">mass spectrometry</option>
                        <option value="nmr spectroscopy">nmr spectroscopy</option>
+                    <!--
+                       <option value="DNA microarray">DNA microarray</option>
+                       <option value="DNA sequencing">DNA sequencing</option>
+                    -->
                    </param>                      
                    <when value="mass spectrometry">
                        <repeat name="samp_frac_series" title="sample fractions">
@@ -460,12 +493,33 @@ isatab.dump(isa_obj=i, output_path='./isa', i_file_name='i_investigation.txt')
                                <param name="technical_replicates" type="integer" label="number of technical repeats" argument="--tech_rep" value="1"></param>
                            </when> 
                        </conditional>
-                   </when>  
+                   </when>
+                   
+               <!--     
+                   <when value="DNA sequencing">
+                       <param name="seq_instrument" type="text"></param> 
+                       <param name="single_or_paired" type="select" label="select library type" argument="library">
+                           <option value="single end"/>
+                           <option value="paired end"/>
+                       </param> 
+                       <param name="technical_replicates" type="integer" label="number of technical repeats" argument="tech_rep" value="1"></param>
+                   </when>
+                   
+                   <when value="DNA microarray">
+                       <param name="array_design" type="select" label="select array design name" argument="arraydes">
+                           <option value="Affymetrix 1"/>
+                           <option value="Affymetrix 2"/>
+                           <option value="Illumina A"/>
+                           <option value="Illumina B"/>
+                       </param>                              
+                       <param name="technical_replicates" type="integer" label="number of technical repeats" argument="tech_rep" value="1"></param>
+                   </when>
+               -->    
                </conditional>
            </repeat>
        </repeat>
-     <!--  </section>  -->
-     <!--   <section name="Quality Control / Quality Assurance Plan" title="Quality Control / Quality Assurance Plan">  -->
+       </section> 
+        <section name="Quality Control / Quality Assurance Plan" title="Quality Control / Quality Assurance Plan">  
        <repeat name="qc_record_series" title="Quality Control / Quality Assurance Plan">
            <conditional name="qc_type_conditional">
                <param name="qc_type" type="select" label="study qc types" argument="--qc_type">
@@ -508,7 +562,7 @@ isatab.dump(isa_obj=i, output_path='./isa', i_file_name='i_investigation.txt')
                </when>
            </conditional>    
        </repeat> 
- <!--   </section>   -->
+    </section>   
     </inputs>
   
     <outputs>
