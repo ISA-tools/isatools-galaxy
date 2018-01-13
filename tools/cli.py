@@ -1,5 +1,6 @@
 """Commandline interface for running ISA API create mode"""
 import click
+import json
 import os
 
 from isatools import isatab
@@ -14,35 +15,42 @@ from isatools.create.models import (
     AssayTopologyModifiers
 )
 from isatools.model import Investigation
+from pandas.core.indexes import interval
 
 
 @click.command()
-@click.option('--group_size', default=5, prompt='Sample size',
-              help='Sample group size.')
-@click.option('--agent_levels', default='cocaine, calpol',
-              prompt='Agent levels', help='CSV list of agent levels.')
-@click.option('--dose_levels', default='low, high', prompt='Dose levels',
-              help='CSV list of dose levels.')
-@click.option('--duration_of_exposure_levels', default='short, long', prompt='Durations',
-              help='CSV list of duration levels.')
-@click.option('--sample_types', default='blood', prompt='Sample types',
-              help='CSV list of sample types.')
-@click.option('--sample_sizes', default='5', prompt='Sample sizes',
-              help='CSV list of sample sizes.')
-def create_from_plan_parameters(
-        group_size, agent_levels, dose_levels, duration_of_exposure_levels,
-        sample_types, sample_sizes):
-    agent_levels = agent_levels.split(',')
-    dose_levels = dose_levels.split(',')
-    duration_of_exposure_levels = duration_of_exposure_levels.split(',')
-    sample_types = sample_types.split(',')
-    sample_sizes = [int(x) for x in sample_sizes.split(',')]
-
-    plan = SampleAssayPlan(
-        group_size=group_size)  # if balanced, group_size is fixed
-    for sample_type, sample_size in zip(sample_types, sample_sizes):
-        plan.add_sample_type(sample_type)
-        plan.add_sample_plan_record(sample_type, sample_size)
+@click.option('--parameters_file',
+              help='Path to JSON file containing input Galaxy tool parameters',
+              prompt='Path to JSON Galaxy parameters file', nargs=1, type=str,
+              default='create_params.json')
+def create_from_plan_parameters(parameters_file):
+    tool_params = None
+    with open(parameters_file) as fp:
+        tool_params = json.load(fp)
+        print(json.dumps(tool_params, indent=4))
+        # from isatools.create.models import SampleAssayPlanDecoder
+        # decoder = SampleAssayPlanDecoder()
+        # sample_assay_plan = decoder.load(fp)
+    return
+    sample_and_assay_plans = {
+        "sample_types": [],
+        "group_size": 1,
+        "sample_plan": [],
+        "sample_qc_plan": [],
+        "assay_types": [],
+        "assay_plan": []
+    }
+    for sample_plan_params in tool_params[
+        'sampling_and_assay_plans']['sample_record_series']:
+        sample_plan = {
+            'sample_type': sample_plan_params['sample_type']['sample_type'],
+            'sampling_size': sample_plan_params['sample_size']
+        }
+        sample_and_assay_plans['sample_plan'].append(sample_plan)
+    sample_and_assay_plans['group_size'] = tool_params[
+        'treatment_plan']['study_group_size']
+    decoder = SampleAssayPlanDecoder()
+    plan = decoder.load(StringIO(json.dumps(sample_and_assay_plans)))
     treatment_factory = TreatmentFactory(
         intervention_type=INTERVENTIONS['CHEMICAL'], factors=BASE_FACTORS)
     for agent_level in agent_levels:
@@ -55,33 +63,6 @@ def create_from_plan_parameters(
     treatment_sequence = TreatmentSequence(
         ranked_treatments=treatment_factory.compute_full_factorial_design())
     isa_object_factory = IsaModelObjectFactory(plan, treatment_sequence)
-
-    measurement_type = 'metabolite profiling'
-    technology_type = 'mass spectrometry'
-    instruments = {'Agilent QTOF'}
-    technical_replicates = 2
-    injection_modes = {'LC'}
-    acquisition_modes = {'positive', 'negative'}
-    chromatography_instruments = {'Agilent Q12324A'}
-
-    # MSAssayTopologyModifiers class not yet in isatools pip package
-    # ms_top_mods = MSAssayTopologyModifiers(
-    #    instruments=instruments,
-    #    technical_replicates=technical_replicates,
-    #    injection_modes=injection_modes,
-    #    acquisition_modes=acquisition_modes,
-    #    chromatography_instruments=chromatography_instruments)
-
-    ms_top_mods = AssayTopologyModifiers(
-        instruments=instruments,
-        technical_replicates=technical_replicates)
-    ms_assay_type = AssayType(measurement_type=measurement_type,
-                              technology_type=technology_type)
-
-    ms_assay_type.topology_modifiers = ms_top_mods
-    plan.add_assay_type(ms_assay_type)
-    plan.add_assay_plan_record(sample_type, ms_assay_type)
-
     s = isa_object_factory.create_assays_from_plan()
     i = Investigation()
     s.filename = "s_study.txt"
