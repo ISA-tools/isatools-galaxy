@@ -1,21 +1,19 @@
 """Commandline interface for running ISA API create mode"""
 import click
+import io
 import json
 import os
 
 from isatools import isatab
 from isatools.create.models import (
-    SampleAssayPlan,
+    SampleAssayPlanDecoder,
     TreatmentSequence,
     INTERVENTIONS,
     BASE_FACTORS,
     TreatmentFactory,
     IsaModelObjectFactory,
-    AssayType,
-    AssayTopologyModifiers
 )
 from isatools.model import Investigation
-from pandas.core.indexes import interval
 
 
 @click.command()
@@ -24,14 +22,11 @@ from pandas.core.indexes import interval
               prompt='Path to JSON Galaxy parameters file', nargs=1, type=str,
               default='create_params.json')
 def create_from_plan_parameters(parameters_file):
-    tool_params = None
     with open(parameters_file) as fp:
         tool_params = json.load(fp)
         print(json.dumps(tool_params, indent=4))
-        # from isatools.create.models import SampleAssayPlanDecoder
-        # decoder = SampleAssayPlanDecoder()
-        # sample_assay_plan = decoder.load(fp)
-    return
+    if tool_params is None:
+        raise IOError('Could not load tool parameters file')
     sample_and_assay_plans = {
         "sample_types": [],
         "group_size": 1,
@@ -50,13 +45,16 @@ def create_from_plan_parameters(parameters_file):
     sample_and_assay_plans['group_size'] = tool_params[
         'treatment_plan']['study_group_size']
     decoder = SampleAssayPlanDecoder()
-    plan = decoder.load(StringIO(json.dumps(sample_and_assay_plans)))
+    plan = decoder.load(io.StringIO(json.dumps(sample_and_assay_plans)))
     treatment_factory = TreatmentFactory(
         intervention_type=INTERVENTIONS['CHEMICAL'], factors=BASE_FACTORS)
+    agent_levels = 'calpol, none'
     for agent_level in agent_levels:
         treatment_factory.add_factor_value(BASE_FACTORS[0], agent_level.strip())
+    dose_levels = 'low, high'
     for dose_level in dose_levels:
         treatment_factory.add_factor_value(BASE_FACTORS[1], dose_level.strip())
+    duration_of_exposure_levels = 'long, short'
     for duration_of_exposure_level in duration_of_exposure_levels:
         treatment_factory.add_factor_value(BASE_FACTORS[2],
                                            duration_of_exposure_level.strip())
