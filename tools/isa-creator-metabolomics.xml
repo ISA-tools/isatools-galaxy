@@ -29,13 +29,13 @@
             </param>
             <when value="intervention">
                 <conditional name="one_or_more">
-                    <param name="single_or_multiple" type="select" label="single or repeated treatments" argument="--som">
+                    <param name="single_or_multiple" type="select" label="single or repeated treatments">
                         <option value="single" selected="True">single</option>
                         <option value="multiple">multiple</option>
                     </param>
                     <when value="single">
                         <conditional name="intervention_type">
-                            <param name="select_intervention_type" type="select" label="Select an intervention type" argument="--trtype">
+                            <param name="select_intervention_type" type="select" label="Select an intervention type">
                                 <option value="chemical intervention" selected="True">chemical intervention</option>
                                 <option value="dietary intervention">dietary intervention</option>
                                 <option value="behavioural intervention">behavioral intervention</option>
@@ -72,7 +72,7 @@
                     <when value="multiple">
                         <repeat name="multiple_intervention" title="Repeated Intervention">
                             <conditional name="intervention_type">
-                                <param name="select_intervention_type" type="select" label="Select an intervention type" argument="--trtype">
+                                <param name="select_intervention_type" type="select" label="Select an intervention type">
                                     <option value="chemical intervention" selected="True">chemical intervention</option>
                                     <option value="behavioural intervention">behavioral intervention</option>
                                     <option value="biological intervention">biological intervention</option>
@@ -260,7 +260,7 @@
                                <param name="technical_replicates" type="integer" label="number of technical repeats" value="1" />
                            </when>
                            <when value="1D 13C NMR">
-                               <param name="pulse_seq" type="select" label="pulse sequence" argument="--pulse">
+                               <param name="pulse_seq" type="select" label="pulse sequence">
                                    <option value="CPMG" />
                                    <option value="water suppression" />
                                    <option value="watergate" />
@@ -330,7 +330,7 @@
         <section name="qc_plan" title="Quality Control / Quality Assurance Plan">
        <repeat name="qc_record_series" title="Quality Control / Quality Assurance Plan">
            <conditional name="qc_type_conditional">
-               <param name="qc_type" type="select" label="study qc types" argument="--qc_type">
+               <param name="qc_type" type="select" label="study qc types">
                    <option value="long term reference">long term reference</option>
                    <option value="study reference" selected="True">study reference</option>
                    <option value="reference compound">reference compound</option>
@@ -340,33 +340,33 @@
                    <option value="dilution series reference">dilution series reference</option>
                </param>
                <when value="long term reference">
-                   <param name="nb_injection" type="integer" label="number of injections" argument="--nb_inj" value="0" />
-                   <param name="injection_freq" type="integer" label="injection frequency" argument="--inj_freq" value="0" />
+                   <param name="nb_injection" type="integer" label="number of injections" value="0" />
+                   <param name="injection_freq" type="integer" label="injection frequency" value="0" />
                </when>
                <when value="study reference">
-                   <param name="nb_injection" type="integer" label="number of injections" argument="--nb_inj" value="0" />
-                   <param name="injection_freq" type="integer" label="injection frequency" argument="--inj_freq"  value="0" />
+                   <param name="nb_injection" type="integer" label="number of injections" value="0" />
+                   <param name="injection_freq" type="integer" label="injection frequency" value="0" />
                </when>
                <when value="reference compound">
-                   <param name="nb_injection" type="integer" label="number of injections" argument="--nb_inj"  value="0" />
-                   <param name="injection_freq" type="integer" label="injection frequency" argument="--inj_freq"  value="0" />
+                   <param name="nb_injection" type="integer" label="number of injections" value="0" />
+                   <param name="injection_freq" type="integer" label="injection frequency" value="0" />
                </when>
                <when value="reference compound mix">
-                   <param name="nb_injection" type="integer" label="number of injections" argument="--nb_inj" value="0" />
-                   <param name="injection_freq" type="integer" label="injection frequency" argument="--inj_freq"  value="0" />
+                   <param name="nb_injection" type="integer" label="number of injections" value="0" />
+                   <param name="injection_freq" type="integer" label="injection frequency" value="0" />
                </when>
                <when value="sample preparation blank">
-                   <param name="nb_injection" type="integer" label="number of injections" argument="--nb_inj"  value="0" />
-                   <param name="injection_freq" type="integer" label="injection frequency" argument="--inj_freq"  value="0" />
+                   <param name="nb_injection" type="integer" label="number of injections" value="0" />
+                   <param name="injection_freq" type="integer" label="injection frequency" value="0" />
                </when>
                <when value="solvent blank">
-                   <param name="nb_injection" type="integer" label="number of injections" argument="--nb_inj"  value="0" />
-                   <param name="injection_freq" type="integer" label="injection frequency" argument="--inj_freq"  value="0" />
+                   <param name="nb_injection" type="integer" label="number of injections" value="0" />
+                   <param name="injection_freq" type="integer" label="injection frequency" value="0" />
                </when>
                <when value="dilution series reference">
-                   <param name="nb_injection" type="integer" label="number of injections" argument="--nb_inj"  value="0" />
-                   <param name="injection_freq" type="integer" label="injection frequency" argument="--inj_freq"  value="0" />
-                   <param name="nb_dil_step" type="integer" label="number of dilution steps" argument="--nb_dil_step"  value="0" />
+                   <param name="nb_injection" type="integer" label="number of injections" value="0" />
+                   <param name="injection_freq" type="integer" label="injection frequency" value="0" />
+                   <param name="nb_dil_step" type="integer" label="number of dilution steps" value="0" />
                </when>
            </conditional>    
        </repeat> 
