@@ -12,7 +12,7 @@
     </stdio>
 
     <command>
-        cli.py --parameters_file $inputs
+        python $__tool_directory__/cli.py --parameters_file $inputs
     </command>
 
     <configfiles>
