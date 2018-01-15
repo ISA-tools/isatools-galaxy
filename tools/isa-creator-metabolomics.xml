@@ -11,7 +11,7 @@
         <exit_code range="1:" />
     </stdio>
 
-    <command interpreter="python">
+    <command>
         cli.py --parameters_file $inputs
     </command>
 
@@ -125,6 +125,10 @@
                    <option value="urine">urine</option>
                    <option value="user_defined">user defined</option>
                 </param>
+               <when value="blood" />
+               <when value="sweat" />
+               <when value="tears" />
+               <when value="urine" />
                <when value="user_defined">
                    <param name="sample_type_ud" type="text" label="user defined sample type"/>
                </when>
