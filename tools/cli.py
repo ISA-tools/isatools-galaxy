@@ -126,7 +126,6 @@ class SampleAssayPlanDecoder(object):
 def create_from_plan_parameters(parameters_file):
     with open(parameters_file) as fp:
         tool_params = json.load(fp)
-        print(json.dumps(tool_params, indent=4))
     if tool_params is None:
         raise IOError('Could not load tool parameters file')
     sample_and_assay_plans = {
