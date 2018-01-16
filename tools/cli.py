@@ -178,7 +178,7 @@ def create_from_plan_parameters(parameters_file):
     isatab.dump(isa_obj=i, output_path='isa', i_file_name='i_investigation.txt')
     # TODO: Zip up the dumped isa files; or implement isatab.dumpz()?
     import glob
-    file_list = glob.glob('*_*.txt')  # enough of a pattern to pick up isa files
+    file_list = glob.glob('isa/*_*.txt')  # enough of a pattern to pick up isa files
     if len(file_list) > 0:
         import zipfile
         with zipfile.ZipFile('ISA.zip', 'w') as zip:
