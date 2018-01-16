@@ -2,7 +2,9 @@
 import click
 import io
 import json
+import logging
 import os
+import sys
 
 from isatools import isatab
 from isatools.create.models import (
@@ -137,7 +139,7 @@ def create_from_plan_parameters(parameters_file):
         "assay_plan": []
     }
     for sample_plan_params in tool_params[
-        'sampling_and_assay_plans']['sample_record_series']:
+            'sampling_and_assay_plans']['sample_record_series']:
         sample_plan = {
             'sample_type': sample_plan_params['sample_type']['sample_type'],
             'sampling_size': sample_plan_params['sample_size']
@@ -147,17 +149,21 @@ def create_from_plan_parameters(parameters_file):
         sample_and_assay_plans['sample_plan'].append(sample_plan)
     sample_and_assay_plans['group_size'] = tool_params[
         'treatment_plan']['study_group_size']
+
+    if len(sample_and_assay_plans['sample_plan']) < 1:
+        raise IOError('No sample plans specified!')
+
     decoder = SampleAssayPlanDecoder()
     plan = decoder.load(io.StringIO(json.dumps(sample_and_assay_plans)))
     treatment_factory = TreatmentFactory(
         intervention_type=INTERVENTIONS['CHEMICAL'], factors=BASE_FACTORS)
-    agent_levels = 'calpol, none'
+    agent_levels = 'calpol,none'.split(',')
     for agent_level in agent_levels:
         treatment_factory.add_factor_value(BASE_FACTORS[0], agent_level.strip())
-    dose_levels = 'low, high'
+    dose_levels = 'low,high'.split(',')
     for dose_level in dose_levels:
         treatment_factory.add_factor_value(BASE_FACTORS[1], dose_level.strip())
-    duration_of_exposure_levels = 'long, short'
+    duration_of_exposure_levels = 'long,short'.split(',')
     for duration_of_exposure_level in duration_of_exposure_levels:
         treatment_factory.add_factor_value(BASE_FACTORS[2],
                                            duration_of_exposure_level.strip())
@@ -170,7 +176,20 @@ def create_from_plan_parameters(parameters_file):
     i.studies = [s]
     os.mkdir('isa')
     isatab.dump(isa_obj=i, output_path='isa', i_file_name='i_investigation.txt')
+    # TODO: Zip up the dumped isa files; or implement isatab.dumpz()?
+    import glob
+    file_list = glob.glob('*_*.txt')  # enough of a pattern to pick up isa files
+    if len(file_list) > 0:
+        import zipfile
+        with zipfile.ZipFile('ISA.zip', 'w') as zip:
+            for file_name in file_list:
+                zip.write(file_name)
 
 
 if __name__ == '__main__':
-    create_from_plan_parameters()
+    try:
+        create_from_plan_parameters()
+    except Exception as e:
+        logger = logging.getLogger()
+        logger.fatal(e.message)
+        sys.exit(e.code if hasattr(e, 'code') else 99)
