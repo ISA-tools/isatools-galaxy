@@ -378,13 +378,13 @@
     </inputs>
   
     <outputs>
-        <!--<collection type="list" label="A Files" name="a_files">-->
-            <!--<discover_datasets pattern="(?P&lt;designation&gt;a_.+)\.txt" directory="isa/" format="tsv"/>-->
-        <!--</collection>-->
-        <!--<collection type="list" label="S Files" name="s_files">-->
-            <!--<discover_datasets pattern="(?P&lt;designation&gt;s_.+)\.txt" directory="isa/" format="tsv"/>-->
-        <!--</collection>-->
-        <!--<data name="i_investigation" format="tsv" from_work_dir="isa/i_investigation.txt" />-->
+        <collection type="list" label="A Files" name="a_files">
+            <discover_datasets pattern="(?P&lt;designation&gt;a_.+)\.txt" directory="isa/" format="tsv"/>
+        </collection>
+        <collection type="list" label="S Files" name="s_files">
+            <discover_datasets pattern="(?P&lt;designation&gt;s_.+)\.txt" directory="isa/" format="tsv"/>
+        </collection>
+        <data name="i_investigation" format="tsv" from_work_dir="isa/i_investigation.txt" />
         <data format="zip" name="output" from_work_dir="ISA.zip"/>
     </outputs>
     <stdio>
