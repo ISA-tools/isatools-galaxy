@@ -8,7 +8,7 @@
     </requirements>
 
     <stdio>
-        <exit_code range="1:" />
+        <exit_code range="1:" level="fatal"/>
     </stdio>
 
     <command>
@@ -385,11 +385,8 @@
             <discover_datasets pattern="(?P&lt;designation&gt;s_.+)\.txt" directory="isa/" format="tsv"/>
         </collection>
         <data name="i_investigation" format="tsv" from_work_dir="isa/i_investigation.txt" />
-        <data format="zip" name="output" from_work_dir="ISA.zip"/>
+        <!--<data format="zip" name="output" from_work_dir="ISA.zip"/>-->
     </outputs>
-    <stdio>
-        <exit_code range="1:" level="fatal"/>
-    </stdio>
 
     <tests>
         <test>
