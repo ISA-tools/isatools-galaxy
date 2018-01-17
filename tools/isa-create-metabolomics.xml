@@ -7,13 +7,14 @@
         <requirement type="package" version="0.9.3">isatools</requirement>
     </requirements>
 
+    <stdio>
+        <exit_code range="1:" level="fatal"/>
+    </stdio>
+
     <command>
         python $__tool_directory__/cli.py --parameters_file $inputs
     </command>
 
-    <stdio>
-        <exit_code range="1:" level="fatal"/>
-    </stdio>
 
     <configfiles>
         <inputs name="inputs" />
