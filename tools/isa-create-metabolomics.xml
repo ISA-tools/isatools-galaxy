@@ -391,6 +391,11 @@
     <tests>
         <test>
             <param name="study_type" value="intervention" />
+            <param name="single_or_multiple" value="single" />
+            <param name="intervention_type" value="chemical intervention" />
+            <param name="agent" value="calpol, none" />
+            <param name="intensity" value="intense, not intense" />
+            <param name="duration" value="long, short" />
             <repeat name="sample_record_series">
                 <param name="sample_type" value="sweat" />
                 <param name="sample_size" value="1" />

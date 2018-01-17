@@ -131,6 +131,7 @@ def create_from_plan_parameters(parameters_file):
         tool_params = json.load(fp)
     if tool_params is None:
         raise IOError('Could not load tool parameters file')
+    # print(json.dumps(tool_params, indent=4))
     sample_and_assay_plans = {
         "sample_types": [],
         "group_size": 1,
@@ -158,18 +159,31 @@ def create_from_plan_parameters(parameters_file):
     plan = decoder.load(io.StringIO(json.dumps(sample_and_assay_plans)))
     treatment_factory = TreatmentFactory(
         intervention_type=INTERVENTIONS['CHEMICAL'], factors=BASE_FACTORS)
-    agent_levels = 'calpol,none'.split(',')
-    for agent_level in agent_levels:
-        treatment_factory.add_factor_value(BASE_FACTORS[0], agent_level.strip())
-    dose_levels = 'low,high'.split(',')
-    for dose_level in dose_levels:
-        treatment_factory.add_factor_value(BASE_FACTORS[1], dose_level.strip())
-    duration_of_exposure_levels = 'long,short'.split(',')
-    for duration_of_exposure_level in duration_of_exposure_levels:
-        treatment_factory.add_factor_value(BASE_FACTORS[2],
-                                           duration_of_exposure_level.strip())
-    treatment_sequence = TreatmentSequence(
-        ranked_treatments=treatment_factory.compute_full_factorial_design())
+    treatment_sequence = TreatmentSequence()
+    if 'treatment_plan' in tool_params.keys():
+        treatment_plan_params = tool_params['treatment_plan']
+        sample_and_assay_plans['group_size'] = treatment_plan_params[
+            'study_group_size']
+        study_type = treatment_plan_params['study_type_cond']['study_type']
+        if study_type != 'intervention':
+            raise IOError(
+                'Only intervention study type is supported at the moment!')
+        one_or_more = treatment_plan_params['study_type_cond']['one_or_more']
+        if one_or_more['single_or_multiple'] != 'single':
+            raise IOError('Multiple treatments not yet supported!')
+        intervention_type = one_or_more['intervention_type']
+        agent_levels = intervention_type['agent'].split(',')
+        for agent_level in agent_levels:
+            treatment_factory.add_factor_value(BASE_FACTORS[0], agent_level.strip())
+        dose_levels = intervention_type['intensity'].split(',')
+        for dose_level in dose_levels:
+            treatment_factory.add_factor_value(BASE_FACTORS[1], dose_level.strip())
+        duration_of_exposure_levels = intervention_type['duration'].split(',')
+        for duration_of_exposure_level in duration_of_exposure_levels:
+            treatment_factory.add_factor_value(BASE_FACTORS[2],
+                                               duration_of_exposure_level.strip())
+        treatment_sequence = TreatmentSequence(
+            ranked_treatments=treatment_factory.compute_full_factorial_design())
     isa_object_factory = IsaModelObjectFactory(plan, treatment_sequence)
     s = isa_object_factory.create_assays_from_plan()
     i = Investigation()
@@ -192,5 +206,5 @@ if __name__ == '__main__':
         create_from_plan_parameters()
     except Exception as e:
         logger = logging.getLogger()
-        logger.fatal(e.message)
+        logger.fatal(e)
         sys.exit(e.code if hasattr(e, 'code') else 99)
