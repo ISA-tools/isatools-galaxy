@@ -131,7 +131,7 @@ def create_from_plan_parameters(parameters_file):
         tool_params = json.load(fp)
     if tool_params is None:
         raise IOError('Could not load tool parameters file')
-    # print(json.dumps(tool_params, indent=4))
+    print(json.dumps(tool_params, indent=4))
     sample_and_assay_plans = {
         "sample_types": [],
         "group_size": 1,
@@ -149,12 +149,46 @@ def create_from_plan_parameters(parameters_file):
         sample_and_assay_plans['sample_types'].append(
             sample_plan['sample_type'])
         sample_and_assay_plans['sample_plan'].append(sample_plan)
+
+        if 'assay_record_series' in sample_plan_params.keys():
+            for assay_plan_params in sample_plan_params['assay_record_series']:
+                tt = assay_plan_params['assay_type']['assay_type']
+                if tt == 'mass spectrometry':
+                    assay_type = {
+                        'topology_modifiers': {
+                            'technical_replicates': 1,
+                            'acquisition_modes': ['polar'],
+                            'instruments': ['default'],
+                            'injection_modes': ['LC'],
+                            'chromatography_instruments': []
+                        },
+                        'technology_type': tt,
+                        'measurement_type': 'metabolite profiling'
+                    }
+                else:  # defaults to try load as nmr
+                    assay_type = {
+                        'topology_modifiers': {
+                            'technical_replicates': 1,
+                            'acquisition_modes': ['1D 1H NMR'],
+                            'instruments': ['default'],
+                            'injection_modes': [],
+                            'pulse_sequences': ['CPMG']
+                        },
+                        'technology_type': tt,
+                        'measurement_type': 'metabolite profiling'
+                    }
+                assay_plan = {
+                    "sample_type": sample_plan['sample_type'],
+                    "assay_type": assay_type
+                }
+                sample_and_assay_plans['assay_types'].append(assay_type)
+                sample_and_assay_plans['assay_plan'].append(assay_plan)
     sample_and_assay_plans['group_size'] = tool_params[
         'treatment_plan']['study_group_size']
 
     if len(sample_and_assay_plans['sample_plan']) < 1:
         raise IOError('No sample plans specified!')
-
+    print(json.dumps(sample_and_assay_plans, indent=4))
     decoder = SampleAssayPlanDecoder()
     plan = decoder.load(io.StringIO(json.dumps(sample_and_assay_plans)))
     treatment_factory = TreatmentFactory(

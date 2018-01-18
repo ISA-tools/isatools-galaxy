@@ -1,6 +1,5 @@
 {
-  "sample_assay_plan": {
-    "sample_types": [
+  "sample_types": [
       "liver",
       "tissue",
       "water"
@@ -155,5 +154,4 @@
         }
       }
     ]
-  }
 }
