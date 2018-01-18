@@ -21,6 +21,13 @@
     </configfiles>
 
     <inputs>
+        <section name="study_overview" title="Study Description">
+            <param name="study_description" type="text" label="provide a textual description for the study"></param>
+            <param name="study_pi_first_name" type="text" label="PI first name"></param>
+            <param name="study_pi_last_name" type="text" label="PI last name"></param>
+            <param name="study_pi_email" type="text" label="PI email address"></param>
+            <param name="study_pi_affiliation" type="text" label="PI affiliation"></param>
+        </section>
         <section name="treatment_plan" title="Treatment Plan">
 
         <conditional name="study_type_cond">
