@@ -188,14 +188,17 @@ isatab.dump(isa_obj=i, output_path='isa', i_file_name='i_investigation.txt')
         <!-- INPUT FOR SAMPLING PLAN -->  
        <repeat name="sample_record_series" title="Sampling plan"> 
            <conditional name="sample_type_conditional">
-               <param name="rad_sample_type" type="select" label="study sample types" argument="--rad_sample_type">
-                   <option value="blood">blood</option>
-                   <option value="sweat" selected="True">sweat</option>
-                   <option value="tears">tears</option>
+               <param name="rad_sample_type" type="select" label="study sample types" value="plasma">
+                   <option value="cerebrospinal fluid">cerebrospinal fluid</option>
+                   <option value="plasma" selected="True">plasma</option>
                    <option value="urine">urine</option>
+                   <option value="saliva">saliva</option>                   
+                   <option value="sweat" >sweat</option>
+                   <option value="tears">tears</option>
+
                    <option value="user_defined">user defined</option>
                 </param>
-               <when value="blood">
+               <when value="plasma">
                    
                </when>
                <when value="sweat">
@@ -208,7 +211,10 @@ isatab.dump(isa_obj=i, output_path='isa', i_file_name='i_investigation.txt')
                    
                </when>
                <when value="user_defined">
-                <param name="rad_sample_type_ud" type="text" label="user defined sample type"/>
+                <param name="rad_sample_type_ud" type="text" value="a" label="user defined sample type">
+                   <option>a</option>
+                   <option>b</option>
+                </param>
                </when>
            </conditional>           
            <param name="sample_size" type="integer" label="number of sample collections" argument="--sample_size"  value="1"></param> 
@@ -333,7 +339,46 @@ isatab.dump(isa_obj=i, output_path='isa', i_file_name='i_investigation.txt')
                                    <option value="water suppression"></option>
                                    <option value="watergate"></option>
                                    <option value="flip-flop"></option>
-                               </param>  
+                               </param>
+                               <param name="nmr_instrument" type="select" label="nmr instrument">
+                              
+                                   <option value="Bruker 400 Mhz">Bruker 400 MHz spectrometer</option>
+                                   <option value="Bruker 500 Mhz">Bruker 500 MHz spectrometer</option>
+                                   <option value="Bruker 600 Mhz">Bruker 600 MHz spectrometer</option>
+                                   <option value="Bruker 600 Mhz US">Bruker 600 MHz Ultrashield spectrometer</option>
+                                   <option value="Bruker Avance 500 Mhz">Bruker AVANCE 500 MHz spectrometer</option>
+                                   <option value="Bruker Avance 600 Mhz">Bruker AVANCE 600 MHz spectrometer</option>
+                                   <option value="Bruker Avance 700 Mhz">Bruker AVANCE 700 MHz spectrometer</option>
+                                   <option value="Bruker Avance 900 Mhz">Bruker AVANCE 900 MHz spectrometer</option>
+                                   <option value="Bruker Avance AV 500 Mhz">Bruker AVANCE AV 500 MHz spectrometer</option>
+                                   <option value="Bruker Avance AV 600 Mhz">Bruker AVANCE AV 600 MHz spectrometer</option>
+                                   <option value="Bruker Avance DRX 500 MHz">Bruker AVANCE DRX 500 MHz spectrometer</option>
+                                   <option value="Bruker Avance DRX 600 MHz">Bruker AVANCE DRX 600 MHz spectrometer</option>
+                                   <option value="Bruker Avance DRX 700 MHz">Bruker AVANCE DRX 700 MHz spectrometer</option>
+                                   <option value="Bruker Avance II 500 MHz">Bruker AVANCE II 500 MHz spectrometer</option>
+                                   <option value="Bruker Avance II 500 MHz US">Bruker AVANCE II 500 MHz Ultrashield spectrometer</option>
+                                   <option value="Bruker Avance II+ 500 MHz">Bruker AVANCE II+ 500 MHz spectrometer</option>
+                                   <option value="Bruker Avance II 600 MHz">Bruker AVANCE II 600 MHz spectrometer</option>
+                                   <option value="Bruker Avance II 700 MHz">Bruker AVANCE II 700 MHz spectrometer</option>
+                                   <option value="Bruker Avance II 800 MHz US2">Bruker AVANCE II 800 MHz US2 spectrometer</option>
+                                   <option value="Bruker Avance III 400 MHz">Bruker AVANCE III 400 MHz spectrometer</option>
+                                   <option value="Bruker Avance III 500 MHz">Bruker AVANCE III 500 MHz spectrometer</option>
+                                   <option value="Bruker Avance III 600 MHz">Bruker AVANCE III 600 MHz spectrometer</option>
+                                   <option value="Bruker Avance III 800 MHz">Bruker AVANCE III 800 MHz spectrometer</option>
+                                   <option value="Bruker Avance III HD 600 MHz">Bruker AVANCE III HD 600 MHz spectrometer</option>
+                                   <option value="Bruker Avance III HD 700 MHz">Bruker AVANCE III HD 700 MHz spectrometer</option>
+                                   <option value="Bruker Avance III HD 800 MHz">Bruker AVANCE III HD 800 MHz spectrometer</option>
+                                   <option value="Bruker Avance IV Dr"></option>
+                                   <option value="Bruker DNP-NMR"></option>
+                                   <option value="Bruker Fourier-300HD"></option>   
+                                   <option value="Varian Mercury AS400 MHz">Varian Mercury AS400 MHz spectrometer</option>
+                                   <option value="Varian Unity Inova 400 MHz">Varian Unity Inova 400 MHz spectrometer</option>
+                                   <option value="Varian Unity Inova 500 MHz">Varian Unity Inova 500 MHz spectrometer</option>
+                                   <option value="Varian Unity Inova 600 MHz">Varian Unity Inova 600 MHz spectrometer</option>
+                                   <option value="Varian VNMRS 600 MHz">Varian VNMRS 600 MHz spectrometer</option>
+                                   
+                                   
+                               </param>
                                <param name="magnet" type="text" label="nmr magnet power" argument="--magnet"></param>                             
                                <param name="technical_replicates" type="integer" label="number of technical repeats" argument="--tech_rep" value="1"></param>
                            </when>
