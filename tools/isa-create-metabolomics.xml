@@ -22,11 +22,55 @@
 
     <inputs>
         <section name="study_overview" title="Study Description">
-            <param name="study_description" type="text" label="provide a textual description for the study"></param>
+            <param name="study_description" area="True" size="5x25" type="text" label="provide a textual description for the study"></param>
             <param name="study_pi_first_name" type="text" label="PI first name"></param>
             <param name="study_pi_last_name" type="text" label="PI last name"></param>
             <param name="study_pi_email" type="text" label="PI email address"></param>
             <param name="study_pi_affiliation" type="text" label="PI affiliation"></param>
+           <!-- <repeat name="protocol_record_series" title="Study Protocols">
+                <param name="protocol_name" type="text" label="Protocol name"></param>
+                <param name="protocol_type" type="select" label="Protocol type">
+                    <option value="none selected" selected="True">none selected</option>
+                    <option value="specimen_collection">sample collection</option>
+                    <option value="sample_preparation">sample preparation</option>
+                    <option value="metabolite extraction">metabolite extraction</option>
+                    <option value="derivatization">derivatization</option>
+                    <option value="chromatography" >chromatography</option>
+                    <option value="data_acquisition">data acquisition</option>
+                    <option value="data normalization">data normalization</option>
+                    <option value="data transformation">data transformation</option>
+                    <option value="differential expression analysis">differential expression analysis</option>
+                    <option value="enrichment analysis">enrichment analysis</option>
+                    <option value="enrichment analysis">enrichment analysis</option>
+                    <option>other</option>
+                </param>
+                <param name="protocol_desc" area="True" size="5x25" type="text" label="Protocol Description"></param>
+                <param name="protocol_uri" type="text" label="Protocol URI"></param>
+            </repeat>
+            <param name="study_consent" type="select" label="Consent Information">
+                <option value="none">no restriction</option>               
+                <option value="no-general">no-general methods research</option>
+                <option value="research">research use only</option>
+                <option value="restricted">research-specific restriction</option>
+                <option value="general">general research and clinical care</option>
+                <option value="disease">disease-specific research and clinical care</option>
+                <option value="health">health/medical/biomedical research and clinical care</option>
+                <option value="population">population origins or ancestry research</option>
+            </param>
+            <param name="study_use_condition" type="select" label="Data Use Requirement">
+                <option value="collaboration_required">collaboration required</option>
+                <option value="ethics">ethics approval required</option>
+                <option value="geo">geographical restriction</option>
+                <option value="no_profit">not-for-profit use only</option>
+                <option value="institution-re">institution-specific restriction</option>
+                <option value="project_re">project-specific restriction</option>
+                <option value="user_re">user-specific restriction</option>
+                <option value="pub_mora">publication moratorium</option>
+                <option value="pub_req">publication required</option>
+                <option value="return">return-to-database/resource</option>
+                <option value="time">time limit on use</option>
+
+            </param> -->
         </section>
         <section name="treatment_plan" title="Treatment Plan">
 
