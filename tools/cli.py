@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 """Commandline interface for running ISA API create mode"""
 import click
-import io
 import json
 import logging
 import os
@@ -18,7 +17,7 @@ from isatools.create.models import (
     AssayTopologyModifiers,
     SampleAssayPlan
 )
-from isatools.model import Investigation
+from isatools.model import Investigation, Person
 
 
 class SampleAssayPlanDecoder(object):
@@ -123,22 +122,26 @@ class SampleAssayPlanDecoder(object):
 
 @click.command()
 @click.option('--parameters_file',
-              help='Path to JSON file containing input Galaxy tool parameters',
-              prompt='Path to JSON Galaxy parameters file', nargs=1, type=str,
-              default='sample_assay_plans.json')
-def create_from_plan_parameters(parameters_file):
+              help='Path to JSON file containing input Sample Assay Plan JSON',
+              nargs=1, type=str, default='sample_assay_plans.json')
+@click.option('--study_info_file',
+              help='Path to JSON file containing input study overview',
+              nargs=1, type=str, default='study_info_file.json')
+def create_from_plan_parameters(parameters_file, study_info_file):
     decoder = SampleAssayPlanDecoder()
     with open(parameters_file) as fp:
         plan = decoder.load(fp)
+    with open(study_info_file) as fp:
+        study_info = json.load(fp)
     treatment_factory = TreatmentFactory(
         intervention_type=INTERVENTIONS['CHEMICAL'], factors=BASE_FACTORS)
-    agent_levels = 'calpol, none'
+    agent_levels = 'calpol, none'.split(',')
     for agent_level in agent_levels:
         treatment_factory.add_factor_value(BASE_FACTORS[0], agent_level.strip())
-    dose_levels = 'low, high'
+    dose_levels = 'low, high'.split(',')
     for dose_level in dose_levels:
         treatment_factory.add_factor_value(BASE_FACTORS[1], dose_level.strip())
-    duration_of_exposure_levels = 'long, short'
+    duration_of_exposure_levels = 'long, short'.split(',')
     for duration_of_exposure_level in duration_of_exposure_levels:
         treatment_factory.add_factor_value(BASE_FACTORS[2],
                                            duration_of_exposure_level.strip())
@@ -146,8 +149,19 @@ def create_from_plan_parameters(parameters_file):
         ranked_treatments=treatment_factory.compute_full_factorial_design())
     isa_object_factory = IsaModelObjectFactory(plan, treatment_sequence)
     s = isa_object_factory.create_assays_from_plan()
+    contact = Person()
+    contact.affiliation = study_info['study_pi_affiliation']
+    contact.last_name = study_info['study_pi_last_name']
+    contact.email = study_info['study_pi_email']
+    contact.first_name = study_info['study_pi_first_name']
+    s.contacts = [contact]
+    s.description = study_info['study_description']
+    s.filename = 's_study.txt'
+
     i = Investigation()
-    s.filename = "s_study.txt"
+    i.contacts = [contact]
+    i.description = s.description
+
     i.studies = [s]
     os.mkdir('isa')
     isatab.dump(isa_obj=i, output_path='isa', i_file_name='i_investigation.txt')
