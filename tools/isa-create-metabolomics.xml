@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tool id="isa_create_metabolomics" name="create ISA in Galaxy" version="1.0.0">
     <description>interactive tool to create ISA archives based on study design information</description>
-    
+
     <requirements>
         <requirement type="package" version="6.7">click</requirement>
-        <requirement type="package" version="0.9.4">isatools</requirement>
+        <requirement type="package" version="0.9.3">isatools</requirement>
     </requirements>
-    
+
     <stdio>
         <exit_code range="1:" />
     </stdio>
-    
+
     <command>
         <![CDATA[
         python $script_file; python $__tool_directory__/cli.py --parameters_file sample_assay_plans.json
         ]]>
     </command>
-    
+
     <configfiles>
-        <configfile name="script_file">
+        <configfile name="script_file"><![CDATA[
 import json
-import sys
 parameters_file = '$inputs'
 with open(parameters_file) as fp:
     tool_params = json.load(fp)
@@ -35,17 +34,53 @@ sample_and_assay_plans = {
     "assay_plan": []
 }
 for sample_plan_params in tool_params[
-    'sampling_and_assay_plans']['sample_record_series']:
+        'sampling_and_assay_plans']['sample_record_series']:
     sample_plan = {
         'sample_type': sample_plan_params['sample_type']['sample_type'],
         'sampling_size': sample_plan_params['sample_size']
     }
-    sample_and_assay_plans['sample_types'].append(sample_plan['sample_type'])
-    sample_and_assay_plans['sample_plan'].append(sample_plan)    
+    sample_and_assay_plans['sample_types'].append(
+        sample_plan['sample_type'])
+    sample_and_assay_plans['sample_plan'].append(sample_plan)
+    
+    if 'assay_record_series' in sample_plan_params.keys():
+        for assay_plan_params in sample_plan_params['assay_record_series']:
+            tt = assay_plan_params['assay_type']['assay_type']
+            if tt == 'mass spectrometry':
+                # NOTE: Needs defaults to write out correctly...
+                assay_type = {
+                    'topology_modifiers': {
+                        'technical_replicates': 1,
+                        'acquisition_modes': ['polar'],
+                        'instruments': ['default'],
+                        'injection_modes': ['LC'],
+                        'chromatography_instruments': ['default']
+                    },
+                    'technology_type': tt,
+                    'measurement_type': 'metabolite profiling'
+                }
+            else:  # defaults to try load as nmr
+                assay_type = {
+                    'topology_modifiers': {
+                        'technical_replicates': 1,
+                        'acquisition_modes': ['1D 1H NMR'],
+                        'instruments': ['default'],
+                        'injection_modes': [],
+                        'pulse_sequences': ['CPMG']
+                    },
+                    'technology_type': tt,
+                    'measurement_type': 'metabolite profiling'
+                }
+            assay_plan = {
+                "sample_type": sample_plan['sample_type'],
+                "assay_type": assay_type
+            }
+            sample_and_assay_plans['assay_types'].append(assay_type)
+            sample_and_assay_plans['assay_plan'].append(assay_plan)
 sample_and_assay_plans['group_size'] = tool_params['treatment_plan']['study_group_size']
-
 with open('sample_assay_plans.json', 'w') as out_fp:
     json.dump(sample_and_assay_plans, out_fp, indent=4)
+]]>
         </configfile>
         <inputs name="inputs" />
     </configfiles>
@@ -78,7 +113,7 @@ with open('sample_assay_plans.json', 'w') as out_fp:
                 <param name="protocol_uri" type="text" label="Protocol URI"></param>
             </repeat>
             <param name="study_consent" type="select" label="Consent Information">
-                <option value="none">no restriction</option>               
+                <option value="none">no restriction</option>
                 <option value="no-general">no-general methods research</option>
                 <option value="research">research use only</option>
                 <option value="restricted">research-specific restriction</option>
@@ -148,7 +183,7 @@ with open('sample_assay_plans.json', 'w') as out_fp:
                                 <param name="intensity" type="text" />
                                 <param name="duration" type="text" />
                             </when>
-                        </conditional>                        
+                        </conditional>
                     </when>
                     <when value="multiple">
                         <repeat name="multiple_intervention" title="Repeated Intervention">
@@ -179,11 +214,11 @@ with open('sample_assay_plans.json', 'w') as out_fp:
                                     <param name="intensity" type="text" />
                                     <param name="duration" type="text" />
                                 </when>
-                            </conditional>    
-                        </repeat>                       
-                    </when>                  
+                            </conditional>
+                        </repeat>
+                    </when>
                 </conditional>
-                
+
             </when>
             <when value="observation">
             </when>
@@ -196,13 +231,13 @@ with open('sample_assay_plans.json', 'w') as out_fp:
         <param name="study_group_size" type="integer" label="study group size" value="3"/>
     </section>
     <section name="sampling_and_assay_plans" title="Sampling and Assay Plans">
-        <!-- INPUT FOR SAMPLING PLAN -->  
+        <!-- INPUT FOR SAMPLING PLAN -->
        <repeat name="sample_record_series" title="Sampling plan">
            <conditional name="sample_type">
                <param name="sample_type" type="select" min="1" label="study sample types">
                    <option value="csf">cerebrospinal fluid</option>
                    <option value="plasma" selected="True">plasma</option>
-                   <option value="saliva">saliva</option>                  
+                   <option value="saliva">saliva</option>
                    <option value="sweat" >sweat</option>
                    <option value="tears">tears</option>
                    <option value="urine">urine</option>
@@ -227,8 +262,8 @@ with open('sample_assay_plans.json', 'w') as out_fp:
                </when>
            </conditional>
            <param name="sample_size" type="integer" label="number of sample collections" value="1" />
-           <!-- INPUT FOR ASSAY PLAN -->  
-           <repeat name="assay_record_series" title="Assay Plan"> 
+           <!-- INPUT FOR ASSAY PLAN -->
+           <repeat name="assay_record_series" title="Assay Plan">
                <conditional name="assay_type">
                    <param name="assay_type" type="select" label="study assay types">
                        <option value="mass spectrometry"  selected="True">mass spectrometry</option>
@@ -237,20 +272,20 @@ with open('sample_assay_plans.json', 'w') as out_fp:
                        <option value="DNA microarray">DNA microarray</option>
                        <option value="DNA sequencing">DNA sequencing</option>
                     -->
-                   </param>                      
+                   </param>
                    <when value="mass spectrometry">
                        <repeat name="samp_frac_series" title="sample fractions">
                            <param name="fraction" type="select" min="1" label="sample fraction of interest">
                                <option value="polar" />
-                               <option value="non-polar" />
-                           </param>                   
-                       </repeat>                     
+                               <option value="non-polar" selected="True" />
+                           </param>
+                       </repeat>
                        <repeat name="inj_mod_series" title="injection series">
                            <conditional name="inj_mod_cond">
                                <param name="inj_mod" type="select" min="1" label="sample introduction method">
                                    <option value="DI">direct infusion</option>
                                    <option value="FIA" selected="True">flow infusion assay</option>
-                                   <option value="LC">liquid chromatography</option>
+                                   <option value="LC" selected="True">liquid chromatography</option>
                                    <option value="GC">gas chromatography</option>
                                </param>
                                <when value="DI">
@@ -415,7 +450,7 @@ with open('sample_assay_plans.json', 'w') as out_fp:
                                            <option value="positive/negative" />
                                        </param>
                                        <param name="technical_replicates" type="integer" label="number of technical repeats" value="1" />
-                                   </repeat>                                 
+                                   </repeat>
                                </when>
                                <when value="LC">
                                    <param name="chromato_col" type="select" min="1" label="chromatography column">
@@ -472,7 +507,7 @@ with open('sample_assay_plans.json', 'w') as out_fp:
                                        <option value="Waters ACQUITY UPLC system and PDA detector"/>
                                        <option value="Waters Alliance 2695 Separations Module (modified)"/>
                                        <option value="other">other</option>
-                                   </param>                                  
+                                   </param>
                                    <param name="instrument" type="select" label="MS instrument">
                                        <option value="none reported">none reported</option>
                                        <option value="AB SCIEX API 4000" />
@@ -554,7 +589,7 @@ with open('sample_assay_plans.json', 'w') as out_fp:
                                        <param name="technical_replicates" type="integer" label="number of technical repeats" value="1" />
                                    </repeat>
                                </when>
-                               <when value="GC">                                 
+                               <when value="GC">
                                    <param name="chromato" type="select" min="1" label="chromatography instrument">
                                        <option value="none reported">none reported</option>
                                        <option value="Agilent 6890 GC"/>
@@ -619,10 +654,10 @@ with open('sample_assay_plans.json', 'w') as out_fp:
                                        </param>
                                    </repeat>
                                </when>
-                           </conditional>    
+                           </conditional>
                        </repeat>
                    </when>
-                   
+
                    <when value="nmr spectroscopy">
                        <conditional name="acq_mod_cond">
                            <param name="acq_mod" type="select" min="1" label="acquisition method">
@@ -661,9 +696,9 @@ with open('sample_assay_plans.json', 'w') as out_fp:
                                    <option value="Bruker Avance III HD 600 MHz">Bruker AVANCE III HD 600 MHz spectrometer</option>
                                    <option value="Bruker Avance III HD 700 MHz">Bruker AVANCE III HD 700 MHz spectrometer</option>
                                    <option value="Bruker Avance III HD 800 MHz">Bruker AVANCE III HD 800 MHz spectrometer</option>
-                                   <option value="Bruker Avance IV Dr"></option>
-                                   <option value="Bruker DNP-NMR"></option>
-                                   <option value="Bruker Fourier-300HD"></option>   
+                                   <option value="Bruker Avance IV Dr">Bruker AVANCE IV Dr</option>
+                                   <option value="Bruker DNP-NMR">Bruker DNP-NMR</option>
+                                   <option value="Bruker Fourier-300HD">Bruker Fourier-300HD</option>
                                    <option value="Varian Mercury AS400 MHz">Varian Mercury AS400 MHz spectrometer</option>
                                    <option value="Varian Unity Inova 400 MHz">Varian Unity Inova 400 MHz spectrometer</option>
                                    <option value="Varian Unity Inova 500 MHz">Varian Unity Inova 500 MHz spectrometer</option>
@@ -677,7 +712,7 @@ with open('sample_assay_plans.json', 'w') as out_fp:
                                    <option value="presat">1D 1H with presaturation (presat)</option>
                                    <option value="wet">1D 1H with presaturation (wet)</option>
                                    <option value="zgpr">1D 1H with presaturation (zgpr)</option>
-                                   <option value="zgesgp">1D with water suppression using excitation sculpting with gradients (zgesgp)</option> 
+                                   <option value="zgesgp">1D with water suppression using excitation sculpting with gradients (zgesgp)</option>
                                    <option value="CPMG">1D CPMG with presaturation (cpmgpr1d)</option>
                                    <option value="water suppression">water suppression</option>
                                    <option value="watergate">watergate</option>
@@ -686,7 +721,7 @@ with open('sample_assay_plans.json', 'w') as out_fp:
                                    <option value="tnnoesy">1D NOESY with presaturation (tnnoesy)</option>
                                    <option value="noesygppr1d">1D NOESY with presaturation and spoil gradients (noesygppr1d)</option>
                                    <option value="other">other</option>
-                               </param>  
+                               </param>
                                <param name="magnet" type="text" label="nmr magnet power" />
                                <param name="technical_replicates" type="integer" label="number of technical repeats" value="1" />
                            </when>
@@ -719,9 +754,9 @@ with open('sample_assay_plans.json', 'w') as out_fp:
                                    <option value="Bruker Avance III HD 600 MHz">Bruker AVANCE III HD 600 MHz spectrometer</option>
                                    <option value="Bruker Avance III HD 700 MHz">Bruker AVANCE III HD 700 MHz spectrometer</option>
                                    <option value="Bruker Avance III HD 800 MHz">Bruker AVANCE III HD 800 MHz spectrometer</option>
-                                   <option value="Bruker Avance IV Dr"></option>
-                                   <option value="Bruker DNP-NMR"></option>
-                                   <option value="Bruker Fourier-300HD"></option>   
+                                   <option value="Bruker Avance IV Dr">Bruker Avance IV Dr</option>
+                                   <option value="Bruker DNP-NMR">Bruker DNP-NMR</option>
+                                   <option value="Bruker Fourier-300HD">Bruker Fourier-300HD</option>
                                    <option value="Varian Mercury AS400 MHz">Varian Mercury AS400 MHz spectrometer</option>
                                    <option value="Varian Unity Inova 400 MHz">Varian Unity Inova 400 MHz spectrometer</option>
                                    <option value="Varian Unity Inova 500 MHz">Varian Unity Inova 500 MHz spectrometer</option>
@@ -738,13 +773,13 @@ with open('sample_assay_plans.json', 'w') as out_fp:
                                    <option value="water suppression">water suppression</option>
                                    <option value="watergate">watergate</option>
                                    <option value="flip-flop">flip-flop</option>
-                                   <option value="other">other</option>                                   
-                               </param>  
+                                   <option value="other">other</option>
+                               </param>
                                <param name="magnet" type="text" label="nmr magnet power" />
                                <param name="technical_replicates" type="integer" label="number of technical repeats" value="1" />
                            </when>
                            <when value="2D 1H-1H NMR">
-                               <param name="nmr_instrument" type="select" min="1"  label="nmr instrument"> 
+                               <param name="nmr_instrument" type="select" min="1"  label="nmr instrument">
                                    <option value="none reported">none reported</option>
                                    <option value="Bruker 400 Mhz">Bruker 400 MHz spectrometer</option>
                                    <option value="Bruker 500 Mhz">Bruker 500 MHz spectrometer</option>
@@ -772,9 +807,9 @@ with open('sample_assay_plans.json', 'w') as out_fp:
                                    <option value="Bruker Avance III HD 600 MHz">Bruker AVANCE III HD 600 MHz spectrometer</option>
                                    <option value="Bruker Avance III HD 700 MHz">Bruker AVANCE III HD 700 MHz spectrometer</option>
                                    <option value="Bruker Avance III HD 800 MHz">Bruker AVANCE III HD 800 MHz spectrometer</option>
-                                   <option value="Bruker Avance IV Dr"></option>
-                                   <option value="Bruker DNP-NMR"></option>
-                                   <option value="Bruker Fourier-300HD"></option>   
+                                   <option value="Bruker Avance IV Dr">Bruker Avance IV Dr</option>
+                                   <option value="Bruker DNP-NMR">Bruker DNP-NMR</option>
+                                   <option value="Bruker Fourier-300HD">Bruker Fourier-300HD</option>
                                    <option value="Varian Mercury AS400 MHz">Varian Mercury AS400 MHz spectrometer</option>
                                    <option value="Varian Unity Inova 400 MHz">Varian Unity Inova 400 MHz spectrometer</option>
                                    <option value="Varian Unity Inova 500 MHz">Varian Unity Inova 500 MHz spectrometer</option>
@@ -799,7 +834,7 @@ with open('sample_assay_plans.json', 'w') as out_fp:
                                    <option value="mlevphpr">2D TOCSY with presaturation using MLEV (mlevphpr)</option>
                                    <option value="COSY">M3S COSY</option>
                                    <option value="other">other</option>
-                               </param>  
+                               </param>
                                <param name="magnet" type="text" label="nmr magnet power" />
                                <param name="technical_replicates" type="integer" label="number of technical repeats" value="1" />
                            </when>
@@ -832,9 +867,9 @@ with open('sample_assay_plans.json', 'w') as out_fp:
                                    <option value="Bruker Avance III HD 600 MHz">Bruker AVANCE III HD 600 MHz spectrometer</option>
                                    <option value="Bruker Avance III HD 700 MHz">Bruker AVANCE III HD 700 MHz spectrometer</option>
                                    <option value="Bruker Avance III HD 800 MHz">Bruker AVANCE III HD 800 MHz spectrometer</option>
-                                   <option value="Bruker Avance IV Dr"></option>
-                                   <option value="Bruker DNP-NMR"></option>
-                                   <option value="Bruker Fourier-300HD"></option>   
+                                   <option value="Bruker Avance IV Dr">Bruker Avance IV Dr</option>
+                                   <option value="Bruker DNP-NMR">Bruker DNP-NMR</option>
+                                   <option value="Bruker Fourier-300HD">Bruker Fourier-300HD</option>
                                    <option value="Varian Mercury AS400 MHz">Varian Mercury AS400 MHz spectrometer</option>
                                    <option value="Varian Unity Inova 400 MHz">Varian Unity Inova 400 MHz spectrometer</option>
                                    <option value="Varian Unity Inova 500 MHz">Varian Unity Inova 500 MHz spectrometer</option>
@@ -859,10 +894,10 @@ with open('sample_assay_plans.json', 'w') as out_fp:
                                    <option value="mlevphpr">2D TOCSY with presaturation using MLEV (mlevphpr)</option>
                                    <option value="COSY">M3S COSY</option>
                                    <option value="other">other</option>
-                               </param>  
+                               </param>
                                <param name="magnet" type="text" label="nmr magnet power" />
                                <param name="technical_replicates" type="integer" label="number of technical repeats" value="1" />
-                           </when> 
+                           </when>
                            <when value="2D 1H-13C NMR">
                                <param name="nmr_instrument" type="select" min="1" label="nmr instrument">
                                    <option value="none reported">none reported</option>
@@ -892,9 +927,9 @@ with open('sample_assay_plans.json', 'w') as out_fp:
                                    <option value="Bruker Avance III HD 600 MHz">Bruker AVANCE III HD 600 MHz spectrometer</option>
                                    <option value="Bruker Avance III HD 700 MHz">Bruker AVANCE III HD 700 MHz spectrometer</option>
                                    <option value="Bruker Avance III HD 800 MHz">Bruker AVANCE III HD 800 MHz spectrometer</option>
-                                   <option value="Bruker Avance IV Dr"></option>
-                                   <option value="Bruker DNP-NMR"></option>
-                                   <option value="Bruker Fourier-300HD"></option>   
+                                   <option value="Bruker Avance IV Dr">Bruker Avance IV Dr</option>
+                                   <option value="Bruker DNP-NMR">Bruker DNP-NMR</option>
+                                   <option value="Bruker Fourier-300HD">Bruker Fourier-300HD</option>
                                    <option value="Varian Mercury AS400 MHz">Varian Mercury AS400 MHz spectrometer</option>
                                    <option value="Varian Unity Inova 400 MHz">Varian Unity Inova 400 MHz spectrometer</option>
                                    <option value="Varian Unity Inova 500 MHz">Varian Unity Inova 500 MHz spectrometer</option>
@@ -911,37 +946,37 @@ with open('sample_assay_plans.json', 'w') as out_fp:
                                    <option value="HMQC" />
                                    <option value="HETCOR" />
                                    <option value="other">other</option>
-                               </param>  
+                               </param>
                                <param name="magnet" type="text" label="nmr magnet power" />
                                <param name="technical_replicates" type="integer" label="number of technical repeats" value="1" />
-                           </when> 
+                           </when>
                        </conditional>
                    </when>
-                   
-               <!--     
+
+               <!--
                    <when value="DNA sequencing">
-                       <param name="seq_instrument" type="text"></param> 
+                       <param name="seq_instrument" type="text"></param>
                        <param name="single_or_paired" type="select" label="select library type" argument="library">
                            <option value="single end"/>
                            <option value="paired end"/>
-                       </param> 
+                       </param>
                        <param name="technical_replicates" type="integer" label="number of technical repeats" argument="tech_rep" value="1"></param>
                    </when>
-                   
+
                    <when value="DNA microarray">
                        <param name="array_design" type="select" label="select array design name" argument="arraydes">
                            <option value="Affymetrix 1"/>
                            <option value="Affymetrix 2"/>
                            <option value="Illumina A"/>
                            <option value="Illumina B"/>
-                       </param>                              
+                       </param>
                        <param name="technical_replicates" type="integer" label="number of technical repeats" argument="tech_rep" value="1"></param>
                    </when>
-               -->    
+               -->
                </conditional>
            </repeat>
        </repeat>
-       </section> 
+       </section>
         <section name="qc_plan" title="Quality Control / Quality Assurance Plan">
        <repeat name="qc_record_series" title="Quality Control / Quality Assurance Plan">
            <conditional name="qc_type_conditional">
@@ -983,11 +1018,11 @@ with open('sample_assay_plans.json', 'w') as out_fp:
                    <param name="injection_freq" type="integer" label="injection frequency" value="0" />
                    <param name="nb_dil_step" type="integer" label="number of dilution steps" value="0" />
                </when>
-           </conditional>    
-       </repeat> 
-    </section>   
+           </conditional>
+       </repeat>
+    </section>
     </inputs>
-  
+
     <outputs>
         <collection type="list" label="A Files" name="a_files">
             <discover_datasets pattern="(?P&lt;designation&gt;a_.+)\.txt" directory="isa/" format="tsv"/>
@@ -1038,15 +1073,15 @@ with open('sample_assay_plans.json', 'w') as out_fp:
             <!--</output_collection>-->
         </test>
     </tests>
-   
+
     <help>
         **What it does**
-        
+
         This tool helps create ISA documents using study design information. Suppose you have a study like this one::
-        
+
          A Study looking at the effect of Drugs A and B administered at high and low dose with plasma samples collected at 3 times points, and done in n=5 subjects per treatment groups.
          The response variables are metabolite profiles measured by LC-MS in positive and negative mode on one instance of thermofisher instrument.
-         
+
          Formalization:
             i. intervention study
             ii. single intervention
@@ -1057,8 +1092,8 @@ with open('sample_assay_plans.json', 'w') as out_fp:
                                 range of values: [high,low]
                     independent variable: time
                                 range of values: [t1,t2,t3]
-                                
-                    Important: specific variable values as discrete elments of a comma (,) separated list, as shown in the examples provided.            
+
+                    Important: specific variable values as discrete elments of a comma (,) separated list, as shown in the examples provided.
             iii. study design: 2x2x3 factorial
             iv. study design: balanced + full factorial
             v. number of biological replicates: n=5 per study groups
