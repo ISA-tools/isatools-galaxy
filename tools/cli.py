@@ -125,100 +125,25 @@ class SampleAssayPlanDecoder(object):
 @click.option('--parameters_file',
               help='Path to JSON file containing input Galaxy tool parameters',
               prompt='Path to JSON Galaxy parameters file', nargs=1, type=str,
-              default='create_params.json')
+              default='sample_assay_plans.json')
 def create_from_plan_parameters(parameters_file):
-    with open(parameters_file) as fp:
-        tool_params = json.load(fp)
-    if tool_params is None:
-        raise IOError('Could not load tool parameters file')
-    print(json.dumps(tool_params, indent=4))
-    sample_and_assay_plans = {
-        "sample_types": [],
-        "group_size": 1,
-        "sample_plan": [],
-        "sample_qc_plan": [],
-        "assay_types": [],
-        "assay_plan": []
-    }
-    for sample_plan_params in tool_params[
-            'sampling_and_assay_plans']['sample_record_series']:
-        sample_plan = {
-            'sample_type': sample_plan_params['sample_type']['sample_type'],
-            'sampling_size': sample_plan_params['sample_size']
-        }
-        sample_and_assay_plans['sample_types'].append(
-            sample_plan['sample_type'])
-        sample_and_assay_plans['sample_plan'].append(sample_plan)
-
-        if 'assay_record_series' in sample_plan_params.keys():
-            for assay_plan_params in sample_plan_params['assay_record_series']:
-                tt = assay_plan_params['assay_type']['assay_type']
-                if tt == 'mass spectrometry':
-                    # NOTE: Needs defaults to write out correctly...
-                    assay_type = {
-                        'topology_modifiers': {
-                            'technical_replicates': 1,
-                            'acquisition_modes': ['polar'],
-                            'instruments': ['default'],
-                            'injection_modes': ['LC'],
-                            'chromatography_instruments': ['default']
-                        },
-                        'technology_type': tt,
-                        'measurement_type': 'metabolite profiling'
-                    }
-                else:  # defaults to try load as nmr
-                    assay_type = {
-                        'topology_modifiers': {
-                            'technical_replicates': 1,
-                            'acquisition_modes': ['1D 1H NMR'],
-                            'instruments': ['default'],
-                            'injection_modes': [],
-                            'pulse_sequences': ['CPMG']
-                        },
-                        'technology_type': tt,
-                        'measurement_type': 'metabolite profiling'
-                    }
-                assay_plan = {
-                    "sample_type": sample_plan['sample_type'],
-                    "assay_type": assay_type
-                }
-                sample_and_assay_plans['assay_types'].append(assay_type)
-                sample_and_assay_plans['assay_plan'].append(assay_plan)
-    sample_and_assay_plans['group_size'] = tool_params[
-        'treatment_plan']['study_group_size']
-
-    if len(sample_and_assay_plans['sample_plan']) < 1:
-        raise IOError('No sample plans specified!')
-    print(json.dumps(sample_and_assay_plans, indent=4))
     decoder = SampleAssayPlanDecoder()
-    plan = decoder.load(io.StringIO(json.dumps(sample_and_assay_plans)))
+    with open(parameters_file) as fp:
+        plan = decoder.load(fp)
     treatment_factory = TreatmentFactory(
         intervention_type=INTERVENTIONS['CHEMICAL'], factors=BASE_FACTORS)
-    treatment_sequence = TreatmentSequence()
-    if 'treatment_plan' in tool_params.keys():
-        treatment_plan_params = tool_params['treatment_plan']
-        sample_and_assay_plans['group_size'] = treatment_plan_params[
-            'study_group_size']
-        study_type = treatment_plan_params['study_type_cond']['study_type']
-        if study_type != 'intervention':
-            raise IOError(
-                'Only intervention study type is supported at the moment!')
-        one_or_more = treatment_plan_params['study_type_cond']['one_or_more']
-        if one_or_more['single_or_multiple'] != 'single':
-            raise IOError('Multiple treatments not yet supported!')
-        intervention_type = one_or_more['intervention_type']
-        agent_levels = intervention_type['agent'].split(',')
-        for agent_level in agent_levels:
-            treatment_factory.add_factor_value(BASE_FACTORS[0], agent_level.strip())
-        dose_levels = intervention_type['intensity'].split(',')
-        for dose_level in dose_levels:
-            treatment_factory.add_factor_value(BASE_FACTORS[1], dose_level.strip())
-        duration_of_exposure_levels = intervention_type['duration'].split(',')
-        for duration_of_exposure_level in duration_of_exposure_levels:
-            treatment_factory.add_factor_value(BASE_FACTORS[2],
-                                               duration_of_exposure_level.strip())
-        treatment_sequence = TreatmentSequence(
-            ranked_treatments=treatment_factory.compute_full_factorial_design())
+    agent_levels = 'calpol, none'
+    for agent_level in agent_levels:
+        treatment_factory.add_factor_value(BASE_FACTORS[0], agent_level.strip())
+    dose_levels = 'low, high'
+    for dose_level in dose_levels:
+        treatment_factory.add_factor_value(BASE_FACTORS[1], dose_level.strip())
+    duration_of_exposure_levels = 'long, short'
+    for duration_of_exposure_level in duration_of_exposure_levels:
+        treatment_factory.add_factor_value(BASE_FACTORS[2],
+                                           duration_of_exposure_level.strip())
+    treatment_sequence = TreatmentSequence(
+        ranked_treatments=treatment_factory.compute_full_factorial_design())
     isa_object_factory = IsaModelObjectFactory(plan, treatment_sequence)
     s = isa_object_factory.create_assays_from_plan()
     i = Investigation()
@@ -226,14 +151,6 @@ def create_from_plan_parameters(parameters_file):
     i.studies = [s]
     os.mkdir('isa')
     isatab.dump(isa_obj=i, output_path='isa', i_file_name='i_investigation.txt')
-    # TODO: Zip up the dumped isa files; or implement isatab.dumpz()?
-    import glob
-    file_list = glob.glob('isa/*_*.txt')  # enough of a pattern to pick up isa files
-    if len(file_list) > 0:
-        import zipfile
-        with zipfile.ZipFile('ISA.zip', 'w') as zip:
-            for file_name in file_list:
-                zip.write(file_name)
 
 
 if __name__ == '__main__':
