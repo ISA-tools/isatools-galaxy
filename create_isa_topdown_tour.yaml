@@ -1,0 +1,103 @@
+  id: Isa_create
+  name: Create Study Metadata
+  description: a Galaxy tool to bootstrap creation of experimental metadata in ISA format based on key study design information 
+  title_default: "Describe your metabolomics study with ISA"
+  steps:
+      - content: "This short tour will guide you through <b>Structuring Study Metadata with ISA format</b> and datasets. This short tour will guide you creating an ISA document for your experiment. You can navigate with your arrow keys and leave the tour at any time point with 'Escape' or the 'End tour' button."
+
+      - title: "Create Study Description"
+        element: 'a[href$="/tool_runner?tool_id=isa_create_metabolomics"]'
+        intro: |
+               we start by invoking the <i>Create ISA in Galaxy</i> tool from the tools list
+        position: "right"
+        postclick:
+            - 'a[href$="/tool_runner?tool_id=isa_create_metabolomics"]'
+      
+      - title: "Provide General Study Information"
+        element: "#uid-7 > div.portlet-header > div.portlet-title > span"
+        intro: "This section is meant to supply key information about study authors and a textual overview of the study, its goals, its techniques, its key variables in free text form."
+        position: "right" 
+        postclick:
+              - "#uid-7 > div.portlet-header > div.portlet-title > span"
+
+      - title: "Define the plan of treatments"
+        element: "#uid-15 > div.portlet-header > div.portlet-title > span"
+        intro: "This section is meant to explicitly declare the study independent variables (predictors variables) and their range of values. These should be supplied as discretized elements and separated by commas (as in value-1,value-2)"
+        placement: "right"
+        postclick:
+          - "#uid-15 > div.portlet-header > div.portlet-title > span"
+
+
+      - title: "Define the plan of treatments"
+        element: "#field-uid-43 > input"
+        intro: "This field should be used to set the number of biological replicates per treatment conditions. If the study design is <i>balanced</i>, it will be the same for all treatment groups computed based on the variable declarations. Otherwise (unbalanced), each group size will have to be set"
+        placement: "right"
+        postclick:
+          - "#field-uid-43 > input"
+
+      - title: "Define the sample collection and assay plans"
+        element: "#uid-45 > div.portlet-header > div.portlet-title > span"
+        intro: "This section is meant for you to declare the responses variables and identify which biological materials collected over the course of the study will be used as input to the data acquisition process."
+        placement: "right"
+        postclick:
+          - "#uid-45 > div.portlet-header > div.portlet-title > span"
+
+      - title: "Define the sample collection and assay plans"
+        element: "#uid-49 > div > span"
+        intro: "Press the <i>insert Sample plan</i> button to reveal the requires fields, select the values and specify the parameters matching your experimental set up. Repeat for each of the biological specimen types collected over the course of the study"
+        placement: "right"
+        postclick:
+          - "#uid-49 > div > span"
+
+      - title: "Define the sample collection and assay plans"
+        element: "#uid-63 > div > span"
+        intro: "Press the <i>insert Assay plan</i> button to reveal the requires fields, and select the suitable <i>assay type</i>"
+        placement: "right"
+        postclick:
+          - "#uid-63 > div > span"
+
+      - title: "Define the sample collection and assay plans"
+        element: "#uid-133 > div > span"
+        intro: "Press the <i>insert sample fraction</i> button to reveal the requires fields, and select the suitable <i>elements</i>"
+        placement: "right"
+        postclick:
+          - "#uid-133 > div > span"
+  
+      - title: "Define the sample collection and assay plans"
+        element: "#uid-135 > div > span "
+        intro: "Press the <i>insert injection series</i> button to reveal the requires fields, and select to relevant settings describing the data acquisition conditions"
+        placement: "right"
+        postclick:
+          - "#uid-135 > div > span "    
+         
+
+      - title: "Define the quality control plans"
+        element: "#uid-50 > div.portlet-header > div.portlet-title > span"
+        intro: "This section is meant to allow reporting the type and frequency of measurements made on known material for quality assurance and quality control purpose."
+        placement: "right"
+        postclick:
+          - "#uid-50 > div.portlet-header > div.portlet-title > span"
+
+      - title: "Define the quality control plans"
+        element: "#uid-54 > div > span"
+        intro: "This section is meant to allow reporting the type and frequency of measurements made on known material for quality assurance and quality control purpose."
+        placement: "right"
+        postclick:
+          - "#uid-54 > div > span"
+      - title: "Define the quality control plans"
+        element: "#select2-drop-mask"
+        intro: "This section is meant to allow reporting the type and frequency of measurements made on known material for quality assurance and quality control purpose."
+        placement: "right"
+        postclick:
+          - "#select2-drop-mask"
+
+      - title: "running the metadata creator"
+        element: "#execute"
+        intro: "hit the button to launch the job"
+        position: "right"
+        postclick:
+          - "#execute"
+
+
+      - title: "Enjoy Galaxy in PhenoMenal"
+        intro: "Thanks for taking this tour! Happy research with Galaxy and PhenoMenal!"
