@@ -154,13 +154,14 @@ def create_from_plan_parameters(parameters_file):
             for assay_plan_params in sample_plan_params['assay_record_series']:
                 tt = assay_plan_params['assay_type']['assay_type']
                 if tt == 'mass spectrometry':
+                    # NOTE: Needs defaults to write out correctly...
                     assay_type = {
                         'topology_modifiers': {
                             'technical_replicates': 1,
                             'acquisition_modes': ['polar'],
                             'instruments': ['default'],
                             'injection_modes': ['LC'],
-                            'chromatography_instruments': []
+                            'chromatography_instruments': ['default']
                         },
                         'technology_type': tt,
                         'measurement_type': 'metabolite profiling'

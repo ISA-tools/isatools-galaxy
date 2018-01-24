@@ -150,7 +150,7 @@
                        <repeat name="samp_frac_series" title="sample fractions">
                            <param name="fraction" type="select" label="sample fraction of interest">
                                <option value="polar" />
-                               <option value="non-polar" />
+                               <option value="non-polar" selected="True" />
                            </param>                   
                        </repeat>                     
                        <repeat name="inj_mod_series" title="injection series">
@@ -158,12 +158,12 @@
                                <param name="inj_mod" type="select" label="sample introduction method">
                                    <option value="DI">direct infusion</option>
                                    <option value="FIA" selected="True">flow infusion assay</option>
-                                   <option value="LC">liquid chromatography</option>
+                                   <option value="LC" selected="True">liquid chromatography</option>
                                    <option value="GC">gas chromatography</option>
                                </param>
                                <when value="DI">
                                    <param name="instrument" type="select" label="MS instrument">
-                                       <option value="agilent ABC" />
+                                       <option value="agilent ABC" selected="True" />
                                        <option value="thermofisher XYZ" />
                                        <option value="shimadzu 123" />
                                    </param>
@@ -178,7 +178,7 @@
                                </when>
                                <when value="FIA">
                                    <param name="instrument" type="select" label="MS instrument">
-                                       <option value="agilent ABC" />
+                                       <option value="agilent ABC" selected="True" />
                                        <option value="thermofisher XYZ"/>
                                        <option value="shimadzu 123"/>
                                    </param>
@@ -193,12 +193,12 @@
                                </when>
                                <when value="LC">
                                    <param name="chromato" type="select" label="chromatography instrument">
-                                       <option value="c18" />
+                                       <option value="c18" selected="True" />
                                        <option value="butyl" />
                                        <option value="some-other-stuff" />
                                    </param>
                                    <param name="instrument" type="select" label="MS instrument">
-                                       <option value="agilent ABC" />
+                                       <option value="agilent ABC" selected="True" />
                                        <option value="thermofisher XYZ" />
                                        <option value="shimadzu 123" />
                                    </param>
@@ -213,12 +213,12 @@
                                </when>
                                <when value="GC">                                 
                                    <param name="chromato" type="select" label="chromatography instrument">
-                                       <option value="c18" />
+                                       <option value="c18" selected="True" />
                                        <option value="butyl" />
                                        <option value="some-other-stuff" />
                                    </param>
                                    <param name="instrument" type="select" label="MS instrument">
-                                       <option value="agilent ABC" />
+                                       <option value="agilent ABC" selected="True" />
                                        <option value="thermofisher XYZ" />
                                        <option value="shimadzu 123" />
                                    </param>
@@ -248,7 +248,7 @@
                    <when value="nmr spectroscopy">
                        <conditional name="acq_mod_cond">
                            <param name="acq_mod" type="select" label="acquisition method">
-                               <option value="1D 1H NMR"/>
+                               <option value="1D 1H NMR" selected="True" />
                                <option value="1D 13C NMR"/>
                                <option value="2D 1H-1H NMR"/>
                                <option value="2D 13C-13C NMR"/>
@@ -256,7 +256,7 @@
                            </param>
                            <when value="1D 1H NMR">
                                <param name="pulse_seq" type="select" label="pulse sequence">
-                                   <option value="CPMG" />
+                                   <option value="CPMG" selected="True" />
                                    <option value="water suppression" />
                                    <option value="watergate" />
                                    <option value="flip-flop" />
@@ -266,7 +266,7 @@
                            </when>
                            <when value="1D 13C NMR">
                                <param name="pulse_seq" type="select" label="pulse sequence">
-                                   <option value="CPMG" />
+                                   <option value="CPMG" selected="True" />
                                    <option value="water suppression" />
                                    <option value="watergate" />
                                    <option value="flip-flop" />
@@ -276,7 +276,7 @@
                            </when>
                            <when value="2D 1H-1H NMR">
                                <param name="pulse_seq" type="select" label="pulse sequence">
-                                   <option value="NOESY" />
+                                   <option value="NOESY" selected="True" />
                                    <option value="TOCSY" />
                                    <option value="watergate" />
                                    <option value="flip-flop" />
@@ -286,7 +286,7 @@
                            </when>
                            <when value="2D 13C-13C NMR">
                                <param name="pulse_seq" type="select" label="pulse sequence">
-                                   <option value="HOESY" />
+                                   <option value="HOESY" selected="True" />
                                    <option value="INADEQUATE" />
                                    <option value="watergate" />
                                    <option value="flip-flop" />
@@ -296,7 +296,7 @@
                            </when> 
                            <when value="2D 1H-13C NMR">
                                <param name="pulse_seq" type="select" label="pulse sequence">
-                                   <option value="HOESY" />
+                                   <option value="HOESY" selected="True" />
                                    <option value="HSQC" />
                                    <option value="HMBC" />
                                    <option value="HMQC" />
