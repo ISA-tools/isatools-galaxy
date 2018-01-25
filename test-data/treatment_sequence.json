@@ -1,0 +1,42 @@
+{
+  "rankedTreatments": [
+    {
+      "rank": 1,
+      "treatment": {
+        "factorValues": [
+          {
+            "category": {
+              "factorName": "AGENT",
+              "factorType": {
+                "annotationValue": "perturbation agent",
+                "termSource": null,
+                "termAccession": ""
+              }
+            },
+            "value": "calpol"
+          }
+        ],
+        "treatmentType": "chemical intervention"
+      }
+    },
+    {
+      "rank": 1,
+      "treatment": {
+        "factorValues": [
+          {
+            "category": {
+              "factorName": "AGENT",
+              "factorType": {
+                "annotationValue": "perturbation agent",
+                "termSource": null,
+                "termAccession": ""
+              }
+            },
+            "value": "no agent"
+          }
+        ],
+        "treatmentType": "chemical intervention"
+      }
+    }
+  ]
+}

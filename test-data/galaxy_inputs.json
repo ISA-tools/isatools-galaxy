@@ -1,0 +1,68 @@
+{
+  "sampling_and_assay_plans": {
+    "sample_record_series": [
+      {
+        "sample_size": 1,
+        "assay_record_series": [
+          {
+            "assay_type": {
+              "acq_mod_cond": {
+                "magnet": "strong",
+                "pulse_seq": "wet",
+                "nmr_instrument": "Bruker 500 Mhz",
+                "technical_replicates": 10,
+                "acq_mod": "1D 1H NMR"
+              },
+              "assay_type": "nmr spectroscopy"
+            }
+          }
+        ],
+        "sample_type": {
+          "sample_type": "plasma"
+        }
+      }
+    ]
+  },
+  "study_overview": {
+    "study_pi_affiliation": "affiliation",
+    "study_description": "description",
+    "study_pi_last_name": "last name",
+    "study_pi_email": "email address",
+    "study_pi_first_name": "first name"
+  },
+  "treatment_plan": {
+    "study_group_size": 3,
+    "study_type_cond": {
+      "study_type": "intervention",
+      "one_or_more": {
+        "single_or_multiple": "single",
+        "intervention_type": {
+          "duration": "long, short",
+          "intensity": "intensity1, intensity2",
+          "select_intervention_type": "chemical intervention",
+          "agent": "agent1, agent2"
+        }
+      }
+    },
+    "group_balanced": "balanced"
+  },
+  "qc_plan": {
+    "qc_record_series": [
+      {
+        "qc_type_conditional": {
+          "qc_type": "study reference",
+          "nb_injection": 10,
+          "injection_freq": 5
+        }
+      },
+      {
+        "qc_type_conditional": {
+          "nb_dil_step": 10,
+          "qc_type": "dilution series reference",
+          "nb_injection": 10,
+          "injection_freq": 1
+        }
+      }
+    ]
+  }
+}

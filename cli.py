@@ -127,9 +127,8 @@ class SampleAssayPlanDecoder(object):
 @click.option('--study_info_file',
               help='Path to JSON file containing input study overview',
               nargs=1, type=str, default='study_info_file.json')
-@click.option('--target_dir',
-              help='Output path to write',
-              nargs=1, type=str, default='/')
+@click.option('--target_dir', help='Output path to write', nargs=1, type=str,
+              default='/')
 def create_from_plan_parameters(parameters_file, study_info_file, target_dir):
     decoder = SampleAssayPlanDecoder()
     with open(parameters_file) as fp:
@@ -166,8 +165,8 @@ def create_from_plan_parameters(parameters_file, study_info_file, target_dir):
     i.description = s.description
 
     i.studies = [s]
-    isatab.dump(
-        isa_obj=i, output_path=target_dir, i_file_name='i_investigation.txt')
+    isatab.dump(isa_obj=i, output_path=target_dir,
+                i_file_name='i_investigation.txt')
 
 
 if __name__ == '__main__':
