@@ -22,45 +22,51 @@
 
       - title: "Provide General Study Information"
         element: "#field-uid-10"
-        intro: "The <b>Study Description</b> field allows the supply of key information about study authors as well as a textual overview of the study, its goals, its techniques, its key variables in <u>free text form</u>."
+        intro: "The <b>Study Title</b> field to provide a snappy summary of the study"
         position: "right" 
         postclick:
           - "#field-uid-10"
 
+      - title: "Provide General Study Information"
+        element: "#field-uid-11"
+        intro: "The <b>Study Description</b> field allows the supply of key information about study authors as well as a textual overview of the study, its goals, its techniques, its key variables in <u>free text form</u>."
+        position: "right" 
+        postclick:
+          - "#field-uid-11"
+
       - title: "Define the plan of treatments"
-        element: "#uid-15 > div.portlet-header > div.portlet-title > span"
+        element: "#uid-16 > div.portlet-header > div.portlet-title > span"
         intro: "The <b>Treatment Plan</b> section is meant to explicitly declare the study independent variables (predictors variables) and their range of values."
         placement: "right"
         postclick:
-          - "#uid-15 > div.portlet-header > div.portlet-title > span"
+          - "#uid-16 > div.portlet-header > div.portlet-title > span"
 
       - title: "Define the plan of treatments"
-        element: "#field-uid-18 > div.icon-dropdown.fa.fa-caret-down"
+        element: "#field-uid-19 > div.icon-dropdown.fa.fa-caret-down"
         intro: "This field is there for you to tell whether you are running an observational study or an intervention study where the operator introduced a perturbation in the biological system under study."
         placement: "right"
         postclick:
-          - "#field-uid-18 > div.icon-dropdown.fa.fa-caret-down"
+          - "#field-uid-19 > div.icon-dropdown.fa.fa-caret-down"
 
       - title: "Define the plan of treatments"
-        element: "#field-uid-20 > div.icon-dropdown.fa.fa-caret-down"
+        element: "#field-uid-21 > div.icon-dropdown.fa.fa-caret-down"
         intro: " If more than one intervention is applied to study subjects (repeated treatments, where treatments are applied in sequence), a number of different perturbations or interventions can be reported. The tool allows to describe those in a consistent, structured way."
         placement: "right"
         postclick:
-          - "#field-uid-20 > div.icon-dropdown.fa.fa-caret-down"
+          - "#field-uid-21 > div.icon-dropdown.fa.fa-caret-down"
 
       - title: "Define the plan of treatments"
-        element: "#field-uid-22 > div.icon-dropdown.fa.fa-caret-down"
         intro: " Select the type of intervention/perturbation from the list ."
         placement: "right"
         postclick:
-          - "#field-uid-22 > div.icon-dropdown.fa.fa-caret-down"
+          - "#field-uid-23 > div.icon-dropdown.fa.fa-caret-down"
 
       - title: "Define the plan of treatments"
-        element: "#field-uid-24"
+        element: "#field-uid-25"
         intro: "Once the intervention type has been selected, supply the range of values for each of independent variables defining an intervention treatment. These should be supplied as discretized elements and separated by commas (as in <b>'aspirin,ibuprofen'</b> for a chemical agent)"
         placement: "right"
         postclick:
-          - "#field-uid-24"
+          - "#field-uid-25"
 
       - title: "Define the plan of treatments"
         element: "#field-uid-41 > div.icon-dropdown.fa.fa-caret-down"
@@ -114,7 +120,7 @@
           - "#uid-63 > div > span"          
 
       - title: "Define the sample collection and assay plans"
-        element: "#field-uid-68 > div.icon-dropdown.fa.fa-caret-down"
+        element: "#field-uid-68 > div.icon-dropdown.fa.fa-caret-down" 
         intro: "Select either 'mass spectrometry' or 'nmr spectroscopy' from the dropdown list thus setting the technology type for the data acquisition. IMPORTANT: Repeat as many times as necessary in order to define which techniques will be used to characterise any of the sample/specimens collected over the course of the study"
         placement: "right"
         postclick:
