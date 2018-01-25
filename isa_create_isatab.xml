@@ -21,8 +21,9 @@
         mkdir study_dir;
 
         $__tool_directory__/cli.py
-        --parameters_file="$__tool_directory__/sample_assay_plans.json"
+        --sample_assay_plans_file="$__tool_directory__/sample_assay_plans.json"
         --study_info_file="$__tool_directory__/study_info.json"
+        --treatment_plans_file="$__tool_directory__/treatment_plan.json"
         --target_dir=study_dir/
         ]]>
     </command>
@@ -39,11 +40,11 @@
     </inputs>
 
     <outputs>
-        <collection type="list" label="Assay Files" name="a_files">
+        <collection type="list" label="A files" name="a_files">
             <discover_datasets pattern="(?P&lt;designation&gt;a_.+)\.txt" format="tsv" directory="study_dir/" />
         </collection>
-        <data name="s_study" format="tsv" from_work_dir="study_dir/s_study.txt" />
-        <data name="i_investigation" format="tsv" from_work_dir="study_dir/i_investigation.txt" />
+        <data name="s_study" label="S file" format="tsv" from_work_dir="study_dir/s_study.txt" />
+        <data name="i_investigation" label="I file" format="tsv" from_work_dir="study_dir/i_investigation.txt" />
         <!--<data format="isa-tab" name="output" />-->
     </outputs>
 

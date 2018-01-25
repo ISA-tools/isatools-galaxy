@@ -222,10 +222,11 @@
                     <conditional name="assay_type">
                         <param name="assay_type" type="select"
                                label="study assay types">
-                            <option value="mass spectrometry" selected="True">
+                            <option value="mass spectrometry">
                                 mass spectrometry
                             </option>
-                            <option value="nmr spectroscopy">nmr spectroscopy
+                            <option value="nmr spectroscopy" selected="True">
+                                nmr spectroscopy
                             </option>
                             <!--
                                <option value="DNA microarray">DNA microarray</option>

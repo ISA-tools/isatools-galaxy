@@ -54,14 +54,6 @@
           "nb_injection": 10,
           "injection_freq": 5
         }
-      },
-      {
-        "qc_type_conditional": {
-          "nb_dil_step": 10,
-          "qc_type": "dilution series reference",
-          "nb_injection": 10,
-          "injection_freq": 1
-        }
       }
     ]
   }

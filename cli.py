@@ -3,7 +3,6 @@
 import click
 import json
 import logging
-import os
 import sys
 
 from isatools import isatab
@@ -121,29 +120,56 @@ class SampleAssayPlanDecoder(object):
 
 
 @click.command()
-@click.option('--parameters_file',
+@click.option('--sample_assay_plans_file',
               help='Path to JSON file containing input Sample Assay Plan JSON',
               nargs=1, type=str, default='sample_assay_plans.json')
 @click.option('--study_info_file',
               help='Path to JSON file containing input study overview',
               nargs=1, type=str, default='study_info_file.json')
+@click.option('--treatment_plans_file',
+              help='Path to JSON file containing treatment plan info',
+              nargs=1, type=str, default='treatment_plan.json')
 @click.option('--target_dir', help='Output path to write', nargs=1, type=str,
               default='/')
-def create_from_plan_parameters(parameters_file, study_info_file, target_dir):
+def create_from_plan_parameters(sample_assay_plans_file, study_info_file,
+                                treatment_plans_file, target_dir):
     decoder = SampleAssayPlanDecoder()
-    with open(parameters_file) as fp:
+    with open(sample_assay_plans_file) as fp:
         plan = decoder.load(fp)
     with open(study_info_file) as fp:
         study_info = json.load(fp)
+    with open(treatment_plans_file) as fp:
+        treatment_plan_params = json.load(fp)
+    treatment_group_size = treatment_plan_params['study_group_size']
+
+    study_type = treatment_plan_params['study_type_cond']['study_type']
+    if study_type != 'intervention':
+        raise NotImplementedError('Only supports Intervention studies')
+
+    single_or_multiple = treatment_plan_params['study_type_cond']['one_or_more']['single_or_multiple']
+    if single_or_multiple == 'multiple':
+        raise NotImplementedError(
+            'Multiple treatments not yet implemented. Please select Single')
+
+    intervention_type = treatment_plan_params['study_type_cond']['one_or_more'][
+        'intervention_type']['select_intervention_type']
+    if intervention_type != 'chemical intervention':
+        raise NotImplementedError(
+            'Only Chemical Interventions supported at this time')
+
     treatment_factory = TreatmentFactory(
         intervention_type=INTERVENTIONS['CHEMICAL'], factors=BASE_FACTORS)
-    agent_levels = 'calpol, none'.split(',')
+    agent_levels = treatment_plan_params['study_type_cond']['one_or_more'][
+        'intervention_type']['agent'].split(',')
     for agent_level in agent_levels:
         treatment_factory.add_factor_value(BASE_FACTORS[0], agent_level.strip())
-    dose_levels = 'low, high'.split(',')
+    dose_levels = treatment_plan_params['study_type_cond']['one_or_more'][
+        'intervention_type']['intensity'].split(',')
     for dose_level in dose_levels:
         treatment_factory.add_factor_value(BASE_FACTORS[1], dose_level.strip())
-    duration_of_exposure_levels = 'long, short'.split(',')
+    duration_of_exposure_levels = treatment_plan_params[
+        'study_type_cond']['one_or_more']['intervention_type'][
+        'duration'].split(',')
     for duration_of_exposure_level in duration_of_exposure_levels:
         treatment_factory.add_factor_value(BASE_FACTORS[2],
                                            duration_of_exposure_level.strip())
