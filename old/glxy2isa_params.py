@@ -21,7 +21,7 @@ sample_and_assay_plans = {
     "assay_plan": []
 }
 for sample_plan_params in tool_params[
-    'sampling_and_assay_plans']['sample_record_series']:
+        'sampling_and_assay_plans']['sample_record_series']:
     sample_plan = {
         'sample_type': sample_plan_params['sample_type']['sample_type'],
         'sampling_size': sample_plan_params['sample_size']

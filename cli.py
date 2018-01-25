@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """Commandline interface for running ISA API create mode"""
 import click
+import io
 import json
-import logging
-import sys
 
 from isatools import isatab
 from isatools.create.models import (
@@ -119,28 +118,132 @@ class SampleAssayPlanDecoder(object):
         return sample_assay_plan
 
 
+def map_galaxy_to_isa_create_json(tool_params):
+    sample_and_assay_plans = {
+        "sample_types": [],
+        "group_size": 1,
+        "sample_plan": [],
+        "sample_qc_plan": [],
+        "assay_types": [],
+        "assay_plan": []
+    }
+    for sample_plan_params in tool_params[
+        'sampling_and_assay_plans']['sample_record_series']:
+        sample_plan = {
+            'sample_type': sample_plan_params['sample_type']['sample_type'],
+            'sampling_size': sample_plan_params['sample_size']
+        }
+        sample_and_assay_plans['sample_types'].append(
+            sample_plan['sample_type'])
+        sample_and_assay_plans['sample_plan'].append(sample_plan)
+
+        if 'assay_record_series' in sample_plan_params.keys():
+            for assay_plan_params in sample_plan_params['assay_record_series']:
+                tt = assay_plan_params['assay_type']['assay_type']
+                if tt == 'mass spectrometry':
+                    raise NotImplementedError(
+                        'MS assays not yet supported, try NMR first')
+                    # try:
+                    #     chromatography_instruments = [x['inj_mod_cond']['chromato']
+                    #                                   for x in assay_plan_params[
+                    #                                       'assay_type'][
+                    #                                       'inj_mod_series']]
+                    # except KeyError:
+                    #     chromatography_instruments = []
+                    # assay_type = {
+                    #     'topology_modifiers': {
+                    #         'technical_replicates': 1,
+                    #         'acquisition_modes': [x['fraction'] for x in
+                    #                               assay_plan_params['assay_type'][
+                    #                                   'samp_frac_series']],
+                    #         'instruments': [x['inj_mod_cond']['instrument'] for x in
+                    #                         assay_plan_params['assay_type'][
+                    #                             'inj_mod_series']],
+                    #         'injection_modes': [x['inj_mod_cond']['inj_mod'] for x
+                    #                             in assay_plan_params['assay_type'][
+                    #                                 'inj_mod_series']],
+                    #         'chromatography_instruments': chromatography_instruments
+                    #     },
+                    #     'technology_type': tt,
+                    #     'measurement_type': 'metabolite profiling'
+                    # }
+                elif tt == 'nmr spectroscopy':
+                    assay_type = {
+                        'topology_modifiers': {
+                            'technical_replicates':
+                                assay_plan_params['assay_type'][
+                                    'acq_mod_cond']['technical_replicates'],
+                            'acquisition_modes': [
+                                assay_plan_params['assay_type']['acq_mod_cond'][
+                                    'acq_mod']],
+                            'instruments': [
+                                assay_plan_params['assay_type']['acq_mod_cond'][
+                                    'nmr_instrument']],
+                            'injection_modes': [],
+                            'pulse_sequences': [
+                                assay_plan_params['assay_type']['acq_mod_cond'][
+                                    'pulse_seq']]
+                        },
+                        'technology_type': 'nmr spectroscopy',
+                        'measurement_type': 'metabolite profiling'
+                    }
+                else:
+                    raise NotImplementedError(
+                        'Only NMR and MS assays supported')
+                assay_plan = {
+                    "sample_type": sample_plan['sample_type'],
+                    "assay_type": assay_type
+                }
+                sample_and_assay_plans['assay_types'].append(assay_type)
+                sample_and_assay_plans['assay_plan'].append(assay_plan)
+        for qc_plan_params in tool_params['qc_plan']['qc_record_series']:
+            if 'dilution' in qc_plan_params['qc_type_conditional']['qc_type']:
+                raise NotImplementedError('Dilution series not yet implemented')
+            else:
+                qc_plan = {
+                    'sample_type': qc_plan_params['qc_type_conditional'][
+                        'qc_type'],
+                    'injection_interval': qc_plan_params['qc_type_conditional'][
+                        'injection_freq']
+                }
+            sample_and_assay_plans['sample_qc_plan'].append(qc_plan)
+    sample_and_assay_plans['group_size'] = tool_params['treatment_plan'][
+        'study_group_size']
+
+    return sample_and_assay_plans, tool_params['study_overview'], \
+            tool_params['treatment_plan']
+
+
 @click.command()
+@click.option('--galaxy_parameters_file',
+              help='Path to JSON file containing input Galaxy JSON',
+              type=click.File('r'))
 @click.option('--sample_assay_plans_file',
               help='Path to JSON file containing input Sample Assay Plan JSON',
-              nargs=1, type=str, default='sample_assay_plans.json')
+              type=click.File('r'))
 @click.option('--study_info_file',
               help='Path to JSON file containing input study overview',
-              nargs=1, type=str, default='study_info_file.json')
+              type=click.File('r'))
 @click.option('--treatment_plans_file',
               help='Path to JSON file containing treatment plan info',
-              nargs=1, type=str, default='treatment_plan.json')
-@click.option('--target_dir', help='Output path to write', nargs=1, type=str,
-              default='/')
-def create_from_plan_parameters(sample_assay_plans_file, study_info_file,
-                                treatment_plans_file, target_dir):
+              type=click.File('r'))
+@click.option('--target_dir', help='Output path to write', nargs=1,
+              type=click.Path(exists=True), default='./')
+def create_from_plan_parameters(
+        galaxy_parameters_file, sample_assay_plans_file, study_info_file,
+        treatment_plans_file, target_dir):
     decoder = SampleAssayPlanDecoder()
-    with open(sample_assay_plans_file) as fp:
-        plan = decoder.load(fp)
-    with open(study_info_file) as fp:
-        study_info = json.load(fp)
-    with open(treatment_plans_file) as fp:
-        treatment_plan_params = json.load(fp)
-    treatment_group_size = treatment_plan_params['study_group_size']
+    if galaxy_parameters_file:
+        galaxy_parameters = json.load(galaxy_parameters_file)
+        sample_and_assay_plans, study_info, treatment_plan_params = \
+            map_galaxy_to_isa_create_json(galaxy_parameters)
+        plan = decoder.load(io.StringIO(json.dumps(sample_and_assay_plans)))
+    elif sample_assay_plans_file and study_info_file and treatment_plans_file:
+        plan = decoder.load(sample_assay_plans_file)
+        study_info = json.load(study_info_file)
+        treatment_plan_params = json.load(treatment_plans_file)
+    else:
+        raise IOError('Wrong parameters provided')
 
     study_type = treatment_plan_params['study_type_cond']['study_type']
     if study_type != 'intervention':
@@ -196,9 +299,10 @@ def create_from_plan_parameters(sample_assay_plans_file, study_info_file,
 
 
 if __name__ == '__main__':
-    try:
-        create_from_plan_parameters()
-    except Exception as e:
-        logger = logging.getLogger()
-        logger.fatal(e)
-        sys.exit(e.code if hasattr(e, 'code') else 99)
+    create_from_plan_parameters()
+    # try:
+    #     create_from_plan_parameters()
+    # except Exception as e:
+    #     logger = logging.getLogger()
+    #     logger.fatal(e)
+    #     sys.exit(e.code if hasattr(e, 'code') else 99)
