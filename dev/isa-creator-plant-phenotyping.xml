@@ -1,0 +1,624 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tool id="isa_creator_metabolomics" name="create ISA in Galaxy" version="1.0.0">
+    <description>interactive tool to create ISA archives</description>
+
+    <requirements>
+        <requirement type="package" version="0.9.3">isatools</requirement>
+    </requirements>
+    <stdio>
+        <exit_code range="1:" />
+    </stdio>
+  <command interpreter="bash">
+<![CDATA[
+echo -e "is the study balanced?: $group_balanced"
+&&
+echo -e "study group size is: $study_group_size"
+&&
+echo -e "${study_type_cond.study_type}"
+&&
+echo -e "${study_type_cond.one_or_more.single_or_multiple}" 
+&&
+#for $i, $s in enumerate( $sample_record_series )
+    echo -e "sample type -> ${s.sample_type_conditional.rad_sample_type}"
+    &&
+    echo -e "sample size -> ${s.sample_size}"   
+    #for $j, $a in enumerate( $s.assay_record_series )               
+        #if  $a.assay_type_conditional.rad_assay_type == 'mass spectrometry' 
+            echo -e "WHAAZZAAA: $a.assay_type_conditional.rad_assay_type"
+            #for $k, $f in enumerate($a.assay_type_conditional.samp_frac_series)
+                 echo -e "fraction: ${f.fraction}"
+                 &&
+            #end for 
+            #for $l, $inj in enumerate($a.assay_type_conditional.inj_mod_series)
+                 echo -e "injection: ${inj.inj_mod_cond.inj_mod}"
+                 &&
+                 echo -e "instrument: $inj.inj_mod_cond.instrument"
+                 &&  
+                 #if $inj.inj_mod_cond.inj_mod == 'LC'
+                    echo -e "injection mode: $inj.inj_mod_cond.inj_mod"
+                    &&
+                    echo -e "chromatography instrument: $inj.inj_mod_cond.chromato"
+                    &&
+                    #for $o, $e in enumerate($inj.inj_mod_cond.acq_mod_series)
+                        echo -e "acquisition: $e.acq_mod"
+                        &&
+                        echo -e "acquisition: $e.technical_replicates"
+                        &&
+                    #end for                    
+                 #elif $inj.inj_mod_cond.inj_mod == 'GC' 
+                    echo -e "injection mode: $inj.inj_mod_cond.inj_mod"
+                    &&
+                    echo -e "chromatography instrument: $inj.inj_mod_cond.chromato"
+                    &&
+                    #for $o, $d in enumerate($inj.inj_mod_cond.derivatization_series)
+                        echo -e "derivatization: $d.derivatization"
+                        &&
+                    #end for 
+                    #for $o, $e in enumerate($inj.inj_mod_cond.acq_mod_series)
+                        echo -e "acquisition: $e.acq_mod"
+                        &&
+                        echo -e "acquisition: $e.technical_replicates"
+                        &&
+                    #end for
+                 #else
+                    echo -e "injection mode:$inj.inj_mod_cond.inj_mod"
+                    &&
+                    #for $o, $e in enumerate($inj.inj_mod_cond.acq_mod_series)
+                        echo -e "acquisition: $e.acq_mod"
+                        &&
+                        echo -e "acquisition: $e.technical_replicates"
+                        &&                            
+                    #end for                    
+                 #end if
+            #end for
+
+        #elif $a.assay_type_conditional.rad_assay_type == 'nmr spectroscopy' 
+            echo -e "WHIZZBANG: $a.assay_type_conditional.rad_assay_type" 
+            &&         
+            echo -e "acquisition: $a.assay_type_conditional.acq_mod_cond.acq_mod"
+            &&
+            echo -e "pulse sequence: $a.assay_type_conditional.acq_mod_cond.pulse_seq"
+            &&
+            echo -e "magnet power: $a.assay_type_conditional.acq_mod_cond.magnet"
+            &&
+            echo -e "technical replicates: $a.assay_type_conditional.acq_mod_cond.technical_replicates
+        #else
+            echo -e "something went wrong"
+        #end if  
+    #end for 
+#end for    
+]]>
+  </command>
+
+    <!-- <command interpreter="python">$script_file</command> -->
+    <configfiles>
+        <!--<configfile name="bash_script_file"> -->
+            <!-- TODO: implement IF to test depending on value of assay_type && and value to acquisition mode (GCMS requires an additional element -->
+            
+       <!-- </configfile>-->
+        <configfile name="script_file">
+from isatools import isatab
+from isatools.create.models import (
+    SampleAssayPlan,
+    TreatmentSequence,
+    INTERVENTIONS,
+    BASE_FACTORS,
+    TreatmentFactory,
+    IsaModelObjectFactory,
+    AssayType,
+    AssayTopologyModifiers
+)
+from isatools.model import Investigation
+# agent_levels = sys.argv[1]  # agent_levels
+# dose_levels = sys.argv[2]  # dose_levels
+# duration_of_exposure_levels = sys.argv[3]  # duration_of_exposure_levels
+# sample_types = sys.argv[4]  # sample_types
+# sample_sizes = sys.argv[5]  # sample_sizes
+group_size = 5
+agent_levels = 'cocaine, calpol'.split(',')
+dose_levels = 'low, high'.split(',')
+duration_of_exposure_levels = 'short, long'.split(',')
+sample_types = 'blood'.split(',')
+sample_sizes = [int(x) for x in '5'.split(',')]
+
+plan = SampleAssayPlan(group_size=group_size)  # if balanced, group_size is fixed
+for sample_type, sample_size in zip(sample_types, sample_sizes):
+    plan.add_sample_type(sample_type)
+    plan.add_sample_plan_record(sample_type, sample_size)
+treatment_factory = TreatmentFactory(
+    intervention_type=INTERVENTIONS['CHEMICAL'], factors=BASE_FACTORS)
+for agent_level in agent_levels:
+    treatment_factory.add_factor_value(BASE_FACTORS[0], agent_level.strip())
+for dose_level in dose_levels:
+    treatment_factory.add_factor_value(BASE_FACTORS[1], dose_level.strip())
+for duration_of_exposure_level in duration_of_exposure_levels:
+    treatment_factory.add_factor_value(BASE_FACTORS[2],
+                                       duration_of_exposure_level.strip())
+treatment_sequence = TreatmentSequence(
+    ranked_treatments=treatment_factory.compute_full_factorial_design())
+isa_object_factory = IsaModelObjectFactory(plan, treatment_sequence)
+
+measurement_type = 'metabolite profiling'
+technology_type = 'mass spectrometry'
+instruments = {'Agilent QTOF'}
+technical_replicates = 2
+injection_modes = {'LC'}
+acquisition_modes = {'positive', 'negative'}
+chromatography_instruments = {'Agilent Q12324A'}
+
+# MSAssayTopologyModifiers class not yet in isatools pip package
+# ms_top_mods = MSAssayTopologyModifiers(
+#     instruments=instruments,
+#     technical_replicates=technical_replicates,
+#     injection_modes=injection_modes,
+#     acquisition_modes=acquisition_modes,
+#     chromatography_instruments=chromatography_instruments)
+
+ms_top_mods = AssayTopologyModifiers(
+    instruments=instruments,
+    technical_replicates=technical_replicates)
+ms_assay_type = AssayType(measurement_type=measurement_type,
+                          technology_type=technology_type)
+
+ms_assay_type.topology_modifiers = ms_top_mods
+plan.add_assay_type(ms_assay_type)
+plan.add_assay_plan_record(sample_type, ms_assay_type)
+
+s = isa_object_factory.create_assays_from_plan()
+i = Investigation()
+s.filename = "s_study.txt"
+i.studies = [s]
+import os
+os.mkdir('isa')
+isatab.dump(isa_obj=i, output_path='./isa', i_file_name='i_investigation.txt')
+        </configfile>
+    </configfiles> 
+
+    <inputs>
+        
+        <section name="Protocol Declaration" title="Protocols">
+            <repeat name="protocol_seroes" title="">
+                <conditional name="protocol_conditional">
+                    <param name="protocol type" type="select" label="protocol type" argument="--protocols">
+                        <option value="watering"></option>
+                        <option value="fertilization"></option>
+                        <option value="rooting conditions"></option>
+                    </param>
+                    <when value="watering">
+                        <param name="quantity"  type="integer" label="quantity of water" argument="--qw" value="0"></param>
+                        <param name="frequence"  type="integer" label="frequency of watering events" argument="--fqw" value="0"></param>
+                    </when>
+                    <when value="fertilization">
+                        <param name="quantity"  type="integer" label="quantity of water" argument="--qw" value="0"></param>
+                        <param name="frequence"  type="integer" label="frequency of watering events" argument="--fqw" value="0"></param>
+                    </when>
+                    <when value="rooting conditions">
+                        <param name="quantity"  type="integer" label="quantity of water" argument="--qw" value="0"></param>
+                        <param name="frequence"  type="integer" label="frequency of watering events" argument="--fqw" value="0"></param>
+                    </when>
+                </conditional>
+            </repeat>  
+        </section>
+        <section name="Treatment Plan" title="Treatment Plan">
+
+        <conditional name="study_type_cond">
+            <param name="study_type" type="select" label="which type of study" help="see example below">
+                <option value="intervention">intervention</option>
+                <option value="observation">observation</option>
+            </param>
+            <when value="intervention">
+                <conditional name="one_or_more">
+                    <param name="single_or_multiple" type="select" label="single or repeated treatments" argument="--som">
+                        <option value="single" selected="True">single</option>
+                        <option value="multiple">multiple</option>
+                    </param>
+                    <when value="single">
+                        <conditional name="intervention_type">
+                            <param name="select_intervention_type" type="select" label="Select an intervention type" argument="--trtype">
+                                <option value="chemical intervention" selected="True">chemical intervention</option>
+                                <option value="dietary intervention">dietary intervention</option>
+                                <option value="behavioural intervention">behavioral intervention</option>
+                                <option value="biological intervention">biological intervention</option>
+                                <option value="surgical intervention">surgical intervention</option>
+                            </param>
+                            <when value="chemical intervention">
+                                <param name="agent" type="text"></param>
+                                <param name="intensity" type="text"></param>
+                                <param name="duration" type="text"></param>
+                            </when>
+                            <when value="behavioural intervention">
+                                <param name="agent" type="text"></param>
+                                <param name="intensity" type="text"></param>
+                                <param name="duration" type="text"></param>
+                            </when>
+                            <when value="biological intervention">
+                                <param name="agent" type="text"></param>
+                                <param name="intensity" type="text"></param>
+                                <param name="duration" type="text"></param>
+                            </when>
+                            <when value="surgical intervention">
+                                <param name="agent" type="text"></param>
+                                <param name="intensity" type="text"></param>
+                                <param name="duration" type="text"></param>
+                            </when>
+                            <when value="dietary intervention">
+                                <param name="agent" type="text"></param>
+                                <param name="intensity" type="text"></param>
+                                <param name="duration" type="text"></param>
+                            </when>
+                        </conditional>                        
+                    </when>
+                    <when value="multiple">
+                        <repeat name="multiple_intervention" title="Repeated Intervention">
+                            <conditional name="intervention_type">
+                                <param name="select_intervention_type" type="select" label="Select an intervention type" argument="--trtype">
+                                    <option value="chemical intervention" selected="True">chemical intervention</option>
+                                    <option value="behavioural intervention">behavioral intervention</option>
+                                    <option value="biological intervention">biological intervention</option>
+                                    <option value="surgical intervention">surgical intervention</option>
+                                </param>
+                                <when value="chemical intervention">
+                                    <param name="agent" type="text"></param>
+                                    <param name="intensity" type="text"></param>
+                                    <param name="duration" type="text"></param>
+                                </when>
+                                <when value="behavioural intervention">
+                                    <param name="agent" type="text"></param>
+                                    <param name="intensity" type="text"></param>
+                                    <param name="duration" type="text"></param>
+                                </when>
+                                <when value="biological intervention">
+                                    <param name="agent" type="text"></param>
+                                    <param name="intensity" type="text"></param>
+                                    <param name="duration" type="text"></param>
+                                </when>
+                                <when value="surgical intervention">
+                                    <param name="agent" type="text"></param>
+                                    <param name="intensity" type="text"></param>
+                                    <param name="duration" type="text"></param>
+                                </when>
+                            </conditional>    
+                        </repeat>                       
+                    </when>                  
+                </conditional>
+                
+            </when>
+            <when value="observation">
+            </when>
+        </conditional>
+        
+        <!-- INPUT FOR SETTING CHARACTERISTICS OF STUDY GROUPS -->
+        <param name="group_balanced" type="select" label="study design balance" argument="--group_balanced">
+            <option value="balanced" selected="True">balanced</option>
+            <option value="unbalanced">unbalanced</option>
+        </param>
+        <param name="study_group_size" type="integer" label="study group size" argument="--group_size" value="3"/>
+    </section>
+        <section name="Sampling and Assay Plans" title="Sampling and Assay Plans"> 
+        <!-- INPUT FOR SAMPLING PLAN -->  
+       <repeat name="sample_record_series" title="Sampling plan"> 
+           <conditional name="sample_type_conditional">
+               <param name="rad_sample_type" type="select" label="study sample types" argument="--rad_sample_type">
+                   <option value="blood">blood</option>
+                   <option value="sweat" selected="True">sweat</option>
+                   <option value="tears">tears</option>
+                   <option value="urine">urine</option>
+                   <option value="user_defined">user defined</option>
+                </param>
+               <when value="blood">
+                   
+               </when>
+               <when value="sweat">
+                   
+               </when>
+               <when value="tears">
+                   
+               </when>
+               <when value="urine">
+                   
+               </when>
+               <when value="user_defined">
+                <param name="rad_sample_type_ud" type="text" label="user defined sample type"/>
+               </when>
+           </conditional>           
+           <param name="sample_size" type="integer" label="number of sample collections" argument="--sample_size"  value="1"></param> 
+           <!-- INPUT FOR ASSAY PLAN -->  
+           <repeat name="assay_record_series" title="Assay Plan"> 
+               <conditional name="assay_type_conditional">
+                   <param name="rad_assay_type" type="select" label="study assay types" argument="--rad_assay_type">
+                       <option value="mass spectrometry"  selected="True">mass spectrometry</option>
+                       <option value="nmr spectroscopy">nmr spectroscopy</option>
+                    <!--
+                       <option value="DNA microarray">DNA microarray</option>
+                       <option value="DNA sequencing">DNA sequencing</option>
+                    -->
+                   </param>                      
+                   <when value="mass spectrometry">
+                       <repeat name="samp_frac_series" title="sample fractions">
+                           <param name="fraction" type="select" label="sample fraction of interest" argument="--sp_frac">
+                               <option value="polar"/>
+                               <option value="non-polar"></option>
+                           </param>                   
+                       </repeat>                     
+                       <repeat name="inj_mod_series" title="injection series">
+                           <conditional name="inj_mod_cond">
+                               <param name="inj_mod" type="select" label="sample introduction method" argument="--inj_mod">
+                                   <option value="DI">direct infusion</option>
+                                   <option value="FIA" selected="True">flow infusion assay</option>
+                                   <option value="LC">liquid chromatography</option>
+                                   <option value="GC">gas chromatography</option>
+                               </param>
+                               <when value="DI">
+                                   <param name="instrument" type="select" label="MS instrument" argument="--instrument">
+                                       <option value="agilent ABC"/>
+                                       <option value="thermofisher XYZ"/>
+                                       <option value="shimadzu 123"/>
+                                   </param>
+                                   <repeat name="acq_mod_series" title="acquisition series">
+                                      <param name="acq_mod" type="select" label="acquisition method" argument="--acq_mod">
+                                          <option value="negative" selected="True"/>
+                                          <option value="positive"/>
+                                          <option value="positive/negative"/>
+                                      </param>
+                                      <param name="technical_replicates" type="integer" label="number of technical repeats" argument="--tech_rep"  value="1"></param>
+                                   </repeat>
+                               </when>
+                               <when value="FIA">
+                                   <param name="instrument" type="select" label="MS instrument" argument="--instrument">
+                                       <option value="agilent ABC"/>
+                                       <option value="thermofisher XYZ"/>
+                                       <option value="shimadzu 123"/>
+                                   </param>
+                                   <repeat  name="acq_mod_series" title="acquisition series">
+                                       <param name="acq_mod" type="select" label="acquisition method" argument="--acq_mod">
+                                           <option value="negative" selected="True"/>
+                                           <option value="positive"/>
+                                           <option value="positive/negative"/>
+                                       </param>
+                                       <param name="technical_replicates" type="integer" label="number of technical repeats" argument="--tech_rep"  value="1"></param>
+                                   </repeat>                                 
+                               </when>
+                               <when value="LC">
+                                   <param name="chromato" type="select" label="chromatography instrument" argument="--chromato">
+                                       <option value="c18"/>
+                                       <option value="butyl"></option>
+                                       <option value="some-other-stuff"></option>
+                                   </param>
+                                   <param name="instrument" type="select" label="MS instrument" argument="--instrument">
+                                       <option value="agilent ABC"/>
+                                       <option value="thermofisher XYZ"/>
+                                       <option value="shimadzu 123"/>
+                                   </param>
+                                   <repeat  name="acq_mod_series" title="acquisition series">
+                                       <param name="acq_mod" type="select" label="acquisition method" argument="--acq_mod">
+                                           <option value="negative" selected="True"/>
+                                           <option value="positive"/>
+                                           <option value="positive/negative"/>
+                                       </param>
+                                       <param name="technical_replicates" type="integer" label="number of technical repeats" argument="--tech_rep"  value="1"></param>
+                                   </repeat>
+                               </when>
+                               <when value="GC">                                 
+                                   <param name="chromato" type="select" label="chromatography instrument" argument="--chromato">
+                                       <option value="c18"/>
+                                       <option value="butyl"></option>
+                                       <option value="some-other-stuff"></option>
+                                   </param>
+                                   <param name="instrument" type="select" label="MS instrument" argument="--instrument">
+                                       <option value="agilent ABC"/>
+                                       <option value="thermofisher XYZ"></option>
+                                       <option value="shimadzu 123"></option>
+                                   </param>
+                                   <repeat  name="acq_mod_series" title="acquisition series">
+                                       <param name="acq_mod" type="select" label="acquisition method" argument="--acq_mod">
+                                           <option value="negative" selected="True"/>
+                                           <option value="positive"></option>
+                                           <option value="positive/negative"></option>
+                                       </param>
+                                       <param name="technical_replicates" type="integer" label="number of technical repeats" argument="--tech_rep"  value="1"></param>
+                                   </repeat>
+                                   <repeat name="derivatization_series" title="derivations">
+                                       <param name="derivatization" type="select" label="derivatization" argument="--deriv">
+                                           <option value="acetylation"/>
+                                           <option value="trifluoroacetylation"/>
+                                           <option value="alkylation"/>
+                                           <option value="methylation"/>
+                                           <option value="oxymation"/>
+                                           <option value="silylation"/>
+                                       </param>
+                                   </repeat>
+                               </when>
+                           </conditional>    
+                       </repeat>
+                   </when>
+                   
+                   <when value="nmr spectroscopy">
+                       <conditional name="acq_mod_cond">
+                           <param name="acq_mod" type="select" label="acquisition method" argument="--acq_mod">
+                               <option value="1D 1H NMR"/>
+                               <option value="1D 13C NMR"/>
+                               <option value="2D 1H-1H NMR"/>
+                               <option value="2D 13C-13C NMR"/>
+                               <option value="2D 1H-13C NMR"/>
+                           </param>
+                           <when value="1D 1H NMR">
+                               <param name="pulse_seq" type="select" label="pulse sequence" argument="--pulse">
+                                   <option value="CPMG"></option>
+                                   <option value="water suppression"></option>
+                                   <option value="watergate"></option>
+                                   <option value="flip-flop"></option>
+                               </param>  
+                               <param name="magnet" type="text" label="nmr magnet power" argument="--magnet"></param>                             
+                               <param name="technical_replicates" type="integer" label="number of technical repeats" argument="--tech_rep" value="1"></param>
+                           </when>
+                           <when value="1D 13C NMR">
+                               <param name="pulse_seq" type="select" label="pulse sequence" argument="--pulse">
+                                   <option value="CPMG"></option>
+                                   <option value="water suppression"></option>
+                                   <option value="watergate"></option>
+                                   <option value="flip-flop"></option>
+                               </param>  
+                               <param name="magnet" type="text" label="nmr magnet power" argument="--magnet"></param>                            
+                               <param name="technical_replicates" type="integer" label="number of technical repeats" argument="--tech_rep" value="1"></param>
+                           </when>
+                           <when value="2D 1H-1H NMR">
+                               <param name="pulse_seq" type="select" label="pulse sequence" argument="--pulse">
+                                   <option value="NOESY"></option>
+                                   <option value="TOCSY"></option>
+                                   <option value="watergate"></option>
+                                   <option value="flip-flop"></option>
+                               </param>  
+                               <param name="magnet" type="text" label="nmr magnet power" argument="--magnet"></param>                            
+                               <param name="technical_replicates" type="integer" label="number of technical repeats" argument="--tech_rep" value="1"></param>
+                           </when>
+                           <when value="2D 13C-13C NMR">
+                               <param name="pulse_seq" type="select" label="pulse sequence" argument="--pulse">
+                                   <option value="HOESY"></option>
+                                   <option value="INADEQUATE"></option>
+                                   <option value="watergate"></option>
+                                   <option value="flip-flop"></option>
+                               </param>  
+                               <param name="magnet" type="text" label="nmr magnet power" argument="--magnet"></param>                            
+                               <param name="technical_replicates" type="integer" label="number of technical repeats" argument="--tech_rep" value="1"></param>
+                           </when> 
+                           <when value="2D 1H-13C NMR">
+                               <param name="pulse_seq" type="select" label="pulse sequence" argument="--pulse">
+                                   <option value="HOESY"></option>
+                                   <option value="HSQC"></option>
+                                   <option value="HMBC"></option>
+                                   <option value="HMQC"></option>
+                                   <option value="HETCOR"></option>
+                               </param>  
+                               <param name="magnet" type="text" label="nmr magnet power" argument="--magnet"></param>                            
+                               <param name="technical_replicates" type="integer" label="number of technical repeats" argument="--tech_rep" value="1"></param>
+                           </when> 
+                       </conditional>
+                   </when>
+                   
+               <!--     
+                   <when value="DNA sequencing">
+                       <param name="seq_instrument" type="text"></param> 
+                       <param name="single_or_paired" type="select" label="select library type" argument="library">
+                           <option value="single end"/>
+                           <option value="paired end"/>
+                       </param> 
+                       <param name="technical_replicates" type="integer" label="number of technical repeats" argument="tech_rep" value="1"></param>
+                   </when>
+                   
+                   <when value="DNA microarray">
+                       <param name="array_design" type="select" label="select array design name" argument="arraydes">
+                           <option value="Affymetrix 1"/>
+                           <option value="Affymetrix 2"/>
+                           <option value="Illumina A"/>
+                           <option value="Illumina B"/>
+                       </param>                              
+                       <param name="technical_replicates" type="integer" label="number of technical repeats" argument="tech_rep" value="1"></param>
+                   </when>
+               -->    
+               </conditional>
+           </repeat>
+       </repeat>
+       </section> 
+        <section name="Quality Control / Quality Assurance Plan" title="Quality Control / Quality Assurance Plan">  
+       <repeat name="qc_record_series" title="Quality Control / Quality Assurance Plan">
+           <conditional name="qc_type_conditional">
+               <param name="qc_type" type="select" label="study qc types" argument="--qc_type">
+                   <option value="long term reference">long term reference</option>
+                   <option value="study reference" selected="True">study reference</option>
+                   <option value="reference compound">reference compound</option>
+                   <option value="reference compound mix">reference compound mix</option>
+                   <option value="sample preparation blank">sample preparation blank</option>
+                   <option value="solvent blank">solvent blank</option>
+                   <option value="dilution series reference">dilution series reference</option>
+               </param>
+               <when value="long term reference">
+                   <param name="nb_injection" type="integer" label="number of injections" argument="--nb_inj" value="0"></param>
+                   <param name="injection_freq" type="integer" label="injection frequency" argument="--inj_freq" value="0"></param>
+               </when>
+               <when value="study reference">
+                   <param name="nb_injection" type="integer" label="number of injections" argument="--nb_inj" value="0"></param>
+                   <param name="injection_freq" type="integer" label="injection frequency" argument="--inj_freq"  value="0"></param>                   
+               </when>
+               <when value="reference compound">
+                   <param name="nb_injection" type="integer" label="number of injections" argument="--nb_inj"  value="0"></param>
+                   <param name="injection_freq" type="integer" label="injection frequency" argument="--inj_freq"  value="0"></param>                  
+               </when>
+               <when value="reference compound mix">
+                   <param name="nb_injection" type="integer" label="number of injections" argument="--nb_inj" value="0"></param>
+                   <param name="injection_freq" type="integer" label="injection frequency" argument="--inj_freq"  value="0"></param>                 
+               </when>
+               <when value="sample preparation blank">
+                   <param name="nb_injection" type="integer" label="number of injections" argument="--nb_inj"  value="0"></param>
+                   <param name="injection_freq" type="integer" label="injection frequency" argument="--inj_freq"  value="0"></param>                  
+               </when>
+               <when value="solvent blank">
+                   <param name="nb_injection" type="integer" label="number of injections" argument="--nb_inj"  value="0"></param>
+                   <param name="injection_freq" type="integer" label="injection frequency" argument="--inj_freq"  value="0"></param>                  
+               </when>
+               <when value="dilution series reference">
+                   <param name="nb_injection" type="integer" label="number of injections" argument="--nb_inj"  value="0"></param>
+                   <param name="injection_freq" type="integer" label="injection frequency" argument="--inj_freq"  value="0"></param>
+                   <param name="nb_dil_step" type="integer" label="number of dilution steps" argument="--nb_dil_step"  value="0"></param>
+               </when>
+           </conditional>    
+       </repeat> 
+    </section>   
+    </inputs>
+  
+    <outputs>
+        <data name="i_investigation" format="tsv" />
+        <data name="s_study" format="tsv" />
+        <data name="a_assay" format="tsv" />
+    </outputs>
+
+    <tests>
+        <test>
+            <param  name="study_type" value="intervention" />
+            <output name="i_investigation" value="isa/i_investigation.txt" />
+            <output name="s_study" value="isa/s_study.txt" />
+            <output name="a_assay" value="isa/a_assay.txt" />
+        </test>
+    </tests>
+   
+    <help>
+        **What it does**
+        
+        This tool helps create ISA documents using study design information. Suppose you have a study like this one::
+        
+         A Study looking at the effect of Drugs A and B administered at high and low dose with plasma samples collected at 3 times points, and done in n=5 subjects per treatment groups.
+         The response variables are metabolite profiles measured by LC-MS in positive and negative mode on one instance of thermofisher instrument.
+         
+         Formalization:
+            i. intervention study
+            ii. single intervention
+                a. chemical intervention
+                    independent variable: chemical agent
+                                range of values: [a,b]
+                    independent variable: dose
+                                range of values: [high,low]
+                    independent variable: time
+                                range of values: [t1,t2,t3]
+            iii. study design: 2x2x3 factorial
+            iv. study design: balanced + full factorial
+            v. number of biological replicates: n=5 per study groups
+            vi. specimen collection:
+                specimen type: [plasma]
+                number of collection: 3
+            vii. assay plan:
+                a. technology type: MS
+                b. topology modifiers:
+                    injection method: [LC]
+                    fractions: [polar,non-polar]
+                    data acquisition modes: [negative,positive]
+                    instrument type: ThermoFisher XYZ
+                    instrument instance: 1
+                    technical replicates: 2
+                    number of batches: 1
+                    
+     
+    </help>
+    
+    <citations>
+        <citation type="doi">10.1007/s11306-015-0879-3</citation>    
+    </citations>
+</tool>
