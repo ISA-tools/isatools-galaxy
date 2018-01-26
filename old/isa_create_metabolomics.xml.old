@@ -28,11 +28,12 @@
 
     <inputs>
         <section name="study_overview" title="Study Description">
-            <param name="study_description" area="True" size="5x25" type="text" label="provide a textual description for the study"></param>
-            <param name="study_pi_first_name" type="text" label="PI first name"></param>
-            <param name="study_pi_last_name" type="text" label="PI last name"></param>
-            <param name="study_pi_email" type="text" label="PI email address"></param>
-            <param name="study_pi_affiliation" type="text" label="PI affiliation"></param>
+            <param name="study_title" type="text" label="Study title" value="e.g. Metabolomics study of the effect of ... on ..."></param>
+            <param name="study_description" area="True" size="5x25" type="text" label="provide a textual description for the study" value="e.g. The study of... by means of metabolite profiling using ..."></param>
+            <param name="study_pi_first_name" type="text" label="PI first name" value="e.g. Marie"></param>
+            <param name="study_pi_last_name" type="text" label="PI last name" value="e.g. Sklodowska Curie"></param>
+            <param name="study_pi_email" type="text" label="PI email address" value="e.g. marie.sklodowska-curie@gmail.com"></param>
+            <param name="study_pi_affiliation" type="text" label="PI affiliation" value="e.g  Radium Institute, Paris"></param>
            <!-- <repeat name="protocol_record_series" title="Study Protocols">
                 <param name="protocol_name" type="text" label="Protocol name"></param>
                 <param name="protocol_type" type="select" label="Protocol type">
@@ -100,29 +101,29 @@
                                 <option value="surgical intervention">surgical intervention</option>
                             </param>
                             <when value="chemical intervention">
-                                <param name="agent" type="text" />
-                                <param name="intensity" type="text" />
-                                <param name="duration" type="text" />
+                                <param name="agent" type="text" value="aspirin,ibuprofen,morphine"/>
+                                <param name="intensity" type="text" value="low dose,moderate dose,high dose"/>
+                                <param name="duration" type="text" value="t0,t1,t2" />
                             </when>
                             <when value="behavioural intervention">
-                                <param name="agent" type="text" />
-                                <param name="intensity" type="text" />
-                                <param name="duration" type="text" />
+                                <param name="agent" type="text" value="physical activity,speech therapy"/>
+                                <param name="intensity" type="text" value="low intensity,moderate intensity,high intensity"/>
+                                <param name="duration" type="text" value="t0,t1,t2" />
                             </when>
                             <when value="biological intervention">
-                                <param name="agent" type="text" />
-                                <param name="intensity" type="text" />
-                                <param name="duration" type="text" />
+                                <param name="agent" type="text" value="viral strain a, viral strain b"/>
+                                <param name="intensity" type="text" value="low dose,moderate dose,high dose"/>
+                                <param name="duration" type="text" value="t0,t1,t2" />
                             </when>
                             <when value="surgical intervention">
-                                <param name="agent" type="text" />
-                                <param name="intensity" type="text" />
-                                <param name="duration" type="text" />
+                                <param name="agent" type="text" value="procedure 1,procedure 2"/>
+                                <!--<param name="intensity" type="text" value="low dose,moderate dose,high dose"/>-->
+                                <param name="duration" type="text" value="t0,t1,t2" />
                             </when>
                             <when value="dietary intervention">
-                                <param name="agent" type="text" />
-                                <param name="intensity" type="text" />
-                                <param name="duration" type="text" />
+                                <param name="agent" type="text" value="vitamin supplementation,caloric restriction,food composition variation"/>
+                                <param name="intensity" type="text" value="low,moderate,high"/>
+                                <param name="duration" type="text" value="t0,t1,t2" />
                             </when>
                         </conditional>
                     </when>
@@ -136,24 +137,29 @@
                                     <option value="surgical intervention">surgical intervention</option>
                                 </param>
                                 <when value="chemical intervention">
-                                    <param name="agent" type="text" />
-                                    <param name="intensity" type="text" />
-                                    <param name="duration" type="text" />
+                                    <param name="agent" type="text" value="aspirin,ibuprofen,morphine"/>
+                                    <param name="intensity" type="text" value="low dose,moderate dose,high dose"/>
+                                    <param name="duration" type="text" value="t0,t1,t2" />
                                 </when>
                                 <when value="behavioural intervention">
-                                    <param name="agent" type="text" />
-                                    <param name="intensity" type="text" />
-                                    <param name="duration" type="text" />
+                                    <param name="agent" type="text" value="physical activity,speech therapy"/>
+                                    <param name="intensity" type="text" value="low intensity,moderate intensity,high intensity"/>
+                                    <param name="duration" type="text" value="t0,t1,t2" />
                                 </when>
                                 <when value="biological intervention">
-                                    <param name="agent" type="text" />
-                                    <param name="intensity" type="text" />
-                                    <param name="duration" type="text" />
+                                    <param name="agent" type="text" value="viral strain a, viral strain b"/>
+                                    <param name="intensity" type="text" value="low dose,moderate dose,high dose"/>
+                                    <param name="duration" type="text" value="t0,t1,t2" />
                                 </when>
                                 <when value="surgical intervention">
-                                    <param name="agent" type="text" />
-                                    <param name="intensity" type="text" />
-                                    <param name="duration" type="text" />
+                                    <param name="agent" type="text" value="procedure 1,procedure 2"/>
+                                    <!--<param name="intensity" type="text" value="low dose,moderate dose,high dose"/>-->
+                                    <param name="duration" type="text" value="t0,t1,t2" />
+                                </when>
+                                <when value="dietary intervention">
+                                    <param name="agent" type="text" value="vitamin supplementation,caloric restriction,food composition variation"/>
+                                    <param name="intensity" type="text" value="low,moderate,high"/>
+                                    <param name="duration" type="text" value="t0,t1,t2" />
                                 </when>
                             </conditional>
                         </repeat>
@@ -888,7 +894,7 @@
                                    <option value="HETCOR" />
                                    <option value="other">other</option>
                                </param>
-                               <param name="magnet" type="text" label="nmr magnet power" />
+                               <param name="magnet" type="text" label="nmr magnet power" value="600 Mhz" />
                                <param name="technical_replicates" type="integer" label="number of technical repeats" value="1" />
                            </when>
                        </conditional>
