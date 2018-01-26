@@ -121,7 +121,7 @@
 
       - title: "Define the sample collection and assay plans"
         element: "#field-uid-68 > div.icon-dropdown.fa.fa-caret-down" 
-        intro: "Select either 'mass spectrometry' or 'nmr spectroscopy' from the dropdown list thus setting the technology type for the data acquisition. IMPORTANT: Repeat as many times as necessary in order to define which techniques will be used to characterise any of the sample/specimens collected over the course of the study"
+        intro: "Select either 'mass spectrometry' or 'NMR spectroscopy' from the dropdown list thus setting the technology type for the data acquisition. IMPORTANT: Repeat as many times as necessary in order to define which techniques will be used to characterise any of the sample/specimens collected over the course of the study"
         placement: "right"
         postclick:
           - "#field-uid-68 > div.icon-dropdown.fa.fa-caret-down"  

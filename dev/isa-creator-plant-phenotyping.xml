@@ -72,7 +72,7 @@ echo -e "${study_type_cond.one_or_more.single_or_multiple}"
                  #end if
             #end for
 
-        #elif $a.assay_type_conditional.rad_assay_type == 'nmr spectroscopy' 
+        #elif $a.assay_type_conditional.rad_assay_type == 'NMR spectroscopy'
             echo -e "WHIZZBANG: $a.assay_type_conditional.rad_assay_type" 
             &&         
             echo -e "acquisition: $a.assay_type_conditional.acq_mod_cond.acq_mod"
@@ -327,7 +327,7 @@ isatab.dump(isa_obj=i, output_path='./isa', i_file_name='i_investigation.txt')
                <conditional name="assay_type_conditional">
                    <param name="rad_assay_type" type="select" label="study assay types" argument="--rad_assay_type">
                        <option value="mass spectrometry"  selected="True">mass spectrometry</option>
-                       <option value="nmr spectroscopy">nmr spectroscopy</option>
+                       <option value="NMR spectroscopy">NMR spectroscopy</option>
                     <!--
                        <option value="DNA microarray">DNA microarray</option>
                        <option value="DNA sequencing">DNA sequencing</option>
@@ -432,7 +432,7 @@ isatab.dump(isa_obj=i, output_path='./isa', i_file_name='i_investigation.txt')
                        </repeat>
                    </when>
                    
-                   <when value="nmr spectroscopy">
+                   <when value="NMR spectroscopy">
                        <conditional name="acq_mod_cond">
                            <param name="acq_mod" type="select" label="acquisition method" argument="--acq_mod">
                                <option value="1D 1H NMR"/>

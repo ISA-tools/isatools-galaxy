@@ -214,7 +214,7 @@
                <conditional name="assay_type">
                    <param name="assay_type" type="select" label="study assay types">
                        <option value="mass spectrometry"  selected="True">mass spectrometry</option>
-                       <option value="nmr spectroscopy">nmr spectroscopy</option>
+                       <option value="NMR spectroscopy">NMR spectroscopy</option>
                     <!--
                        <option value="DNA microarray">DNA microarray</option>
                        <option value="DNA sequencing">DNA sequencing</option>
@@ -605,7 +605,7 @@
                        </repeat>
                    </when>
 
-                   <when value="nmr spectroscopy">
+                   <when value="NMR spectroscopy">
                        <conditional name="acq_mod_cond">
                            <param name="acq_mod" type="select" min="1" label="acquisition method">
                                <option value="1D 1H NMR"/>
