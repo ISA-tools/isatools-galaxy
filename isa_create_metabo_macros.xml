@@ -266,8 +266,8 @@
                             <option value="mass spectrometry">
                                 mass spectrometry
                             </option>
-                            <option value="NMR spectroscopy" selected="True">
-                                NMR spectroscopy
+                            <option value="nmr spectroscopy" selected="True">
+                                nmr spectroscopy
                             </option>
                             <!--
                                <option value="DNA microarray">DNA microarray</option>
@@ -726,7 +726,7 @@
                             </repeat>
                         </when>
 
-                        <when value="NMR spectroscopy">
+                        <when value="nmr spectroscopy">
                             <conditional name="acq_mod_cond">
                                 <param name="acq_mod" type="select" min="1"
                                        label="acquisition method">

@@ -13,7 +13,7 @@
                 "technical_replicates": 10,
                 "acq_mod": "1D 1H NMR"
               },
-              "assay_type": "NMR spectroscopy"
+              "assay_type": "nmr spectroscopy"
             }
           }
         ],

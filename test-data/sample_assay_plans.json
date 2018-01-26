@@ -18,7 +18,7 @@
                 ],
                 "injection_modes": []
             },
-            "technology_type": "NMR spectroscopy",
+            "technology_type": "nmr spectroscopy",
             "measurement_type": "metabolite profiling"
         }
     ],
@@ -39,7 +39,7 @@
                     ],
                     "injection_modes": []
                 },
-                "technology_type": "NMR spectroscopy",
+                "technology_type": "nmr spectroscopy",
                 "measurement_type": "metabolite profiling"
             }
         }

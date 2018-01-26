@@ -55,7 +55,7 @@
                 <param name="sample_size" value="1" />
 
                 <repeat name="assay_record_series">
-                    <param name="assay_type" value="NMR spectroscopy" />
+                    <param name="assay_type" value="nmr spectroscopy" />
                     <param name="magnet" value="strong" />
                     <param name="pulse_seq" value="wet" />
                     <param name="nmr_instrument" value="Bruker 500 Mhz" />

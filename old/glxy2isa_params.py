@@ -60,7 +60,7 @@ for sample_plan_params in tool_params[
                 #     'technology_type': tt,
                 #     'measurement_type': 'metabolite profiling'
                 # }
-            elif tt == 'NMR spectroscopy':
+            elif tt == 'nmr spectroscopy':
                 assay_type = {
                     'topology_modifiers': {
                         'technical_replicates': assay_plan_params['assay_type'][
@@ -73,7 +73,7 @@ for sample_plan_params in tool_params[
                         'pulse_sequences': [
                             assay_plan_params['assay_type']['acq_mod_cond']['pulse_seq']]
                     },
-                    'technology_type': 'NMR spectroscopy',
+                    'technology_type': 'nmr spectroscopy',
                     'measurement_type': 'metabolite profiling'
                 }
             else:

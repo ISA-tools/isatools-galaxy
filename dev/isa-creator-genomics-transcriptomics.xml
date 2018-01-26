@@ -72,7 +72,7 @@ echo -e "${study_type_cond.one_or_more.single_or_multiple}"
                  #end if
             #end for
 
-        #elif $a.assay_type_conditional.rad_assay_type == 'NMR spectroscopy'
+        #elif $a.assay_type_conditional.rad_assay_type == 'nmr spectroscopy'
             echo -e "WHIZZBANG: $a.assay_type_conditional.rad_assay_type" 
             &&         
             echo -e "acquisition: $a.assay_type_conditional.acq_mod_cond.acq_mod"
