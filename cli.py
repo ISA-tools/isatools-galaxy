@@ -167,7 +167,7 @@ def map_galaxy_to_isa_create_json(tool_params):
                     #     'technology_type': tt,
                     #     'measurement_type': 'metabolite profiling'
                     # }
-                elif tt == 'nmr spectroscopy':
+                elif tt == 'NMR spectroscopy':
                     assay_type = {
                         'topology_modifiers': {
                             'technical_replicates':
@@ -184,7 +184,7 @@ def map_galaxy_to_isa_create_json(tool_params):
                                 assay_plan_params['assay_type']['acq_mod_cond'][
                                     'pulse_seq']]
                         },
-                        'technology_type': 'nmr spectroscopy',
+                        'technology_type': 'NMR spectroscopy',
                         'measurement_type': 'metabolite profiling'
                     }
                 else:
