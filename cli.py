@@ -141,33 +141,7 @@ def map_galaxy_to_isa_create_json(tool_params):
         if 'assay_record_series' in sample_plan_params.keys():
             for assay_plan_params in sample_plan_params['assay_record_series']:
                 tt = assay_plan_params['assay_type']['assay_type']
-                if tt == 'mass spectrometry':
-                    print(json.dumps(tool_params, indent=4))
-                    try:
-                        chromatography_instruments = [x['inj_mod_cond']['chromato']
-                                                      for x in assay_plan_params[
-                                                          'assay_type'][
-                                                          'inj_mod_series']]
-                    except KeyError:
-                        chromatography_instruments = []
-                    assay_type = {
-                        'topology_modifiers': {
-                            'technical_replicates': 1,
-                            'acquisition_modes': [x['fraction'] for x in
-                                                  assay_plan_params['assay_type'][
-                                                      'samp_frac_series']],
-                            'instruments': [x['inj_mod_cond']['instrument'] for x in
-                                            assay_plan_params['assay_type'][
-                                                'inj_mod_series']],
-                            'injection_modes': [x['inj_mod_cond']['inj_mod'] for x
-                                                in assay_plan_params['assay_type'][
-                                                    'inj_mod_series']],
-                            'chromatography_instruments': chromatography_instruments
-                        },
-                        'technology_type': tt,
-                        'measurement_type': 'metabolite profiling'
-                    }
-                elif tt == 'nmr spectroscopy':
+                if tt == 'nmr spectroscopy':
                     assay_type = {
                         'topology_modifiers': {
                             'technical_replicates':
@@ -187,15 +161,47 @@ def map_galaxy_to_isa_create_json(tool_params):
                         'technology_type': 'nmr spectroscopy',
                         'measurement_type': 'metabolite profiling'
                     }
+                    assay_plan = {
+                        "sample_type": sample_plan['sample_type'],
+                        "assay_type": assay_type
+                    }
+                    sample_and_assay_plans['assay_types'].append(assay_type)
+                    sample_and_assay_plans['assay_plan'].append(assay_plan)
+                elif tt == 'mass spectrometry':
+                    if len(assay_plan_params['assay_type']['samp_frac_series']) > 0:
+                        raise NotImplementedError('Sample fractions not supported')
+                    if len(assay_plan_params['assay_type']['inj_mod_series']) > 0:
+                        for inj_mod in assay_plan_params['assay_type']['inj_mod_series']:
+                            for acq_mod in inj_mod['inj_mod_cond']['acq_mod_series']:
+                                try:
+                                    chromato = inj_mod['chromato']
+                                except KeyError:
+                                    chromato = None
+                                try:
+                                    chromato_col = inj_mod['chromato_col']
+                                except KeyError:
+                                    chromato_col = None
+                                if chromato_col:
+                                    print('Chromatograpy column not yet supported; ignoring in serialization')
+                                assay_type = {
+                                    'topology_modifiers': {
+                                        'technical_replicates': acq_mod['technical_replicates'],
+                                        'acquisition_modes': [acq_mod['acq_mod']],
+                                        'instruments': [inj_mod['inj_mod_cond']['instrument']],
+                                        'injection_modes': [inj_mod['inj_mod_cond']['inj_mod']],
+                                        'chromatography_instruments': [chromato] if chromato else []
+                                    },
+                                    'technology_type': tt,
+                                    'measurement_type': 'metabolite profiling'
+                                }
+                                assay_plan = {
+                                    "sample_type": sample_plan['sample_type'],
+                                    "assay_type": assay_type
+                                }
+                                sample_and_assay_plans['assay_types'].append(assay_type)
+                                sample_and_assay_plans['assay_plan'].append(assay_plan)
                 else:
-                    raise NotImplementedError(
-                        'Only NMR and MS assays supported')
-                assay_plan = {
-                    "sample_type": sample_plan['sample_type'],
-                    "assay_type": assay_type
-                }
-                sample_and_assay_plans['assay_types'].append(assay_type)
-                sample_and_assay_plans['assay_plan'].append(assay_plan)
+                    raise NotImplementedError('Only NMR and MS assays supported')
         for qc_plan_params in tool_params['qc_plan']['qc_record_series']:
             if 'dilution' in qc_plan_params['qc_type_conditional']['qc_type']:
                 raise NotImplementedError('Dilution series not yet implemented')
