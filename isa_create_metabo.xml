@@ -19,7 +19,8 @@
         $__tool_directory__/cli.py
 
         --galaxy_parameters_file="$inputs"
-        --target_dir="./"
+        --target_dir="./";
+        ls ./
         ]]>
     </command>
 
@@ -35,6 +36,9 @@
     </inputs>
 
     <outputs>
+        <collection type="list" label="Raw files" name="raw_files">
+            <discover_datasets pattern="(?P&lt;designation&gt;.+)\.zip" format="zip" />
+        </collection>
         <collection type="list" label="A files" name="a_files">
             <discover_datasets pattern="(?P&lt;designation&gt;a_.+)\.txt" format="tsv" />
         </collection>

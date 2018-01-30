@@ -3,6 +3,7 @@
 import click
 import io
 import json
+import os
 
 from isatools import isatab
 from isatools.create.models import (
@@ -141,32 +142,31 @@ def map_galaxy_to_isa_create_json(tool_params):
             for assay_plan_params in sample_plan_params['assay_record_series']:
                 tt = assay_plan_params['assay_type']['assay_type']
                 if tt == 'mass spectrometry':
-                    raise NotImplementedError(
-                        'MS assays not yet supported, try NMR first')
-                    # try:
-                    #     chromatography_instruments = [x['inj_mod_cond']['chromato']
-                    #                                   for x in assay_plan_params[
-                    #                                       'assay_type'][
-                    #                                       'inj_mod_series']]
-                    # except KeyError:
-                    #     chromatography_instruments = []
-                    # assay_type = {
-                    #     'topology_modifiers': {
-                    #         'technical_replicates': 1,
-                    #         'acquisition_modes': [x['fraction'] for x in
-                    #                               assay_plan_params['assay_type'][
-                    #                                   'samp_frac_series']],
-                    #         'instruments': [x['inj_mod_cond']['instrument'] for x in
-                    #                         assay_plan_params['assay_type'][
-                    #                             'inj_mod_series']],
-                    #         'injection_modes': [x['inj_mod_cond']['inj_mod'] for x
-                    #                             in assay_plan_params['assay_type'][
-                    #                                 'inj_mod_series']],
-                    #         'chromatography_instruments': chromatography_instruments
-                    #     },
-                    #     'technology_type': tt,
-                    #     'measurement_type': 'metabolite profiling'
-                    # }
+                    print(json.dumps(tool_params, indent=4))
+                    try:
+                        chromatography_instruments = [x['inj_mod_cond']['chromato']
+                                                      for x in assay_plan_params[
+                                                          'assay_type'][
+                                                          'inj_mod_series']]
+                    except KeyError:
+                        chromatography_instruments = []
+                    assay_type = {
+                        'topology_modifiers': {
+                            'technical_replicates': 1,
+                            'acquisition_modes': [x['fraction'] for x in
+                                                  assay_plan_params['assay_type'][
+                                                      'samp_frac_series']],
+                            'instruments': [x['inj_mod_cond']['instrument'] for x in
+                                            assay_plan_params['assay_type'][
+                                                'inj_mod_series']],
+                            'injection_modes': [x['inj_mod_cond']['inj_mod'] for x
+                                                in assay_plan_params['assay_type'][
+                                                    'inj_mod_series']],
+                            'chromatography_instruments': chromatography_instruments
+                        },
+                        'technology_type': tt,
+                        'measurement_type': 'metabolite profiling'
+                    }
                 elif tt == 'nmr spectroscopy':
                     assay_type = {
                         'topology_modifiers': {
@@ -296,6 +296,11 @@ def create_from_plan_parameters(
     i.studies = [s]
     isatab.dump(isa_obj=i, output_path=target_dir,
                 i_file_name='i_investigation.txt')
+
+    for assay in s.assays:
+        for data_file in assay.data_files:
+            with open(data_file.filename, 'a'):
+                os.utime(data_file.filename, None)
 
 
 if __name__ == '__main__':
