@@ -263,10 +263,10 @@
                     <conditional name="assay_type">
                         <param name="assay_type" type="select"
                                label="study assay types">
-                            <option value="mass spectrometry">
+                            <option value="mass spectrometry" selected="True">
                                 mass spectrometry
                             </option>
-                            <option value="nmr spectroscopy" selected="True">
+                            <option value="nmr spectroscopy">
                                 nmr spectroscopy
                             </option>
                             <!--

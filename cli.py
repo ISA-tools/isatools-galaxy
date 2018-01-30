@@ -305,9 +305,3 @@ def create_from_plan_parameters(
 
 if __name__ == '__main__':
     create_from_plan_parameters()
-    # try:
-    #     create_from_plan_parameters()
-    # except Exception as e:
-    #     logger = logging.getLogger()
-    #     logger.fatal(e)
-    #     sys.exit(e.code if hasattr(e, 'code') else 99)

@@ -7,7 +7,7 @@
 
     <requirements>
         <requirement type="package" version="6.7">click</requirement>
-        <requirement type="package" version="0.9.3">isatools</requirement>
+        <requirement type="package" version="0.9.4">isatools</requirement>
     </requirements>
 
     <stdio>
@@ -19,8 +19,7 @@
         $__tool_directory__/cli.py
 
         --galaxy_parameters_file="$inputs"
-        --target_dir="./";
-        ls ./
+        --target_dir="./"
         ]]>
     </command>
 
@@ -36,8 +35,8 @@
     </inputs>
 
     <outputs>
-        <collection type="list" label="Raw files" name="raw_files">
-            <discover_datasets pattern="(?P&lt;designation&gt;.+)\.zip" format="zip" />
+        <collection type="list" label="Data files" name="raw_files">
+            <discover_datasets pattern="(?P&lt;designation&gt;.+)\.(zip|mzml.gz)" />
         </collection>
         <collection type="list" label="A files" name="a_files">
             <discover_datasets pattern="(?P&lt;designation&gt;a_.+)\.txt" format="tsv" />
