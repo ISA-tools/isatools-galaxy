@@ -47,7 +47,7 @@
         <collection type="list" label="All text files" name="all_files">
             <discover_datasets pattern="(?P&lt;designation&gt;.+)\.txt" format="tabular"/>
         </collection>
-        <!--<data format="isa-tab" name="output" label="New ISA-Tab"/>-->
+        <data format="zip" name="output" label="New ISA-Tab"/>
     </outputs>
 
     <tests>
