@@ -100,22 +100,7 @@
                 <param name="injection_freq" value="1" />
             </repeat>
 
-
-            <!--<output name="i_investigation" value="i_investigation.txt" />-->
-            <!--<output name="s_study" value="s_study.txt" compare="sim_size" />-->
-            <!-- Not checking A files because of nested repeat problem above -->
-            <!--<output_collection name="a_files" type="list" count="2">-->
-                <!--<element name="a_blood_ms_LC_positive_assay">-->
-                    <!--<assert_contents>-->
-                        <!--<has_n_columns n="77" />-->
-                    <!--</assert_contents>-->
-                <!--</element>-->
-                <!--<element name="a_blood_ms_LC_negative_assay">-->
-                    <!--<assert_contents>-->
-                        <!--<has_n_columns n="77" />-->
-                    <!--</assert_contents>-->
-                <!--</element>-->
-            <!--</output_collection>-->
+            <output_collection name="all_files" type="list" count="2"/>
         </test>
 </tests>
 
