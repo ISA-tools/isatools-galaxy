@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Commandline interface for running ISA API create mode"""
 import click
+import datetime
 import io
 import json
 import os
+import uuid
 
 from isatools import isatab
 from isatools.create.models import (
@@ -26,7 +28,6 @@ def map_galaxy_to_isa_create_json(tool_params):
         "assay_types": [],
         "assay_plan": []
     }
-    print(json.dumps(tool_params, indent=4))
     for sample_plan_params in tool_params[
         'sampling_and_assay_plans']['sample_record_series']:
         sample_plan = {
@@ -195,8 +196,6 @@ def create_from_plan_parameters(
     s.contacts = [contact]
     s.description = study_info['study_description']
     s.filename = 's_study.txt'
-    import datetime
-    import uuid
     s.title = 'ISA created {}'.format(datetime.datetime.now().isoformat())
     s.identifier = 'ISA-{}'.format(uuid.uuid4().hex[:8])
 
