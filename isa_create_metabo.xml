@@ -21,8 +21,7 @@
 
         --galaxy_parameters_file='$inputs'
         --target_dir='./' &&
-        ln -s `pwd` '${output.files_path}' &&
-        tree
+        ln -s `pwd` '${output.files_path}'
         ]]>
     </command>
 
