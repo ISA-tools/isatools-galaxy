@@ -7,7 +7,7 @@
 
     <requirements>
         <requirement type="package" version="6.7">click</requirement>
-        <requirement type="package" version="0.9.4">isatools</requirement>
+        <!--<requirement type="package" version="0.9.4">isatools</requirement>-->
     </requirements>
 
     <stdio>
@@ -16,6 +16,7 @@
 
     <command>
         <![CDATA[
+        pip install -e /Users/dj/Development/ISA/isa-api/ &&
         mkdir '${output.files_path}' &&
         $__tool_directory__/cli.py
 
@@ -51,55 +52,8 @@
 
     <tests>
         <test>
-
-            <!-- FIXME: Is supposed to produce same as in test-data/galaxy_inputs.json, but it doesn't
-                Do nested <repeat> tags in tests work?? -->
-
-            <!-- in sample_record_series -->
-            <repeat name="sample_record_series">
-                <param name="sample_type" value="plasma" />
-                <param name="sample_size" value="1" />
-
-                <repeat name="assay_record_series">
-                    <param name="assay_type" value="nmr spectroscopy" />
-                    <param name="magnet" value="strong" />
-                    <param name="pulse_seq" value="wet" />
-                    <param name="nmr_instrument" value="Bruker 500 Mhz" />
-                    <param name="technical_replicates" value="10" />
-                    <param name="acq_mod" value="1D 1H NMR" />
-                </repeat>
-            </repeat>
-
-            <!-- in study overview -->
-            <param name="study_pi_affiliation" value="affiliation" />
-            <param name="study_description" value="description" />
-            <param name="study_pi_last_name" value="last name" />
-            <param name="study_pi_email" value="email address" />
-            <param name="study_pi_first_name" value="first name" />
-
-            <!-- in treatment_plan -->
-            <param name="study_group_size" value="3" />
-            <param name="study_type" value="intervention" />
-            <param name="single_or_multiple" value="single" />
-            <param name="select_intervention_type" value="chemical intervention" />
-            <param name="duration" value="long, short" />
-            <param name="intensity" value="intensity1, intensity2" />
-            <param name="agent" value="agent1, agent2" />
-
-            <!-- in qc_plan -->
-            <repeat name="qc_record_series">
-                <param name="qc_type" value="study reference" />
-                <param name="nb_injection" value="10" />
-                <param name="injection_freq" value="5" />
-            </repeat>
-            <repeat name="qc_record_series">
-                <param name="qc_type" value="dilution series reference" />
-                <param name="nb_dil_step" value="10" />
-                <param name="nb_injection" value="10" />
-                <param name="injection_freq" value="1" />
-            </repeat>
-
-            <output_collection name="all_files" type="list" count="2"/>
+            <param name="inputs" value="test-data/galaxy_inputs.json"/>
+            <output_collection name="isa_files" type="list" count="2"/>
         </test>
 </tests>
 

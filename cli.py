@@ -14,142 +14,108 @@ from isatools.create.models import (
     BASE_FACTORS,
     TreatmentFactory,
     IsaModelObjectFactory,
-    SampleAssayPlanDecoder
+    AssayType,
+    MSTopologyModifiers,
+    MSInjectionMode,
+    MSAcquisitionMode,
+    SampleAssayPlan,
+    ISAModelAttributeError
 )
 from isatools.model import Investigation, Person
 
 
-def map_galaxy_to_isa_create_json(tool_params):
-    sample_and_assay_plans = {
-        "sample_types": [],
-        "group_size": 1,
-        "sample_plan": [],
-        "sample_qc_plan": [],
-        "assay_types": [],
-        "assay_plan": []
-    }
-    for sample_plan_params in tool_params[
-        'sampling_and_assay_plans']['sample_record_series']:
-        sample_plan = {
-            'sample_type': sample_plan_params['sample_type']['sample_type']
-            if not sample_plan_params['sample_type']['sample_type'] == 'user_defined'
-            else sample_plan_params['sample_type']['sample_type_ud'],
-            'sampling_size': sample_plan_params['sample_size']
-        }
-        sample_and_assay_plans['sample_types'].append(
-            sample_plan['sample_type'])
-        sample_and_assay_plans['sample_plan'].append(sample_plan)
-
+def map_galaxy_to_isa_create(tool_params):
+    print(json.dumps(tool_params, indent=4))
+    sample_assay_plan = SampleAssayPlan()
+    for sample_plan_params in tool_params['sampling_and_assay_plans'][
+            'sample_record_series']:
+        sample_type = sample_plan_params['sample_type']['sample_type'] if not sample_plan_params['sample_type']['sample_type'] == 'user_defined' else sample_plan_params['sample_type']['sample_type_ud']
+        sample_assay_plan.add_sample_type(sample_type)
+        sample_size = sample_plan_params['sample_size']
+        sample_assay_plan.group_size = sample_size
+        sample_assay_plan.add_sample_plan_record(sample_type, sample_size)
         if 'assay_record_series' in sample_plan_params.keys():
             for assay_plan_params in sample_plan_params['assay_record_series']:
                 tt = assay_plan_params['assay_type']['assay_type']
                 if tt == 'nmr spectroscopy':
-                    assay_type = {
-                        'topology_modifiers': {
-                            'technical_replicates':
-                                assay_plan_params['assay_type'][
-                                    'acq_mod_cond']['technical_replicates'],
-                            'acquisition_modes': [
-                                assay_plan_params['assay_type']['acq_mod_cond'][
-                                    'acq_mod']],
-                            'instruments': [
-                                assay_plan_params['assay_type']['acq_mod_cond'][
-                                    'nmr_instrument']],
-                            'injection_modes': [],
-                            'pulse_sequences': [
-                                assay_plan_params['assay_type']['acq_mod_cond'][
-                                    'pulse_seq']]
-                        },
-                        'technology_type': 'nmr spectroscopy',
-                        'measurement_type': 'metabolite profiling'
-                    }
-                    assay_plan = {
-                        "sample_type": sample_plan['sample_type'],
-                        "assay_type": assay_type
-                    }
-                    sample_and_assay_plans['assay_types'].append(assay_type)
-                    sample_and_assay_plans['assay_plan'].append(assay_plan)
+                    raise NotImplementedError('NMR not implemented')
+                    # nmr_assay_type = AssayType(
+                    #     measurement_type='metabolite profiling',
+                    #     technology_type='nmr spectroscopy')
+                    # assay_type = {
+                    #     'topology_modifiers': {
+                    #         'technical_replicates':
+                    #             assay_plan_params['assay_type'][
+                    #                 'acq_mod_cond']['technical_replicates'],
+                    #         'acquisition_modes': [
+                    #             assay_plan_params['assay_type']['acq_mod_cond'][
+                    #                 'acq_mod']],
+                    #         'instruments': [
+                    #             assay_plan_params['assay_type']['acq_mod_cond'][
+                    #                 'nmr_instrument']],
+                    #         'injection_modes': [],
+                    #         'pulse_sequences': [
+                    #             assay_plan_params['assay_type']['acq_mod_cond'][
+                    #                 'pulse_seq']]
+                    #     },
+                    #     'technology_type': 'nmr spectroscopy',
+                    #     'measurement_type': 'metabolite profiling'
+                    # }
+                    # assay_plan = {
+                    #     "sample_type": sample_plan['sample_type'],
+                    #     "assay_type": assay_type
+                    # }
+                    # sample_and_assay_plans['assay_types'].append(assay_type)
+                    # sample_and_assay_plans['assay_plan'].append(assay_plan)
                 elif tt == 'mass spectrometry':
-                    if len(assay_plan_params['assay_type']['samp_frac_series']) > 0:
-                        raise NotImplementedError('Sample fractions not supported')
+                    ms_assay_type = AssayType(
+                        measurement_type='metabolite profiling',
+                        technology_type='mass spectrometry')
+                    ms_assay_type.topology_modifiers = MSTopologyModifiers(
+                        sample_fractions=set(map(lambda x: x['fraction'], assay_plan_params['assay_type']['samp_frac_series']))
+                    )
+                    injection_modes = ms_assay_type.topology_modifiers.injection_modes
                     if len(assay_plan_params['assay_type']['inj_mod_series']) > 0:
                         for inj_mod in assay_plan_params['assay_type']['inj_mod_series']:
+                            injection_mode = MSInjectionMode(
+                                injection_mode=inj_mod['inj_mod_cond']['inj_mod'],
+                                ms_instrument=inj_mod['inj_mod_cond']['instrument']
+                            )
+                            injection_modes.add(injection_mode)
                             for acq_mod in inj_mod['inj_mod_cond']['acq_mod_series']:
-                                try:
-                                    chromato = inj_mod['chromato']
-                                except KeyError:
-                                    chromato = None
-                                try:
-                                    chromato_col = inj_mod['chromato_col']
-                                except KeyError:
-                                    chromato_col = None
-                                if chromato_col:
-                                    print('Chromatograpy column not yet supported; ignoring in serialization')
-                                assay_type = {
-                                    'topology_modifiers': {
-                                        'technical_replicates': acq_mod['technical_replicates'],
-                                        'acquisition_modes': [acq_mod['acq_mod']],
-                                        'instruments': [inj_mod['inj_mod_cond']['instrument']],
-                                        'injection_modes': [inj_mod['inj_mod_cond']['inj_mod']],
-                                        'chromatography_instruments': [chromato] if chromato else []
-                                    },
-                                    'technology_type': tt,
-                                    'measurement_type': 'metabolite profiling'
-                                }
-                                assay_plan = {
-                                    "sample_type": sample_plan['sample_type'],
-                                    "assay_type": assay_type
-                                }
-                                sample_and_assay_plans['assay_types'].append(assay_type)
-                                sample_and_assay_plans['assay_plan'].append(assay_plan)
+                                injection_mode.acquisition_modes.add(
+                                    MSAcquisitionMode(
+                                        acquisition_method=acq_mod['acq_mod'],
+                                        technical_repeats=acq_mod['technical_replicates']
+                                    )
+                                )
+                    sample_assay_plan.add_assay_type(ms_assay_type)
+                    sample_assay_plan.add_assay_plan_record(sample_type, ms_assay_type)
                 else:
-                    raise NotImplementedError('Only NMR and MS assays supported')
+                    raise NotImplementedError('Only MS assays supported')
         for qc_plan_params in tool_params['qc_plan']['qc_record_series']:
             if 'dilution' in qc_plan_params['qc_type_conditional']['qc_type']:
                 raise NotImplementedError('Dilution series not yet implemented')
             else:
-                qc_plan = {
-                    'sample_type': qc_plan_params['qc_type_conditional'][
-                        'qc_type'],
-                    'injection_interval': qc_plan_params['qc_type_conditional'][
-                        'injection_freq']
-                }
-            sample_and_assay_plans['sample_qc_plan'].append(qc_plan)
-    sample_and_assay_plans['group_size'] = tool_params['treatment_plan'][
-        'study_group_size']
-
-    return sample_and_assay_plans, tool_params['study_overview'], \
-            tool_params['treatment_plan']
+                sample_assay_plan.add_sample_qc_plan_record(
+                    material_type=qc_plan_params['qc_type_conditional']['qc_type'],
+                    injection_interval=qc_plan_params['qc_type_conditional']['injection_freq']
+                )
+    sample_assay_plan.group_size = tool_params['treatment_plan']['study_group_size']
+    return sample_assay_plan, tool_params['study_overview'], tool_params['treatment_plan']
 
 
 @click.command()
 @click.option('--galaxy_parameters_file',
               help='Path to JSON file containing input Galaxy JSON',
               type=click.File('r'))
-@click.option('--sample_assay_plans_file',
-              help='Path to JSON file containing input Sample Assay Plan JSON',
-              type=click.File('r'))
-@click.option('--study_info_file',
-              help='Path to JSON file containing input study overview',
-              type=click.File('r'))
-@click.option('--treatment_plans_file',
-              help='Path to JSON file containing treatment plan info',
-              type=click.File('r'))
 @click.option('--target_dir', help='Output path to write', nargs=1,
               type=click.Path(exists=True), default='./')
-def create_from_plan_parameters(
-        galaxy_parameters_file, sample_assay_plans_file, study_info_file,
-        treatment_plans_file, target_dir):
-    decoder = SampleAssayPlanDecoder()
+def create_from_plan_parameters(galaxy_parameters_file, target_dir):
     if galaxy_parameters_file:
         galaxy_parameters = json.load(galaxy_parameters_file)
-        sample_and_assay_plans, study_info, treatment_plan_params = \
-            map_galaxy_to_isa_create_json(galaxy_parameters)
-        plan = decoder.load(io.StringIO(json.dumps(sample_and_assay_plans)))
-    elif sample_assay_plans_file and study_info_file and treatment_plans_file:
-        plan = decoder.load(sample_assay_plans_file)
-        study_info = json.load(study_info_file)
-        treatment_plan_params = json.load(treatment_plans_file)
+        plan, study_info, treatment_plan_params = \
+            map_galaxy_to_isa_create(galaxy_parameters)
     else:
         raise IOError('Wrong parameters provided')
 
@@ -186,6 +152,10 @@ def create_from_plan_parameters(
                                            duration_of_exposure_level.strip())
     treatment_sequence = TreatmentSequence(
         ranked_treatments=treatment_factory.compute_full_factorial_design())
+    if len(plan.sample_plan) == 0:
+        raise RuntimeError('No sample plan defined')
+    if len(plan.assay_plan) == 0:
+        raise RuntimeError('No assay plan defined')
     isa_object_factory = IsaModelObjectFactory(plan, treatment_sequence)
     s = isa_object_factory.create_assays_from_plan()
     contact = Person()

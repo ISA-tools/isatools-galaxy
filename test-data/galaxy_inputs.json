@@ -1,60 +1,68 @@
 {
-  "sampling_and_assay_plans": {
-    "sample_record_series": [
-      {
-        "sample_size": 1,
-        "assay_record_series": [
-          {
-            "assay_type": {
-              "acq_mod_cond": {
-                "magnet": "strong",
-                "pulse_seq": "wet",
-                "nmr_instrument": "Bruker 500 Mhz",
-                "technical_replicates": 10,
-                "acq_mod": "1D 1H NMR"
-              },
-              "assay_type": "nmr spectroscopy"
+    "sampling_and_assay_plans": {
+        "sample_record_series": [
+            {
+                "sample_size": 1,
+                "assay_record_series": [
+                    {
+                        "assay_type": {
+                            "samp_frac_series": [
+                                {
+                                    "fraction": "non-polar"
+                                },
+                                {
+                                    "fraction": "polar"
+                                }
+                            ],
+                            "inj_mod_series": [
+                                {
+                                    "inj_mod_cond": {
+                                        "instrument": "AB SCIEX API 4000",
+                                        "inj_mod": "DI",
+                                        "acq_mod_series": [
+                                            {
+                                                "technical_replicates": 1,
+                                                "acq_mod": "negative"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ],
+                            "assay_type": "mass spectrometry"
+                        }
+                    }
+                ],
+                "sample_type": {
+                    "sample_type": "plasma"
+                }
             }
-          }
-        ],
-        "sample_type": {
-          "sample_type": "plasma"
-        }
-      }
-    ]
-  },
-  "study_overview": {
-    "study_pi_affiliation": "affiliation",
-    "study_description": "description",
-    "study_pi_last_name": "last name",
-    "study_pi_email": "email address",
-    "study_pi_first_name": "first name"
-  },
-  "treatment_plan": {
-    "study_group_size": 3,
-    "study_type_cond": {
-      "study_type": "intervention",
-      "one_or_more": {
-        "single_or_multiple": "single",
-        "intervention_type": {
-          "duration": "long, short",
-          "intensity": "intensity1, intensity2",
-          "select_intervention_type": "chemical intervention",
-          "agent": "agent1, agent2"
-        }
-      }
+        ]
     },
-    "group_balanced": "balanced"
-  },
-  "qc_plan": {
-    "qc_record_series": [
-      {
-        "qc_type_conditional": {
-          "qc_type": "study reference",
-          "nb_injection": 10,
-          "injection_freq": 5
-        }
-      }
-    ]
-  }
+    "study_overview": {
+        "study_description": "e.g. The study of... by means of metabolite profiling using ...",
+        "study_pi_last_name": "e.g. Sklodowska Curie",
+        "study_pi_affiliation": "e.g  Radium Institute, Paris",
+        "study_pi_first_name": "e.g. Marie",
+        "study_title": "e.g. Metabolomics study of the effect of ... on ...",
+        "study_pi_email": "e.g. marie.sklodowska-curie__at__gmail.com"
+    },
+    "treatment_plan": {
+        "study_group_size": 3,
+        "study_type_cond": {
+            "study_type": "intervention",
+            "one_or_more": {
+                "single_or_multiple": "single",
+                "intervention_type": {
+                    "duration": "t0,t1,t2",
+                    "intensity": "low dose,moderate dose,high dose",
+                    "select_intervention_type": "chemical intervention",
+                    "agent": "aspirin,ibuprofen,morphine"
+                }
+            }
+        },
+        "group_balanced": "balanced"
+    },
+    "qc_plan": {
+        "qc_record_series": []
+    }
 }
