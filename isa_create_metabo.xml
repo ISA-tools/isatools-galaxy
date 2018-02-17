@@ -16,7 +16,7 @@
 
     <command>
         <![CDATA[
-        pip install -e /Users/dj/Development/ISA/isa-api/ &&
+        pip install -e git+https://github.com/ISA-tools/isa-api.git@feat/metabo_create_model &&
         mkdir '${output.files_path}' &&
         $__tool_directory__/cli.py
 
