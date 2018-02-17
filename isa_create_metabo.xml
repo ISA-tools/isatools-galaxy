@@ -53,7 +53,7 @@
     <tests>
         <test>
             <param name="inputs" value="test-data/galaxy_inputs.json"/>
-            <output_collection name="isa_files" type="list" count="2"/>
+            <output_collection name="isa_files" type="list" count="0"/>
         </test>
 </tests>
 

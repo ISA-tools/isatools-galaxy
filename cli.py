@@ -114,6 +114,7 @@ def map_galaxy_to_isa_create(tool_params):
 def create_from_plan_parameters(galaxy_parameters_file, target_dir):
     if galaxy_parameters_file:
         galaxy_parameters = json.load(galaxy_parameters_file)
+        print('GALAXY PARAMS: ', galaxy_parameters)
         plan, study_info, treatment_plan_params = \
             map_galaxy_to_isa_create(galaxy_parameters)
     else:
