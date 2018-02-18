@@ -19,7 +19,7 @@ from isatools.create.models import (
     MSInjectionMode,
     MSAcquisitionMode,
     SampleAssayPlan,
-    ISAModelAttributeError
+    Study
 )
 from isatools.model import Investigation, Person
 
@@ -108,13 +108,13 @@ def map_galaxy_to_isa_create(tool_params):
 @click.command()
 @click.option('--galaxy_parameters_file',
               help='Path to JSON file containing input Galaxy JSON',
-              type=click.File('r'))
+              type=click.File())
 @click.option('--target_dir', help='Output path to write', nargs=1,
               type=click.Path(exists=True), default='./')
 def create_from_plan_parameters(galaxy_parameters_file, target_dir):
     if galaxy_parameters_file:
         galaxy_parameters = json.load(galaxy_parameters_file)
-        print('GALAXY PARAMS: ', galaxy_parameters)
+        print(json.dumps(galaxy_parameters, indent=4))
         plan, study_info, treatment_plan_params = \
             map_galaxy_to_isa_create(galaxy_parameters)
     else:
@@ -154,11 +154,14 @@ def create_from_plan_parameters(galaxy_parameters_file, target_dir):
     treatment_sequence = TreatmentSequence(
         ranked_treatments=treatment_factory.compute_full_factorial_design())
     if len(plan.sample_plan) == 0:
-        raise RuntimeError('No sample plan defined')
+        print('No sample plan defined')
     if len(plan.assay_plan) == 0:
-        raise RuntimeError('No assay plan defined')
+        print('No assay plan defined')
     isa_object_factory = IsaModelObjectFactory(plan, treatment_sequence)
-    s = isa_object_factory.create_assays_from_plan()
+    if len(plan.sample_plan) == 0:
+        s = Study()
+    else:
+        s = isa_object_factory.create_assays_from_plan()
     contact = Person()
     contact.affiliation = study_info['study_pi_affiliation']
     contact.last_name = study_info['study_pi_last_name']
