@@ -12,8 +12,8 @@ install:
  - pip install planemo==$PLANEMO_RELEASE
 
 script:
- - planemo lint ${TRAVIS_BUILD_DIR}/isa_create_metabo.xml
- - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_branch $GALAXY_RELEASE --no_cache_galaxy ${TRAVIS_BUILD_DIR}/isa_create_metabo.xml
+ - planemo lint ${TRAVIS_BUILD_DIR}/tools/isa_create_metabo/isa_create_metabo.xml
+ - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_branch $GALAXY_RELEASE --no_cache_galaxy ${TRAVIS_BUILD_DIR}/tools/isa_create_metabo/isa_create_metabo.xml
 
 branches:
   only:

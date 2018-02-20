@@ -16,7 +16,7 @@
 
     <command>
         <![CDATA[
-        pip install git+git://github.com/ISA-tools/isa-api.git@feat/metabo_create_model#egg=isatools &&
+        pip install -e /Users/dj/Development/ISA/isa-api/ &&
         mkdir '${output.files_path}' &&
         $__tool_directory__/cli.py
 
@@ -42,10 +42,10 @@
             <discover_datasets pattern="(?P&lt;designation&gt;.+)\.(zip|mzml.gz)"/>
         </collection>
         <collection type="list" label="ISA files" name="isa_files">
-            <discover_datasets pattern="(?P&lt;designation&gt;(i|s|a)_.+)\.txt" format="tabular"/>
+            <discover_datasets pattern="(?P&lt;designation&gt;(i|s|a)_.+)\.txt" format="tsv"/>
         </collection>
         <collection type="list" label="All text files" name="all_files">
-            <discover_datasets pattern="(?P&lt;designation&gt;.+)\.txt" format="tabular"/>
+            <discover_datasets pattern="(?P&lt;designation&gt;.+)\.txt" format="tsv"/>
         </collection>
         <data format="zip" name="output" label="New ISA-Tab"/>
     </outputs>
@@ -54,7 +54,7 @@
         <test>
             <output_collection name="isa_files" type="list" count="1"/>
         </test>
-</tests>
+    </tests>
 
     <help>
         **What it does**
