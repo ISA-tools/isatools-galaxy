@@ -23,7 +23,7 @@
     <tests>
         <test>
             <param name="mtbls_id" value="MTBLS1"/>
-            <output name="output" file="mtbls1_factors_out.json" compare="contains"/>
+            <output name="output" file="mtbls1_factors_out.json" compare="sim_size"/>
         </test>
     </tests>
 

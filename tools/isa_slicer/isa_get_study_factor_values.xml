@@ -11,7 +11,7 @@
         <exit_code range="1:" level="fatal"/>
     </stdio>
     <command><![CDATA[
-        $__tool_directory__/run_mtblisa.py get-factor-values "${mtbls_id}" "${output}" "${factor}"
+        $__tool_directory__/run_mtblisa.py get-factor-values "${mtbls_id}" "${factor}" "${output}"
 ]]>
     </command>
     <inputs>
@@ -30,7 +30,7 @@
         <test>
             <param name="mtbls_id" value="MTBLS1"/>
             <param name="factor" value="Gender"/>
-            <output name="output" file="mtbls1_factor_values_out.json" compare="contains"/>
+            <output name="output" file="mtbls1_factor_values_out.json" compare="sim_size"/>
         </test>
     </tests>
 

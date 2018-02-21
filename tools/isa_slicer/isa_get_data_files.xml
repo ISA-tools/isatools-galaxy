@@ -31,9 +31,9 @@
     <tests>
         <test>
             <param name="mtbls_id" value="MTBLS1"/>
-            <param name="factor_name" value="genotype"/>
-            <param name="factor_value" value="cyp79"/>
-            <output name="output" file="mtbls1_sliced_data_files_out.json" compare="contains"/>
+            <param name="factor_name" value="Gender"/>
+            <param name="factor_value" value="Female"/>
+            <output name="output" file="mtbls1_sliced_data_files_out.json" compare="sim_size"/>
         </test>
     </tests>
 

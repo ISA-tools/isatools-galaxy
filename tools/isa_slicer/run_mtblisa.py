@@ -157,7 +157,7 @@ def get_factors_command(options):
     logger.info("Getting factors for study %s. Writing to %s.",
                 options.study_id, options.output.name)
     factor_names = MTBLS.get_factor_names(options.study_id)
-
+    print('FNs: ', list(factor_names))
     if factor_names is not None:
         json.dump(list(factor_names), options.output, indent=4)
         logger.debug("Factor names written")
@@ -166,13 +166,14 @@ def get_factors_command(options):
 
 def get_factor_values_command(options):
     import json
-    logger.info("Getting values for factor %s in study %s. Writing to %s.",
-                options.factor, options.study_id, options.output.name)
+    logger.info("Getting values for factor {factor} in study {study_id}. Writing to {output_file}."
+        .format(factor=options.factor, study_id=options.study_id, output_file=options.output.name))
 
     fvs = MTBLS.get_factor_values(options.study_id, options.factor)
+    print('FVs: ', list(fvs))
     if fvs is not None:
         json.dump(list(fvs), options.output, indent=4)
-        logger.debug("Factor values written")
+        logger.debug("Factor values written to {}".format(options.output))
     else:
         raise RuntimeError("Error getting factor values")
 
@@ -197,7 +198,7 @@ def get_data_files_command(options):
 
     logger.debug("dumping data files to %s", options.output.name)
     json.dump(list(data_files), options.output, indent=4)
-    logger.info("Finished writing data files written")
+    logger.info("Finished writing data files to {}".format(options.output))
 
 
 def get_summary_command(options):
@@ -206,6 +207,7 @@ def get_summary_command(options):
                 options.study_id, options.output.name)
 
     summary = MTBLS.get_study_variable_summary(options.study_id)
+    print('summary: ', list(summary))
     if summary is not None:
         json.dump(summary, options.output, indent=4)
         logger.debug("Summary dumped")
