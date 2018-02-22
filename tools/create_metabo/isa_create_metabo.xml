@@ -15,7 +15,6 @@
         cli.py
         --galaxy_parameters_file='$inputs'
         --target_dir='./' &&
-        mkdir '${output.files_path}' &&
         cp ./*.txt '${output.files_path}'
         ]]>
     </command>
