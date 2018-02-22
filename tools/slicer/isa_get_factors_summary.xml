@@ -3,14 +3,12 @@
     <description>Produce a summary table of variable factors of a MetaboLights
         study
     </description>
-    <requirements>
-        <requirement type="package" version="0.9.4">isatools</requirement>
-    </requirements>
+
     <stdio>
         <exit_code range="1:" level="fatal"/>
     </stdio>
     <command><![CDATA[
-        $__tool_directory__/run_mtblisa.py get-summary "${mtbls_id}" "${output}"
+        run_mtblisa.py get-summary "${mtbls_id}" "${output}"
 ]]>
     </command>
     <inputs>

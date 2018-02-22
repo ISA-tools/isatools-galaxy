@@ -5,21 +5,14 @@
         <import>isa_create_metabo_macros.xml</import>
     </macros>
 
-    <requirements>
-        <requirement type="package" version="6.7">click</requirement>
-        <!--<requirement type="package" version="0.9.4">isatools</requirement>-->
-    </requirements>
-
     <stdio>
         <exit_code range="1:" />
     </stdio>
 
     <command>
         <![CDATA[
-        pip install -e /Users/dj/Development/ISA/isa-api/ &&
         mkdir '${output.files_path}' &&
-        $__tool_directory__/cli.py
-
+        cli.py
         --galaxy_parameters_file='$inputs'
         --target_dir='./' &&
         ln -s `pwd` '${output.files_path}'
@@ -47,7 +40,7 @@
         <collection type="list" label="All text files" name="all_files">
             <discover_datasets pattern="(?P&lt;designation&gt;.+)\.txt" format="tsv"/>
         </collection>
-        <data format="zip" name="output" label="New ISA-Tab"/>
+        <data format="isa-tab" name="output" label="New ISA-Tab"/>
     </outputs>
 
     <tests>
