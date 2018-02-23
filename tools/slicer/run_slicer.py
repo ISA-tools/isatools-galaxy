@@ -540,9 +540,9 @@ def main(args):
     options = _parse_args(args)
     _configure_logger(options)
 
-    if not options.study_id.startswith('MTBLS'):
+    if not os.path.exists(options.study_id):
         logger.warning(
-            "The study id %s doesn't look like a valid Metabolights id",
+            "The ISA-Tab path %s doesn't look like a valid directory",
             options.study_id)
 
     # run subcommand
