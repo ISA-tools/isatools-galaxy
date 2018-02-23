@@ -5,7 +5,7 @@ import shutil
 import argparse
 import os
 import logging
-import glob
+from glob import glob
 import re
 import pandas as pd
 
@@ -16,6 +16,7 @@ from isatools.model import OntologyAnnotation
 logger = None
 
 #    run_mtblisa.py <command> <study_id> [ command-specific options ]
+
 
 def make_parser():
     parser = argparse.ArgumentParser( description="ISA slicer")
