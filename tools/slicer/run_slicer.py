@@ -35,18 +35,18 @@ def make_parser():
     subparsers.required = True
 
     subparser = subparsers.add_parser(
-        'get-factors', aliases=['gf'],
+        'datatype-get-factors', aliases=['dtgf'],
         help="Get factor names from a study in json format")
-    subparser.set_defaults(func=get_factors_command)
+    subparser.set_defaults(func=datatype_get_factor_names_command)
     subparser.add_argument('study_id')
     subparser.add_argument(
         'output', nargs='?', type=argparse.FileType('w'), default=sys.stdout,
         help="Output file")
 
     subparser = subparsers.add_parser(
-        'get-factor-values', aliases=['gfv'],
+        'datatype-get-factor-values', aliases=['dtgfv'],
         help="Get factor values from a study in json format")
-    subparser.set_defaults(func=get_factor_values_command)
+    subparser.set_defaults(func=datatype_get_factor_values_command)
     subparser.add_argument('study_id')
     subparser.add_argument(
         'factor', help="The desired factor. Use `get-factors` to get the list "
@@ -55,9 +55,9 @@ def make_parser():
         'output',nargs='?', type=argparse.FileType('w'), default=sys.stdout,
         help="Output file")
 
-    subparser = subparsers.add_parser('get-data', aliases=['gd'],
+    subparser = subparsers.add_parser('datatype-get-data', aliases=['dtgd'],
                                       help="Get data files in json format")
-    subparser.set_defaults(func=get_data_files_command)
+    subparser.set_defaults(func=datatype_get_data_files_command)
     subparser.add_argument('study_id')
     subparser.add_argument('output',nargs='?', type=argparse.FileType('w'), default=sys.stdout,
                            help="Output file")
@@ -67,9 +67,9 @@ def make_parser():
         help="Factor query in JSON (e.g., '{\"Gender\":\"Male\"}'")
 
     subparser = subparsers.add_parser(
-        'get-summary', aliases=['gsum'],
+        'datatype-get-summary', aliases=['dtgsum'],
         help="Get the variables summary from a study, in json format")
-    subparser.set_defaults(func=get_summary_command)
+    subparser.set_defaults(func=datatype_get_summary_command)
     subparser.add_argument('study_id')
     subparser.add_argument(
         'output', nargs='?', type=argparse.FileType('w'), default=sys.stdout,
@@ -78,7 +78,7 @@ def make_parser():
     return parser
 
 
-def get_data_files(input_path, factor_selection=None):
+def datatype_get_data_files_command(input_path, factor_selection=None):
     result = slice_data_files(input_path, factor_selection=factor_selection)
     return result
 
@@ -181,7 +181,7 @@ def slice_data_files(dir, factor_selection=None):
     return results
 
 
-def get_factor_names(input_path):
+def datatype_get_factor_names_command(input_path):
     """
     This function gets the factor names used in a MetaboLights study
 
@@ -206,7 +206,7 @@ def get_factor_names(input_path):
     return factors
 
 
-def get_factor_values(input_path, factor_name):
+def datatype_get_factor_values_command(input_path, factor_name):
     """
     This function gets the factor values of a factor in a MetaboLights study
 
@@ -240,7 +240,7 @@ def get_factor_values(input_path, factor_name):
     return fvs
 
 
-def get_factors_summary(input_path):
+def datatype_get_factors_summary_command(input_path):
     """
     This function generates a factors summary for a MetaboLights study
 
@@ -300,7 +300,7 @@ def get_factors_summary(input_path):
 
 
 def get_study_groups(input_path):
-    factors_summary = get_factors_summary(input_path=input_path)
+    factors_summary = datatype_get_factors_summary_command(input_path=input_path)
     study_groups = {}
 
     for factors_item in factors_summary:
@@ -554,7 +554,7 @@ def get_factors_command(options):
 
     logger.info("Getting factors for study %s. Writing to %s.",
                 options.study_id, options.output.name)
-    factor_names = get_factor_names(options.study_id)
+    factor_names = datatype_get_factor_names_command(options.study_id)
     print('FNs: ', list(factor_names))
     if factor_names is not None:
         json.dump(list(factor_names), options.output, indent=4)
@@ -567,7 +567,7 @@ def get_factor_values_command(options):
     logger.info("Getting values for factor {factor} in study {study_id}. Writing to {output_file}."
         .format(factor=options.factor, study_id=options.study_id, output_file=options.output.name))
 
-    fvs = get_factor_values(options.study_id, options.factor)
+    fvs = datatype_get_factor_values_command(options.study_id, options.factor)
     print('FVs: ', list(fvs))
     if fvs is not None:
         json.dump(list(fvs), options.output, indent=4)
@@ -586,9 +586,9 @@ def get_data_files_command(options):
 
     if options.json_query is not None:
         json_struct = json.loads(options.json_query)
-        data_files = get_data_files(options.study_id, json_struct)
+        data_files = datatype_get_data_files_command(options.study_id, json_struct)
     else:
-        data_files = get_data_files(options.study_id)
+        data_files = datatype_get_data_files_command(options.study_id)
 
     logger.debug("Result data files list: %s", data_files)
     if data_files is None:
@@ -599,7 +599,7 @@ def get_data_files_command(options):
     logger.info("Finished writing data files to {}".format(options.output))
 
 
-def get_summary_command(options):
+def datatype_get_summary_command(options):
     import json
     logger.info("Getting summary for study %s. Writing to %s.",
                 options.study_id, options.output.name)
