@@ -743,12 +743,6 @@ def _parse_args(args):
 def main(args):
     options = _parse_args(args)
     _configure_logger(options)
-
-    if not options.study_id.startswith('MTBLS'):
-        logger.warning(
-            "The study id %s doesn't look like a valid Metabolights id",
-            options.study_id)
-
     # run subcommand
     options.func(options)
 
