@@ -7,9 +7,11 @@ import os
 import logging
 import glob
 import re
+import pandas as pd
 
 from isatools import isatab
 from isatools.net import mtbls as MTBLS
+from isatools.model import OntologyAnnotation
 
 logger = None
 
@@ -528,7 +530,7 @@ def get_data_for_sample(input_path, sample_name):
         for assay in study.assays:
             for data in assay.data_files:
                 if sample_name in [x.name for x in data.generated_from]:
-                    log.info('found a hit: {filename}'.format(
+                    logger.info('found a hit: {filename}'.format(
                         filename=data.filename))
                     hits.append(data)
     return hits
