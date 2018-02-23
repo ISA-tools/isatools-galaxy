@@ -157,7 +157,6 @@ def get_factors_command(options):
     logger.info("Getting factors for study %s. Writing to %s.",
                 options.study_id, options.output.name)
     factor_names = MTBLS.get_factor_names(options.study_id)
-    print('FNs: ', list(factor_names))
     if factor_names is not None:
         json.dump(list(factor_names), options.output, indent=4)
         logger.debug("Factor names written")
@@ -170,7 +169,6 @@ def get_factor_values_command(options):
         .format(factor=options.factor, study_id=options.study_id, output_file=options.output.name))
 
     fvs = MTBLS.get_factor_values(options.study_id, options.factor)
-    print('FVs: ', list(fvs))
     if fvs is not None:
         json.dump(list(fvs), options.output, indent=4)
         logger.debug("Factor values written to {}".format(options.output))
@@ -207,7 +205,6 @@ def get_summary_command(options):
                 options.study_id, options.output.name)
 
     summary = MTBLS.get_study_variable_summary(options.study_id)
-    print('summary: ', list(summary))
     if summary is not None:
         json.dump(summary, options.output, indent=4)
         logger.debug("Summary dumped")
