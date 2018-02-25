@@ -1,5 +1,4 @@
-"""Functions for slicing ISA-Tabs, based on the mtbls.py module.
-"""
+"""Functions for slicing ISA-Tabs, based on the mtbls.py module."""
 #!/usr/bin/env python3
 
 from __future__ import absolute_import
