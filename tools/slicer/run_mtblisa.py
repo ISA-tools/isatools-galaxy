@@ -127,6 +127,15 @@ def make_parser():
         '--json-query',
         help="Factor query in JSON (e.g., '{\"Gender\":\"Male\"}'")
 
+    subparser = subparsers.add_parser('datatype-get-data-collection', aliases=['dtgd'],
+                                      help="Get data files collection")
+    subparser.set_defaults(func=datatype_get_data_files_collection_command)
+    subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab path")
+    subparser.add_argument('output_path', nargs=1, type=str, help="Output data files path")
+    subparser.add_argument(
+        '--json-query',
+        help="Factor query in JSON (e.g., '{\"Gender\":\"Male\"}'")
+
     subparser = subparsers.add_parser(
         'datatype-get-factors-summary', aliases=['dtgsum'],
         help="Get the variables summary from a study, in json format")
@@ -292,6 +301,33 @@ def datatype_get_data_files_command(options):
     logger.debug("dumping data files to %s", options.output.name)
     json.dump(list(data_files), options.output, indent=4)
     logger.info("Finished writing data files to {}".format(options.output))
+
+
+def datatype_get_data_files_collection_command(options):
+    import json
+    logger.info("Getting data files for study %s. Writing to %s.",
+                options.input_path, options.output.name)
+    if options.json_query:
+        logger.debug("This is the specified query:\n%s", options.json_query)
+    else:
+        logger.debug("No query was specified")
+    input_path = options.input_path[-1]
+    if options.json_query is not None:
+        json_struct = json.loads(options.json_query)
+        factor_selection = json_struct
+    else:
+        factor_selection = None
+    result = slice_data_files(input_path, factor_selection=factor_selection)
+    data_files = result
+    logger.debug("Result data files list: %s", data_files)
+    if data_files is None:
+        raise RuntimeError("Error getting data files with isatools")
+    output_path = options.output_path
+    logger.debug("copying data files to %s", output_path)
+    for result in data_files:
+        for data_file_name in result['data_files']:
+            shutil.copy(os.path.join(input_path, data_file_name), output_path)
+    logger.info("Finished writing data files to {}".format(options.output_path))
 
 
 def slice_data_files(dir, factor_selection=None):
