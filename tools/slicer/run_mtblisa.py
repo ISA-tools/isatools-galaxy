@@ -387,7 +387,7 @@ def zip_get_data_files_list_command(options):
 def isatab_get_data_files_collection_command(options):
     import json
     logger.info("Getting data files for study %s. Writing to %s.",
-                options.input_path, options.output.name)
+                options.input_path, options.output_path)
     if options.json_query:
         logger.debug("This is the specified query:\n%s", options.json_query)
     else:
