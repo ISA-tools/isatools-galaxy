@@ -392,7 +392,7 @@ def isatab_get_data_files_collection_command(options):
         logger.debug("This is the specified query:\n%s", options.json_query)
     else:
         logger.debug("No query was specified")
-    input_path = options.input_path[-1]
+    input_path = next(iter(options.input_path))
     if options.json_query is not None:
         json_struct = json.loads(options.json_query)
         factor_selection = json_struct
@@ -403,7 +403,7 @@ def isatab_get_data_files_collection_command(options):
     logger.debug("Result data files list: %s", data_files)
     if data_files is None:
         raise RuntimeError("Error getting data files with isatools")
-    output_path = options.output_path
+    output_path = next(iter(options.output_path))
     logger.debug("copying data files to %s", output_path)
     for result in data_files:
         for data_file_name in result['data_files']:
