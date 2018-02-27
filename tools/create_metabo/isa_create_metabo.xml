@@ -7,7 +7,7 @@
 
     <requirements>
         <requirement type="package" version="6.7">click</requirement>
-        <requirement type="package" version="0.9.4">isatools</requirement>
+        <!--<requirement type="package" version="0.9.4">isatools</requirement>-->
     </requirements>
 
     <stdio>
@@ -17,14 +17,23 @@
     <command>
         <![CDATA[
 
+        pip install -e /Users/dj/Development/ISA/isa-api/ &&
+        mkdir study_dir &&
         $__tool_directory__/cli.py
         --galaxy_parameters_file='$inputs'
-        --target_dir='./'
+        --target_dir='study_dir/' &&
+        cd study_dir &&
+        zip isa.zip *.* && mv isa.zip "$output"
 
         ]]>
-    </command><!--
-            mkdir '${output.files_path}' &&
-            cp ./*.txt '${output.files_path}'-->
+    </command>
+<!--
+        mkdir '${output.files_path}' &&
+        cli.py
+        -galaxy_parameters_file='$inputs'
+        -target_dir='./' &&
+        cp ./*.txt '${output.files_path}'
+-->
 
     <configfiles>
         <inputs name="inputs" />
@@ -38,16 +47,13 @@
     </inputs>
 
     <outputs>
-        <collection type="list" label="Data files" name="raw_files">
-            <discover_datasets pattern="(?P&lt;designation&gt;.+)\.(zip|mzml.gz)"/>
-        </collection>
         <collection type="list" label="ISA files" name="isa_files">
-            <discover_datasets pattern="(?P&lt;designation&gt;(i|s|a)_.+)\.txt" format="tsv"/>
+            <discover_datasets pattern="(?P&lt;designation&gt;(i|s|a)_.+)\.txt" directory="study_dir"  format="tsv"/>
         </collection>
-        <collection type="list" label="All text files" name="all_files">
-            <discover_datasets pattern="(?P&lt;designation&gt;.+)\.txt" format="tsv"/>
+        <collection type="list" label="All files" name="all_files">
+            <discover_datasets pattern="(?P&lt;designation&gt;.+)\.[a-zA-Z0-9]+" directory="study_dir" />
         </collection>
-        <!--<data format="zip" name="output" label="New ISA-Tab"/>-->
+        <data format="zip" name="output" label="New ISA-Tab"/>
     </outputs>
 
     <tests>

@@ -29,7 +29,10 @@ def map_galaxy_to_isa_create(tool_params):
     sample_assay_plan = SampleAssayPlan()
     for sample_plan_params in tool_params['sampling_and_assay_plans'][
             'sample_record_series']:
-        sample_type = sample_plan_params['sample_type']['sample_type'] if not sample_plan_params['sample_type']['sample_type'] == 'user_defined' else sample_plan_params['sample_type']['sample_type_ud']
+        sample_type = sample_plan_params['sample_type']['sample_type'] if \
+            not sample_plan_params['sample_type']['sample_type'] == \
+            'user_defined' else sample_plan_params[
+            'sample_type']['sample_type_ud']
         sample_assay_plan.add_sample_type(sample_type)
         sample_size = sample_plan_params['sample_size']
         sample_assay_plan.group_size = sample_size
@@ -48,7 +51,7 @@ def map_galaxy_to_isa_create(tool_params):
                     nmr_top_mods.acquisition_modes.add(
                         assay_plan_params['assay_type']['acq_mod_cond'][
                             'acq_mod'])
-                    nmr_top_mods.injection_modes.add(
+                    nmr_top_mods.instruments.add(
                         assay_plan_params['assay_type']['acq_mod_cond'][
                                     'nmr_instrument'])
                     nmr_top_mods.pulse_sequences.add(
@@ -64,8 +67,9 @@ def map_galaxy_to_isa_create(tool_params):
                         measurement_type='metabolite profiling',
                         technology_type='mass spectrometry')
                     ms_assay_type.topology_modifiers = MSTopologyModifiers(
-                        sample_fractions=set(map(lambda x: x['fraction'], assay_plan_params['assay_type']['samp_frac_series']))
-                    )
+                        sample_fractions=set(
+                            map(lambda x: x['fraction'], assay_plan_params[
+                                'assay_type']['samp_frac_series'])))
                     injection_modes = ms_assay_type.topology_modifiers.injection_modes
                     if len(assay_plan_params['assay_type']['inj_mod_series']) > 0:
                         for inj_mod in assay_plan_params['assay_type']['inj_mod_series']:
