@@ -44,7 +44,7 @@ def make_parser():
         'zip', 'tar', 'gztar', 'bztar', 'xztar'], default='zip',
                            help="Type of archive to create")
 
-    subparser = subparsers.add_parser('mtblisa-get-study', aliases=['gs'],
+    subparser = subparsers.add_parser('mtblsa-get-study', aliases=['gs'],
                                       help="Get ISA study from MetaboLights")
     subparser.set_defaults(func=get_study_command)
     subparser.add_argument('study_id')
