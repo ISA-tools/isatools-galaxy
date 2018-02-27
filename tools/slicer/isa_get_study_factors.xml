@@ -15,13 +15,13 @@
 
     <command><![CDATA[
         #if $data_file.input == "mtbls_id"
-            $__tool_directory__/run_mtblisa.py mtbls-get-factors
+            run_mtblisa.py mtbls-get-factors
             "${mtbls_id}" "${output}"
         #end if
 
         #if $data_file.input == "isatab_input"
-            $__tool_directory__/run_mtblisa.py zip-get-factors
-            "${data_file.isatab_input}" "${output}"
+            run_mtblisa.py isa-tab-get-factors
+            "${data_file.isatab_input.extra_files_path}" "${output}"
         #end if
 ]]>
     </command>
@@ -35,7 +35,7 @@
                 <param name="mtbls_id" type="text" label="MetaboLights Study Identifier" help="MTBLS ID available at MetaboLights, e.g. MTBLS2."/>
             </when>
             <when value="isatab_input">
-                <param format="zip" name="isatab_input" type="data" label="ISA-Tab"  help="An ISA-Tab zip"/>
+                <param format="isa-tab" name="isatab_input" type="data" label="ISA-Tab"  help="An ISA-Tab zip"/>
             </when>
         </conditional>
     </inputs>

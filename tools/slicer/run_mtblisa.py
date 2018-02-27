@@ -407,7 +407,7 @@ def isatab_get_data_files_collection_command(options):
     logger.debug("copying data files to %s", output_path)
     for result in data_files:
         for data_file_name in result['data_files']:
-            print(data_file_name)
+            logging.info("Copying {}".format(data_file_name))
             shutil.copy(os.path.join(input_path, data_file_name), output_path)
     logger.info("Finished writing data files to {}".format(options.output_path))
 
