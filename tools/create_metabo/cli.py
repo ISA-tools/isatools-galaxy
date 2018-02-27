@@ -38,35 +38,27 @@ def map_galaxy_to_isa_create(tool_params):
             for assay_plan_params in sample_plan_params['assay_record_series']:
                 tt = assay_plan_params['assay_type']['assay_type']
                 if tt == 'nmr spectroscopy':
-                    raise NotImplementedError('NMR not implemented')
-                    # nmr_assay_type = AssayType(
-                    #     measurement_type='metabolite profiling',
-                    #     technology_type='nmr spectroscopy')
-                    # assay_type = {
-                    #     'topology_modifiers': {
-                    #         'technical_replicates':
-                    #             assay_plan_params['assay_type'][
-                    #                 'acq_mod_cond']['technical_replicates'],
-                    #         'acquisition_modes': [
-                    #             assay_plan_params['assay_type']['acq_mod_cond'][
-                    #                 'acq_mod']],
-                    #         'instruments': [
-                    #             assay_plan_params['assay_type']['acq_mod_cond'][
-                    #                 'nmr_instrument']],
-                    #         'injection_modes': [],
-                    #         'pulse_sequences': [
-                    #             assay_plan_params['assay_type']['acq_mod_cond'][
-                    #                 'pulse_seq']]
-                    #     },
-                    #     'technology_type': 'nmr spectroscopy',
-                    #     'measurement_type': 'metabolite profiling'
-                    # }
-                    # assay_plan = {
-                    #     "sample_type": sample_plan['sample_type'],
-                    #     "assay_type": assay_type
-                    # }
-                    # sample_and_assay_plans['assay_types'].append(assay_type)
-                    # sample_and_assay_plans['assay_plan'].append(assay_plan)
+                    nmr_assay_type = AssayType(
+                        measurement_type='metabolite profiling',
+                        technology_type='nmr spectroscopy')
+                    from isatools.create.models import NMRTopologyModifiers
+                    nmr_top_mods = NMRTopologyModifiers()
+                    nmr_top_mods.technical_replicates = assay_plan_params[
+                        'assay_type']['acq_mod_cond']['technical_replicates']
+                    nmr_top_mods.acquisition_modes.add(
+                        assay_plan_params['assay_type']['acq_mod_cond'][
+                            'acq_mod'])
+                    nmr_top_mods.injection_modes.add(
+                        assay_plan_params['assay_type']['acq_mod_cond'][
+                                    'nmr_instrument'])
+                    nmr_top_mods.pulse_sequences.add(
+                        assay_plan_params['assay_type']['acq_mod_cond'][
+                            'pulse_seq']
+                    )
+                    nmr_assay_type.topology_modifiers = nmr_top_mods
+                    sample_assay_plan.add_assay_type(nmr_assay_type)
+                    sample_assay_plan.add_assay_plan_record(sample_type,
+                                                            nmr_assay_type)
                 elif tt == 'mass spectrometry':
                     ms_assay_type = AssayType(
                         measurement_type='metabolite profiling',

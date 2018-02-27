@@ -7,7 +7,7 @@
 
     <requirements>
         <requirement type="package" version="6.7">click</requirement>
-        <!--<requirement type="package" version="0.9.4">isatools</requirement>-->
+        <requirement type="package" version="0.9.4">isatools</requirement>
     </requirements>
 
     <stdio>
@@ -16,15 +16,15 @@
 
     <command>
         <![CDATA[
-        pip install -e /Users/dj/Development/ISA/isa-api/ &&
-        mkdir '${output.files_path}' &&
-        $__tool_directory__/cli.py
 
+        $__tool_directory__/cli.py
         --galaxy_parameters_file='$inputs'
-        --target_dir='./' &&
-        ln -s `pwd` '${output.files_path}'
+        --target_dir='./'
+
         ]]>
-    </command>
+    </command><!--
+            mkdir '${output.files_path}' &&
+            cp ./*.txt '${output.files_path}'-->
 
     <configfiles>
         <inputs name="inputs" />
@@ -47,7 +47,7 @@
         <collection type="list" label="All text files" name="all_files">
             <discover_datasets pattern="(?P&lt;designation&gt;.+)\.txt" format="tsv"/>
         </collection>
-        <data format="zip" name="output" label="New ISA-Tab"/>
+        <!--<data format="zip" name="output" label="New ISA-Tab"/>-->
     </outputs>
 
     <tests>
