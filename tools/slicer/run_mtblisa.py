@@ -409,7 +409,7 @@ def isatab_get_data_files_collection_command(options):
         for data_file_name in result['data_files']:
             logging.info("Copying {}".format(data_file_name))
             shutil.copy(os.path.join(input_path, data_file_name), output_path)
-    logger.info("Finished writing data files to {}".format(options.output_path))
+    logger.info("Finished writing data files to {}".format(output_path))
 
 
 def zip_get_data_files_collection_command(options):
@@ -442,7 +442,7 @@ def zip_get_data_files_collection_command(options):
             for data_file_name in result['data_files']:
                 logging.info("Copying {}".format(data_file_name))
                 shutil.copy(os.path.join(tmpdir, data_file_name), output_path)
-    logger.info("Finished writing data files to {}".format(options.output_path))
+    logger.info("Finished writing data files to {}".format(output_path))
     shutil.rmtree(tmpdir)
 
 
