@@ -37,7 +37,7 @@
             <param name="mtbls_id" value="MTBLS1"/>
             <param name="factor_name" value="Gender"/>
             <param name="factor_value" value="Female"/>
-            <output name="output"/>
+            <output_collection name="raw_files" type="list" count="1"/>
         </test>
     </tests>
 
