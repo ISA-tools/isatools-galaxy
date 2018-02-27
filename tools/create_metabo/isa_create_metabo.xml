@@ -16,7 +16,6 @@
     <command>
         <![CDATA[
 
-        pip install git+https://github.com/ISA-tools/isa-api.git@feature/metabo_create_model#egg=isatools &&
         mkdir study_dir &&
         mkdir '${output.files_path}' &&
         $__tool_directory__/cli.py
