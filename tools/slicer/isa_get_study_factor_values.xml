@@ -20,7 +20,7 @@
         #end if
 
         #if $data_file.input == "isatab_input"
-            run_mtblisa.py isa-tab-tab-get-factor-values
+            run_mtblisa.py isa-tab-get-factor-values
             "${data_file.isatab_input.extra_files_path}" "${factor_name}" "${output}"
         #end if
 ]]>

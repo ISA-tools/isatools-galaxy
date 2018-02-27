@@ -97,7 +97,7 @@ def make_parser():
     # isaslicer commands on path to unpacked ISA-Tab as input
 
     subparser = subparsers.add_parser(
-        'isa-tab-get-factors', aliases=['dtgf'],
+        'isa-tab-get-factors', aliases=['isagf'],
         help="Get factor names from a study in json format")
     subparser.set_defaults(func=isatab_get_factor_names_command)
     subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab path")
@@ -106,7 +106,7 @@ def make_parser():
         help="Output file")
 
     subparser = subparsers.add_parser(
-        'zip-get-factors', aliases=['dtgf'],
+        'zip-get-factors', aliases=['zipgf'],
         help="Get factor names from a study in json format")
     subparser.set_defaults(func=zip_get_factor_names_command)
     subparser.add_argument('input_path', nargs=1, type=str,
@@ -116,7 +116,7 @@ def make_parser():
         help="Output file")
 
     subparser = subparsers.add_parser(
-        'isa-tab-get-factor-values', aliases=['dtgfv'],
+        'isa-tab-get-factor-values', aliases=['isagfv'],
         help="Get factor values from a study in json format")
     subparser.set_defaults(func=isatab_get_factor_values_command)
     subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab path")
@@ -128,7 +128,7 @@ def make_parser():
         help="Output file")
 
     subparser = subparsers.add_parser(
-        'zip-get-factor-values', aliases=['dtgfv'],
+        'zip-get-factor-values', aliases=['zipgfv'],
         help="Get factor values from a study in json format")
     subparser.set_defaults(func=zip_get_factor_values_command)
     subparser.add_argument('input_path', nargs=1, type=str,
@@ -140,7 +140,7 @@ def make_parser():
         'output',nargs='?', type=argparse.FileType('w'), default=sys.stdout,
         help="Output file")
 
-    subparser = subparsers.add_parser('isa-tab-get-data-list', aliases=['dtgd'],
+    subparser = subparsers.add_parser('isa-tab-get-data-list', aliases=['isagdl'],
                                       help="Get data files list in json format")
     subparser.set_defaults(func=isatab_get_data_files_list_command)
     subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab path")
@@ -150,7 +150,7 @@ def make_parser():
         '--json-query',
         help="Factor query in JSON (e.g., '{\"Gender\":\"Male\"}'")
 
-    subparser = subparsers.add_parser('zip-get-data-list', aliases=['dtgd'],
+    subparser = subparsers.add_parser('zip-get-data-list', aliases=['zipgdl'],
                                       help="Get data files list in json format")
     subparser.set_defaults(func=zip_get_data_files_list_command)
     subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab zip path")
@@ -160,7 +160,7 @@ def make_parser():
         '--json-query',
         help="Factor query in JSON (e.g., '{\"Gender\":\"Male\"}'")
 
-    subparser = subparsers.add_parser('isa-tab-get-data-collection', aliases=['dtgd'],
+    subparser = subparsers.add_parser('isa-tab-get-data-collection', aliases=['isagdc'],
                                       help="Get data files collection")
     subparser.set_defaults(func=isatab_get_data_files_collection_command)
     subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab path")
@@ -169,7 +169,7 @@ def make_parser():
         '--json-query',
         help="Factor query in JSON (e.g., '{\"Gender\":\"Male\"}'")
 
-    subparser = subparsers.add_parser('zip-get-data-collection', aliases=['dtgd'],
+    subparser = subparsers.add_parser('zip-get-data-collection', aliases=['zipgdc'],
                                       help="Get data files collection")
     subparser.set_defaults(func=zip_get_data_files_collection_command)
     subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab zip path")
@@ -179,7 +179,7 @@ def make_parser():
         help="Factor query in JSON (e.g., '{\"Gender\":\"Male\"}'")
 
     subparser = subparsers.add_parser(
-        'isa-tab-get-factors-summary', aliases=['dtgsum'],
+        'isa-tab-get-factors-summary', aliases=['isasum'],
         help="Get the variables summary from a study, in json format")
     subparser.set_defaults(func=isatab_get_factors_summary_command)
     subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab path")
@@ -188,7 +188,7 @@ def make_parser():
         help="Output file")
 
     subparser = subparsers.add_parser(
-        'zip-get-factors-summary', aliases=['dtgsum'],
+        'zip-get-factors-summary', aliases=['zipsum'],
         help="Get the variables summary from a study, in json format")
     subparser.set_defaults(func=zip_get_factors_summary_command)
     subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab zip path")
