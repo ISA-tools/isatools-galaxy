@@ -33,7 +33,7 @@ def make_parser():
     # mtblisa commands
 
     subparser = subparsers.add_parser(
-        'get-study-archive', aliases=['gsa'],
+        'mtbls-get-study-archive', aliases=['gsa'],
         help="Get ISA study from MetaboLights as zip archive")
     subparser.set_defaults(func=get_study_archive_command)
     subparser.add_argument('study_id')
@@ -54,7 +54,7 @@ def make_parser():
         metavar="FORMAT", default='isa-tab', help="Desired ISA format")
 
     subparser = subparsers.add_parser(
-        'get-factors', aliases=['gf'],
+        'mtbls-get-factors', aliases=['gf'],
         help="Get factor names from a study in json format")
     subparser.set_defaults(func=get_factors_command)
     subparser.add_argument('study_id')
@@ -63,7 +63,7 @@ def make_parser():
         help="Output file")
 
     subparser = subparsers.add_parser(
-        'get-factor-values', aliases=['gfv'],
+        'mtbls-get-factor-values', aliases=['gfv'],
         help="Get factor values from a study in json format")
     subparser.set_defaults(func=get_factor_values_command)
     subparser.add_argument('study_id')
@@ -74,7 +74,7 @@ def make_parser():
         'output',nargs='?', type=argparse.FileType('w'), default=sys.stdout,
         help="Output file")
 
-    subparser = subparsers.add_parser('get-data', aliases=['gd'],
+    subparser = subparsers.add_parser('mtbls-get-data-list', aliases=['gd'],
                                       help="Get data files list in json format")
     subparser.set_defaults(func=get_data_files_command)
     subparser.add_argument('study_id')
@@ -86,7 +86,7 @@ def make_parser():
         help="Factor query in JSON (e.g., '{\"Gender\":\"Male\"}'")
 
     subparser = subparsers.add_parser(
-        'get-summary', aliases=['gsum'],
+        'mtbls-get-factors-summary', aliases=['gsum'],
         help="Get the variables summary from a study, in json format")
     subparser.set_defaults(func=get_summary_command)
     subparser.add_argument('study_id')
@@ -94,21 +94,31 @@ def make_parser():
         'output', nargs='?', type=argparse.FileType('w'), default=sys.stdout,
         help="Output file")
 
-    # isaslicer commands
+    # isaslicer commands on path to unpacked ISA-Tab as input
 
     subparser = subparsers.add_parser(
-        'datatype-get-factors', aliases=['dtgf'],
+        'isa-tab-get-factors', aliases=['dtgf'],
         help="Get factor names from a study in json format")
-    subparser.set_defaults(func=datatype_get_factor_names_command)
+    subparser.set_defaults(func=isatab_get_factor_names_command)
     subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab path")
     subparser.add_argument(
         'output', nargs='?', type=argparse.FileType('w'), default=sys.stdout,
         help="Output file")
 
     subparser = subparsers.add_parser(
-        'datatype-get-factor-values', aliases=['dtgfv'],
+        'zip-get-factors', aliases=['dtgf'],
+        help="Get factor names from a study in json format")
+    subparser.set_defaults(func=zip_get_factor_names_command)
+    subparser.add_argument('input_path', nargs=1, type=str,
+                           help="Input ISA-Tab zip path")
+    subparser.add_argument(
+        'output', nargs='?', type=argparse.FileType('w'), default=sys.stdout,
+        help="Output file")
+
+    subparser = subparsers.add_parser(
+        'isa-tab-get-factor-values', aliases=['dtgfv'],
         help="Get factor values from a study in json format")
-    subparser.set_defaults(func=datatype_get_factor_values_command)
+    subparser.set_defaults(func=isatab_get_factor_values_command)
     subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab path")
     subparser.add_argument(
         'factor', help="The desired factor. Use `get-factors` to get the list "
@@ -117,9 +127,22 @@ def make_parser():
         'output',nargs='?', type=argparse.FileType('w'), default=sys.stdout,
         help="Output file")
 
-    subparser = subparsers.add_parser('datatype-get-data', aliases=['dtgd'],
+    subparser = subparsers.add_parser(
+        'zip-get-factor-values', aliases=['dtgfv'],
+        help="Get factor values from a study in json format")
+    subparser.set_defaults(func=zip_get_factor_values_command)
+    subparser.add_argument('input_path', nargs=1, type=str,
+                           help="Input ISA-Tab zip path")
+    subparser.add_argument(
+        'factor', help="The desired factor. Use `get-factors` to get the list "
+                       "of available factors")
+    subparser.add_argument(
+        'output',nargs='?', type=argparse.FileType('w'), default=sys.stdout,
+        help="Output file")
+
+    subparser = subparsers.add_parser('isa-tab-get-data-list', aliases=['dtgd'],
                                       help="Get data files list in json format")
-    subparser.set_defaults(func=datatype_get_data_files_command)
+    subparser.set_defaults(func=isatab_get_data_files_list_command)
     subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab path")
     subparser.add_argument('output',nargs='?', type=argparse.FileType('w'), default=sys.stdout,
                            help="Output file")
@@ -127,20 +150,48 @@ def make_parser():
         '--json-query',
         help="Factor query in JSON (e.g., '{\"Gender\":\"Male\"}'")
 
-    subparser = subparsers.add_parser('datatype-get-data-collection', aliases=['dtgd'],
+    subparser = subparsers.add_parser('zip-get-data-list', aliases=['dtgd'],
+                                      help="Get data files list in json format")
+    subparser.set_defaults(func=zip_get_data_files_list_command)
+    subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab zip path")
+    subparser.add_argument('output',nargs='?', type=argparse.FileType('w'), default=sys.stdout,
+                           help="Output file")
+    subparser.add_argument(
+        '--json-query',
+        help="Factor query in JSON (e.g., '{\"Gender\":\"Male\"}'")
+
+    subparser = subparsers.add_parser('isa-tab-get-data-collection', aliases=['dtgd'],
                                       help="Get data files collection")
-    subparser.set_defaults(func=datatype_get_data_files_collection_command)
+    subparser.set_defaults(func=isatab_get_data_files_collection_command)
     subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab path")
     subparser.add_argument('output_path', nargs=1, type=str, help="Output data files path")
     subparser.add_argument(
         '--json-query',
         help="Factor query in JSON (e.g., '{\"Gender\":\"Male\"}'")
 
+    subparser = subparsers.add_parser('zip-get-data-collection', aliases=['dtgd'],
+                                      help="Get data files collection")
+    subparser.set_defaults(func=zip_get_data_files_collection_command)
+    subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab zip path")
+    subparser.add_argument('output_path', nargs=1, type=str, help="Output data files path")
+    subparser.add_argument(
+        '--json-query',
+        help="Factor query in JSON (e.g., '{\"Gender\":\"Male\"}'")
+
     subparser = subparsers.add_parser(
-        'datatype-get-factors-summary', aliases=['dtgsum'],
+        'isa-tab-get-factors-summary', aliases=['dtgsum'],
         help="Get the variables summary from a study, in json format")
-    subparser.set_defaults(func=datatype_get_factors_summary_command)
+    subparser.set_defaults(func=isatab_get_factors_summary_command)
     subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab path")
+    subparser.add_argument(
+        'output', nargs='?', type=argparse.FileType('w'), default=sys.stdout,
+        help="Output file")
+
+    subparser = subparsers.add_parser(
+        'zip-get-factors-summary', aliases=['dtgsum'],
+        help="Get the variables summary from a study, in json format")
+    subparser.set_defaults(func=zip_get_factors_summary_command)
+    subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab zip path")
     subparser.add_argument(
         'output', nargs='?', type=argparse.FileType('w'), default=sys.stdout,
         help="Output file")
@@ -278,7 +329,7 @@ def get_summary_command(options):
 
 # isaslicer commands
 
-def datatype_get_data_files_command(options):
+def isatab_get_data_files_list_command(options):
     import json
     logger.info("Getting data files for study %s. Writing to %s.",
                 options.input_path, options.output.name)
@@ -286,7 +337,7 @@ def datatype_get_data_files_command(options):
         logger.debug("This is the specified query:\n%s", options.json_query)
     else:
         logger.debug("No query was specified")
-    input_path = options.input_path[-1]
+    input_path = next(iter(options.input_path))
     if options.json_query is not None:
         json_struct = json.loads(options.json_query)
         factor_selection = json_struct
@@ -303,7 +354,37 @@ def datatype_get_data_files_command(options):
     logger.info("Finished writing data files to {}".format(options.output))
 
 
-def datatype_get_data_files_collection_command(options):
+def zip_get_data_files_list_command(options):
+    import json
+    logger.info("Getting data files for study %s. Writing to %s.",
+                options.input_path, options.output.name)
+    if options.json_query:
+        logger.debug("This is the specified query:\n%s", options.json_query)
+    else:
+        logger.debug("No query was specified")
+    input_path = next(iter(options.input_path))
+    if options.json_query is not None:
+        json_struct = json.loads(options.json_query)
+        factor_selection = json_struct
+    else:
+        factor_selection = None
+    import zipfile
+    with zipfile.ZipFile(input_path) as zfp:
+        import tempfile
+        tmpdir = tempfile.mkdtemp()
+        zfp.extractall(path=tmpdir)
+        result = slice_data_files(tmpdir, factor_selection=factor_selection)
+        data_files = result
+        logger.debug("Result data files list: %s", data_files)
+    if data_files is None:
+        raise RuntimeError("Error getting data files with isatools")
+    logger.debug("dumping data files to %s", options.output.name)
+    json.dump(list(data_files), options.output, indent=4)
+    logger.info("Finished writing data files to {}".format(options.output))
+    shutil.rmtree(tmpdir)
+
+
+def isatab_get_data_files_collection_command(options):
     import json
     logger.info("Getting data files for study %s. Writing to %s.",
                 options.input_path, options.output.name)
@@ -331,34 +412,41 @@ def datatype_get_data_files_collection_command(options):
     logger.info("Finished writing data files to {}".format(options.output_path))
 
 
+def zip_get_data_files_collection_command(options):
+    import json
+    logger.info("Getting data files for study %s. Writing to %s.",
+                options.input_path, options.output_path)
+    if options.json_query:
+        logger.debug("This is the specified query:\n%s", options.json_query)
+    else:
+        logger.debug("No query was specified")
+    input_path = next(iter(options.input_path))
+    output_path = next(iter(options.output_path))
+    if options.json_query is not None:
+        json_struct = json.loads(options.json_query)
+        factor_selection = json_struct
+    else:
+        factor_selection = None
+    import zipfile
+    with zipfile.ZipFile(input_path) as zfp:
+        import tempfile
+        tmpdir = tempfile.mkdtemp()
+        zfp.extractall(path=tmpdir)
+        result = slice_data_files(tmpdir, factor_selection=factor_selection)
+        data_files = result
+        logger.debug("Result data files list: %s", data_files)
+        if data_files is None:
+            raise RuntimeError("Error getting data files with isatools")
+        logger.debug("copying data files to %s", output_path)
+        for result in data_files:
+            for data_file_name in result['data_files']:
+                logging.info("Copying {}".format(data_file_name))
+                shutil.copy(os.path.join(tmpdir, data_file_name), output_path)
+    logger.info("Finished writing data files to {}".format(options.output_path))
+    shutil.rmtree(tmpdir)
+
+
 def slice_data_files(dir, factor_selection=None):
-    """
-    This function gets a list of samples and related data file URLs for a given
-    MetaboLights study, optionally filtered by factor value (currently by
-    matching on exactly 1 factor value)
-
-    :param input_path: Input path to ISA-tab
-    :param factor_selection: A list of selected factor values to filter on
-    samples
-    :return: A list of dicts {sample_name, list of data_files} containing
-    sample names with associated data filenames
-
-
-    TODO:  Need to work on more complex filters e.g.:
-        {"gender": ["male", "female"]} selects samples matching "male" or
-        "female" factor value
-        {"age": {"equals": 60}} selects samples matching age 60
-        {"age": {"less_than": 60}} selects samples matching age less than 60
-        {"age": {"more_than": 60}} selects samples matching age more than 60
-
-        To select samples matching "male" and age less than 60:
-        {
-            "gender": "male",
-            "age": {
-                "less_than": 60
-            }
-        }
-    """
     results = []
     # first collect matching samples
     for table_file in glob.iglob(os.path.join(dir, '[a|s]_*')):
@@ -418,36 +506,35 @@ def slice_data_files(dir, factor_selection=None):
                 table_headers = list(df.columns.values)
                 sample_rows = df.loc[df['Sample Name'] == sample_name]
 
-                if 'Raw Spectral Data File' in table_headers:
-                    data_files = sample_rows['Raw Spectral Data File']
-
-                elif 'Free Induction Decay Data File' in table_headers:
-                    data_files = sample_rows['Free Induction Decay Data File']
+                data_node_labels = ['Raw Data File', 'Raw Spectral Data File',
+                            'Derived Spectral Data File',
+                            'Derived Array Data File',
+                            'Array Data File',
+                            'Protein Assignment File',
+                            'Peptide Assignment File',
+                            'Post Translational Modification Assignment File',
+                            'Acquisition Parameter Data File',
+                            'Free Induction Decay Data File',
+                            'Derived Array Data Matrix File',
+                            'Image File',
+                            'Derived Data File',
+                            'Metabolite Assignment File']
+                for node_label in data_node_labels:
+                    if node_label in table_headers:
+                        data_files = sample_rows[node_label]
 
                 result['data_files'] = [i for i in list(data_files) if
                                         str(i) != 'nan']
     return results
 
 
-def datatype_get_factor_names_command(options):
-    """
-    This function gets the factor names used in a MetaboLights study
-
-    :param input_path: Input path to ISA-tab
-    :return: A set of factor names used in the study
-
-    Example usage:
-        factor_names = get_factor_names('/path/to/my/study/')
-    """
+def isatab_get_factor_names_command(options):
     import json
-    input_path = options.input_path[-1]
+    input_path = next(iter(options.input_path))
     logger.info("Getting factors for study %s. Writing to %s.",
                 input_path, options.output.name)
-
     _RX_FACTOR_VALUE = re.compile('Factor Value\[(.*?)\]')
-
     factors = set()
-
     for table_file in glob.iglob(os.path.join(input_path, '[a|s]_*')):
         with open(os.path.join(input_path, table_file)) as fp:
             df = isatab.load_table(fp)
@@ -461,20 +548,41 @@ def datatype_get_factor_names_command(options):
         json.dump(list(factors), options.output, indent=4)
         logger.debug("Factor names written")
     else:
-        raise RuntimeError("Error downloading factors.")
+        raise RuntimeError("Error reading factors.")
 
 
-def datatype_get_factor_values_command(options):
-    """
-    This function gets the factor values of a factor in a MetaboLights study
+def zip_get_factor_names_command(options):
+    import json
+    input_path = next(iter(options.input_path))
+    logger.info("Getting factors for study %s. Writing to %s.",
+                input_path, options.output.name)
+    # unpack input_path
+    import zipfile
+    with zipfile.ZipFile(input_path) as zfp:
+        import tempfile
+        tmpdir = tempfile.mkdtemp()
+        zfp.extractall(path=tmpdir)
+        _RX_FACTOR_VALUE = re.compile('Factor Value\[(.*?)\]')
+        factors = set()
+        for table_file in glob.iglob(os.path.join(tmpdir, '[a|s]_*')):
+            logging.info('Searching {}'.format(table_file))
+            with open(os.path.join(tmpdir, table_file)) as fp:
+                df = isatab.load_table(fp)
 
-    :param input_path: Input path to ISA-tab
-    :param factor_name: The factor name for which values are being queried
-    :return: A set of factor values associated with the factor and study
+                factors_headers = [header for header in list(df.columns.values)
+                                   if _RX_FACTOR_VALUE.match(header)]
 
-    Example usage:
-        factor_values = get_factor_values('/path/to/my/study/', 'genotype')
-    """
+                for header in factors_headers:
+                    factors.add(header[13:-1])
+    if factors is not None:
+        json.dump(list(factors), options.output, indent=4)
+        logger.debug("Factor names written")
+    else:
+        raise RuntimeError("Error reading factors.")
+    shutil.rmtree(tmpdir)
+
+
+def isatab_get_factor_values_command(options):
     import json
     logger.info("Getting values for factor {factor} in study {input_path}. Writing to {output_file}."
         .format(factor=options.factor, input_path=options.input_path, output_file=options.output.name))
@@ -507,33 +615,50 @@ def datatype_get_factor_values_command(options):
         raise RuntimeError("Error getting factor values")
 
 
-def datatype_get_factors_summary_command(options):
-    """
-    This function generates a factors summary for a MetaboLights study
+def zip_get_factor_values_command(options):
+    import json
+    import zipfile
+    input_path = next(iter(options.input_path))
+    logger.info("Getting factors for study %s. Writing to %s.",
+                input_path, options.output.name)
+    logger.info("Getting values for factor {factor} in study {input_path}. "
+                "Writing to {output_file}.".format(
+        factor=options.factor, input_path=options.input_path,
+        output_file=options.output.name))
+    fvs = set()
+    factor_name = options.factor
 
-    :param input_path: Input path to ISA-tab
-    :return: A list of dicts summarising the set of factor names and values
-    associated with each sample
+    # unpack input_path
+    with zipfile.ZipFile(input_path) as zfp:
+        import tempfile
+        tmpdir = tempfile.mkdtemp()
+        zfp.extractall(path=tmpdir)
+        for table_file in glob.glob(os.path.join(tmpdir, '[a|s]_*')):
+            logging.info('Searching {}'.format(table_file))
+            with open(os.path.join(input_path, table_file)) as fp:
+                df = isatab.load_table(fp)
+                if 'Factor Value[{factor}]'.format(factor=factor_name) in \
+                        list(df.columns.values):
+                    for _, match in df[
+                        'Factor Value[{factor}]'.format(
+                            factor=factor_name)].iteritems():
+                        try:
+                            match = match.item()
+                        except AttributeError:
+                            pass
 
-    Note: it only returns a summary of factors with variable values.
-
-    Example usage:
-        factor_summary = get_factors_summary('/path/to/my/study/')
-        [
-            {
-                "name": "ADG19007u_357",
-                "Metabolic syndrome": "Control Group",
-                "Gender": "Female"
-            },
-            {
-                "name": "ADG10003u_162",
-                "Metabolic syndrome": "diabetes mellitus",
-                "Gender": "Female"
-            },
-        ]
+                        if isinstance(match, (str, int, float)):
+                            if str(match) != 'nan':
+                                fvs.add(match)
+    if fvs is not None:
+        json.dump(list(fvs), options.output, indent=4)
+        logger.debug("Factor values written to {}".format(options.output))
+    else:
+        raise RuntimeError("Error getting factor values")
+    shutil.rmtree(tmpdir)
 
 
-    """
+def isatab_get_factors_summary_command(options):
     import json
     logger.info("Getting summary for study %s. Writing to %s.",
                 options.input_path, options.output.name)
@@ -576,8 +701,50 @@ def datatype_get_factors_summary_command(options):
         raise RuntimeError("Error getting study summary")
 
 
+def zip_get_factors_summary_command(options):
+    import json
+    import zipfile
+    logger.info("Getting summary for study %s. Writing to %s.",
+                options.input_path, options.output.name)
+    input_path = next(iter(options.input_path))
+    with zipfile.ZipFile(input_path) as zfp:
+        import tempfile
+        tmpdir = tempfile.mkdtemp()
+        zfp.extractall(path=tmpdir)
+        ISA = isatab.load(tmpdir)
+        all_samples = []
+        for study in ISA.studies:
+            all_samples.extend(study.samples)
+        samples_and_fvs = []
+        for sample in all_samples:
+            sample_and_fvs = {
+                'sources': ';'.join([x.name for x in sample.derives_from]),
+                'sample': sample.name,
+            }
+            for fv in sample.factor_values:
+                if isinstance(fv.value, (str, int, float)):
+                    fv_value = fv.value
+                    sample_and_fvs[fv.factor_name.name] = fv_value
+                elif isinstance(fv.value, OntologyAnnotation):
+                    fv_value = fv.value.term
+                    sample_and_fvs[fv.factor_name.name] = fv_value
+            samples_and_fvs.append(sample_and_fvs)
+        df = pd.DataFrame(samples_and_fvs)
+        nunique = df.apply(pd.Series.nunique)
+        cols_to_drop = nunique[nunique == 1].index
+        df = df.drop(cols_to_drop, axis=1)
+        summary = df.to_dict(orient='records')
+        print('summary: ', list(summary))
+    if summary is not None:
+        json.dump(summary, options.output, indent=4)
+        logger.debug("Summary dumped")
+    else:
+        raise RuntimeError("Error getting study summary")
+    shutil.rmtree(tmpdir)
+
+
 def get_study_groups(input_path):
-    factors_summary = datatype_get_factors_summary_command(input_path=input_path)
+    factors_summary = isatab_get_factors_summary_command(input_path=input_path)
     study_groups = {}
 
     for factors_item in factors_summary:
