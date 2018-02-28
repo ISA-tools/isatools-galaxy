@@ -13,10 +13,11 @@
     <stdio>
         <exit_code range="1:" />
     </stdio>
+
     <command>
         <![CDATA[
 
-        pip install git+https://github.com/ISA-tools/isa-api.git@feature/metabo_create_model#egg=isatools &&
+        pip install -e /Users/dj/Development/ISA/isa-api &&
         mkdir study_dir &&
         $__tool_directory__/cli.py
         --galaxy_parameters_file='$inputs'
