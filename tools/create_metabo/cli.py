@@ -98,20 +98,21 @@ def map_galaxy_to_isa_create(tool_params):
                     material_type=qc_plan_params['qc_type_conditional']['qc_material_type'],
                     injection_interval=qc_plan_params['qc_type_conditional']['injection_freq'])
             elif 'dilution series' in qc_plan_params['qc_type_conditional']['qc_type']:
-                batch = SampleQCBatch()
-                batch.material = qc_plan_params[
-                    'qc_type_conditional']['qc_material_type']
-                for value in range(qc_plan_params['qc_type_conditional']['start_val'],
-                                   qc_plan_params['qc_type_conditional']['stop_val'],
-                                   qc_plan_params['qc_type_conditional']['step']):
-                    characteristic = Characteristic(
-                        category=OntologyAnnotation(term='charac_name'), value=value)
-                    batch.characteristic_values.append(characteristic)
-                    print(characteristic)
-                if 'pre-run' in qc_plan_params['qc_type_conditional']['qc_type']:
-                    sample_assay_plan.pre_run_batch = batch
-                elif 'post-run' in qc_plan_params['qc_type_conditional']['qc_type']:
-                    sample_assay_plan.post_run_batch = batch
+                raise NotImplementedError(
+                    'Dilution series QCs not yet supported!')
+                # batch = SampleQCBatch()
+                # batch.material = qc_plan_params[
+                #     'qc_type_conditional']['qc_material_type']
+                # for value in range(qc_plan_params['qc_type_conditional']['start_val'],
+                #                    qc_plan_params['qc_type_conditional']['stop_val'],
+                #                    qc_plan_params['qc_type_conditional']['step']):
+                #     characteristic = Characteristic(
+                #         category=OntologyAnnotation(term='charac_name'), value=value)
+                #     batch.characteristic_values.append(characteristic)
+                # if 'pre-run' in qc_plan_params['qc_type_conditional']['qc_type']:
+                #     sample_assay_plan.pre_run_batch = batch
+                # elif 'post-run' in qc_plan_params['qc_type_conditional']['qc_type']:
+                #     sample_assay_plan.post_run_batch = batch
     sample_assay_plan.group_size = tool_params['treatment_plan']['study_group_size']
     return sample_assay_plan, tool_params['study_overview'], tool_params['treatment_plan']
 
