@@ -54,9 +54,10 @@ def map_galaxy_to_isa_create(tool_params):
                     nmr_top_mods.acquisition_modes.add(
                         assay_plan_params['assay_type']['acq_mod_cond'][
                             'acq_mod'])
-                    nmr_top_mods.instruments.add(
+                    nmr_top_mods.instruments.add('{} {}'.format(
                         assay_plan_params['assay_type']['acq_mod_cond'][
-                                    'nmr_instrument'])
+                                    'nmr_instrument'],assay_plan_params['assay_type']['acq_mod_cond'][
+                                    'magnet']))
                     nmr_top_mods.pulse_sequences.add(
                         assay_plan_params['assay_type']['acq_mod_cond'][
                             'pulse_seq']
@@ -182,13 +183,13 @@ def create_from_plan_parameters(galaxy_parameters_file, target_dir):
     s.contacts = [contact]
     s.description = study_info['study_description']
     s.filename = 's_study.txt'
-    s.title = 'ISA created {}'.format(datetime.datetime.now().isoformat())
+    s.title = study_info['study_title']
     s.identifier = 'ISA-{}'.format(uuid.uuid4().hex[:8])
 
     i = Investigation()
     i.contacts = [contact]
-    i.description = s.description
-    i.title = s.title
+    i.description = ""
+    i.title = "Investigation"
     i.identifier = s.identifier
 
     i.studies = [s]
