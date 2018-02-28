@@ -62,6 +62,8 @@ def map_galaxy_to_isa_create(tool_params):
                         assay_plan_params['assay_type']['acq_mod_cond'][
                             'pulse_seq']
                     )
+                    nmr_top_mods.magnet_power = assay_plan_params['assay_type']['acq_mod_cond'][
+                            'magnet']
                     nmr_assay_type.topology_modifiers = nmr_top_mods
                     sample_assay_plan.add_assay_type(nmr_assay_type)
                     sample_assay_plan.add_assay_plan_record(sample_type,
@@ -81,6 +83,11 @@ def map_galaxy_to_isa_create(tool_params):
                                 injection_mode=inj_mod['inj_mod_cond']['inj_mod'],
                                 ms_instrument=inj_mod['inj_mod_cond']['instrument']
                             )
+                            if inj_mod['inj_mod_cond']['inj_mod'] in ('LC', 'GC'):
+                                injection_mode.chromatography_instrument = \
+                                    inj_mod['inj_mod_cond']['chromato']
+                                injection_mode.chromatography_column = \
+                                    inj_mod['inj_mod_cond']['chromato_col']
                             injection_modes.add(injection_mode)
                             for acq_mod in inj_mod['inj_mod_cond']['acq_mod_series']:
                                 injection_mode.acquisition_modes.add(

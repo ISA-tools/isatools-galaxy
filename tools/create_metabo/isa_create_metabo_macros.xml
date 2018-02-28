@@ -290,7 +290,7 @@
                                            label="sample introduction method">
                                         <option value="DI">direct infusion
                                         </option>
-                                        <option value="FIA" selected="True">flow
+                                        <option value="FIA">flow
                                             infusion assay
                                         </option>
                                         <option value="LC" selected="True">
