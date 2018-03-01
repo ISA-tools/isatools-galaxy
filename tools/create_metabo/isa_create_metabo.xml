@@ -58,7 +58,9 @@
 
     <tests>
         <test>
+            <param name="inputs" value="test-data/galaxy_inputs.json"/>
             <output_collection name="isa_files" type="list" count="1"/>
+            <output_collection name="all_files" type="list" count="1"/>
         </test>
     </tests>
 
