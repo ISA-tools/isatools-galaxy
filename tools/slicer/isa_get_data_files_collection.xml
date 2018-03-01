@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <tool id="isa_get_data_files_collection" name="Get data files collection"
-      version="1.0">
+      version="1.1">
     <description>Get a collection of MetaboLights study data files filtered on
         factor values</description>
 
@@ -34,7 +34,7 @@
 
     <tests>
         <test>
-            <param name="mtbls_id" value="MTBLS1"/>
+            <param name="isatab_input" value="test-data/BII-S-7.zip"/>
             <param name="factor_name" value="Gender"/>
             <param name="factor_value" value="Female"/>
             <output name="output"/>

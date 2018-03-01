@@ -1,0 +1,137 @@
+[
+    {
+        "sample": "8EU",
+        "data_files": [
+            "8EU.sff"
+        ],
+        "query_used": {
+            "diet": "mediterranean diet"
+        }
+    },
+    {
+        "sample": "6EU",
+        "data_files": [
+            "6EU.sff"
+        ],
+        "query_used": {
+            "diet": "mediterranean diet"
+        }
+    },
+    {
+        "sample": "5EU",
+        "data_files": [
+            "5EU.sff"
+        ],
+        "query_used": {
+            "diet": "mediterranean diet"
+        }
+    },
+    {
+        "sample": "3EU",
+        "data_files": [
+            "3EU.sff"
+        ],
+        "query_used": {
+            "diet": "mediterranean diet"
+        }
+    },
+    {
+        "sample": "2EU",
+        "data_files": [
+            "2EU.sff"
+        ],
+        "query_used": {
+            "diet": "mediterranean diet"
+        }
+    },
+    {
+        "sample": "21EU",
+        "data_files": [
+            "21EU.sff"
+        ],
+        "query_used": {
+            "diet": "mediterranean diet"
+        }
+    },
+    {
+        "sample": "20EU",
+        "data_files": [
+            "20EU.sff"
+        ],
+        "query_used": {
+            "diet": "mediterranean diet"
+        }
+    },
+    {
+        "sample": "1EU",
+        "data_files": [
+            "1EU.sff"
+        ],
+        "query_used": {
+            "diet": "mediterranean diet"
+        }
+    },
+    {
+        "sample": "19EU",
+        "data_files": [
+            "19EU.sff"
+        ],
+        "query_used": {
+            "diet": "mediterranean diet"
+        }
+    },
+    {
+        "sample": "18EU",
+        "data_files": [
+            "18EU.sff"
+        ],
+        "query_used": {
+            "diet": "mediterranean diet"
+        }
+    },
+    {
+        "sample": "17EU",
+        "data_files": [
+            "17EU.sff"
+        ],
+        "query_used": {
+            "diet": "mediterranean diet"
+        }
+    },
+    {
+        "sample": "13EU",
+        "data_files": [
+            "13EU.sff"
+        ],
+        "query_used": {
+            "diet": "mediterranean diet"
+        }
+    },
+    {
+        "sample": "12EU",
+        "data_files": [
+            "12EU.sff"
+        ],
+        "query_used": {
+            "diet": "mediterranean diet"
+        }
+    },
+    {
+        "sample": "11EU",
+        "data_files": [
+            "11EU.sff"
+        ],
+        "query_used": {
+            "diet": "mediterranean diet"
+        }
+    },
+    {
+        "sample": "10EU",
+        "data_files": [
+            "10EU.sff"
+        ],
+        "query_used": {
+            "diet": "mediterranean diet"
+        }
+    }
+]
