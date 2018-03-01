@@ -18,9 +18,9 @@ tmp_dir = tempfile.mkdtemp()
 with zipfile.ZipFile(input_path) as zfp:
     zfp.extractall(path=tmp_dir)
 
-    my_json = isatab2json.convert(
-        work_dir=tmp_dir, validate_first=False, use_new_parser=True)
-    with open(output_file_path, 'w') as out_fp:
-        json.dump(my_json, out_fp)
+my_json = isatab2json.convert(
+    work_dir=tmp_dir, validate_first=False, use_new_parser=True)
+with open(output_file_path, 'w') as out_fp:
+    json.dump(my_json, out_fp)
 shutil.rmtree(tmp_dir)
 
