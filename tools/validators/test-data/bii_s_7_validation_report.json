@@ -1,0 +1,88 @@
+{
+    "errors": [],
+    "warnings": [
+        {
+            "message": "A required property is missing",
+            "supplemental": "A property value in Investigation Title of investigation file at column 1 is required",
+            "code": 4003
+        },
+        {
+            "message": "A required property is missing",
+            "supplemental": "A property value in Investigation Description of investigation file at column 1 is required",
+            "code": 4003
+        },
+        {
+            "message": "A required property is missing",
+            "supplemental": "A property value in Study Publication DOI of investigation file at column 1 is required",
+            "code": 4003
+        },
+        {
+            "message": "A required property is missing",
+            "supplemental": "A property value in Study Person Mid Initials of investigation file at column 1 is required",
+            "code": 4003
+        },
+        {
+            "message": "A required property is missing",
+            "supplemental": "A property value in Study Person Mid Initials of investigation file at column 2 is required",
+            "code": 4003
+        },
+        {
+            "message": "A required property is missing",
+            "supplemental": "A property value in Study Person Mid Initials of investigation file at column 3 is required",
+            "code": 4003
+        },
+        {
+            "message": "A required property is missing",
+            "supplemental": "A property value in Study Person Mid Initials of investigation file at column 4 is required",
+            "code": 4003
+        },
+        {
+            "message": "A required property is missing",
+            "supplemental": "A property value in Study Person Mid Initials of investigation file at column 5 is required",
+            "code": 4003
+        },
+        {
+            "message": "A required property is missing",
+            "supplemental": "A property value in Study Person Mid Initials of investigation file at column 6 is required",
+            "code": 4003
+        },
+        {
+            "message": "A required property is missing",
+            "supplemental": "A property value in Study Person Mid Initials of investigation file at column 7 is required",
+            "code": 4003
+        },
+        {
+            "message": "A required property is missing",
+            "supplemental": "A property value in Study Person Mid Initials of investigation file at column 8 is required",
+            "code": 4003
+        },
+        {
+            "message": "A required property is missing",
+            "supplemental": "A property value in Study Person Mid Initials of investigation file at column 9 is required",
+            "code": 4003
+        },
+        {
+            "message": "A required property is missing",
+            "supplemental": "A property value in Study Person Mid Initials of investigation file at column 10 is required",
+            "code": 4003
+        },
+        {
+            "message": "A value does not correspond to the correct data type",
+            "supplemental": "Invalid value 'V6 and V5' for type 'list' of the field 'Parameter Value[target_subfragment]'",
+            "code": 4011
+        }
+    ],
+    "info": [
+        {
+            "message": "Found 2 study groups in s_BII-S-7.txt",
+            "supplemental": "Found 2 study groups in s_BII-S-7.txt",
+            "code": 5001
+        },
+        {
+            "message": "Found -1 study groups in a_matteo-assay-Gx.txt",
+            "supplemental": "Found -1 study groups in a_matteo-assay-Gx.txt",
+            "code": 5001
+        }
+    ],
+    "validation_finished": true
+}
