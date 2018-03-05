@@ -85,8 +85,9 @@ def map_galaxy_to_isa_create(tool_params):
                             if inj_mod['inj_mod_cond']['inj_mod'] in ('LC', 'GC'):
                                 injection_mode.chromatography_instrument = \
                                     inj_mod['inj_mod_cond']['chromato']
-                                injection_mode.chromatography_column = \
-                                    inj_mod['inj_mod_cond']['chromato_col']
+                                if inj_mod['inj_mod_cond']['inj_mod'] == 'LC':
+                                    injection_mode.chromatography_column = \
+                                        inj_mod['inj_mod_cond']['chromato_col']
                             injection_modes.add(injection_mode)
                             for acq_mod in inj_mod['inj_mod_cond']['acq_mod_series']:
                                 injection_mode.acquisition_modes.add(
