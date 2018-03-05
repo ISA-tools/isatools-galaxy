@@ -17,7 +17,7 @@
     <command>
         <![CDATA[
 
-        pip install -e /Users/dj/Development/ISA/isa-api &&
+        pip install git+https://github.com/ISA-tools/isa-api.git@v0.9.5-cbln1.1#egg=isatools &&
         mkdir study_dir &&
         $__tool_directory__/cli.py
         --galaxy_parameters_file='$inputs'
