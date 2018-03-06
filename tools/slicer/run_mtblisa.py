@@ -319,7 +319,6 @@ def get_summary_command(options):
                 options.study_id, options.output.name)
 
     summary = MTBLS.get_study_variable_summary(options.study_id)
-    print('summary: ', list(summary))
     if summary is not None:
         json.dump(summary, options.output, indent=4)
         logger.debug("Summary dumped")
