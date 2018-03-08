@@ -7,7 +7,7 @@
 
     <requirements>
         <requirement type="package" version="6.7">click</requirement>
-        <!--<requirement type="package" version="0.9.4">isatools</requirement>-->
+        <!--<requirement type="package" version="0.9.5">isatools</requirement>-->
     </requirements>
 
     <stdio>
@@ -16,8 +16,7 @@
 
     <command>
         <![CDATA[
-
-        pip install git+https://github.com/ISA-tools/isa-api.git@v0.9.5-cbln1.1#egg=isatools &&
+        pip install -U git+https://github.com/ISA-tools/isa-api.git@v0.9.5-cbln1.1#egg=isatools &&
         mkdir study_dir &&
         $__tool_directory__/cli.py
         --galaxy_parameters_file='$inputs'
