@@ -14,15 +14,19 @@
     </stdio>
 
     <command><![CDATA[
+
         #if $data_file.input == "mtbls_id"
-            run_mtblisa.py mtbls-get-factors
-            "${mtbls_id}" "${output}"
+            #set $command = "mtbls-get-factors"
+            #set $source = $data_file.mtbls_id
         #end if
 
         #if $data_file.input == "isatab_input"
-            run_mtblisa.py isa-tab-get-factors
-            "${data_file.isatab_input.extra_files_path}" "${output}"
+            #set $command = "isa-tab-get-factors"
+            #set $source = $data_file.isatab_input
         #end if
+
+        run_mtblisa.py "$command" "${source}" "${output}"
+
 ]]>
     </command>
     <inputs>
