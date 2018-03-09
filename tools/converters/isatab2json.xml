@@ -3,7 +3,7 @@
     <description>Converts an ISA-Tab to ISA-JSON</description>
 
     <requirements>
-        <requirement type="package" version="0.9.4">isatools</requirement>
+        <requirement type="package" version="0.9.5">isatools</requirement>
     </requirements>
 
     <stdio>
