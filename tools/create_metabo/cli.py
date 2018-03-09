@@ -152,12 +152,19 @@ def create_from_plan_parameters(galaxy_parameters_file, target_dir):
 
     intervention_type = treatment_plan_params['study_type_cond']['one_or_more'][
         'intervention_type']['select_intervention_type']
-    if intervention_type != 'chemical intervention':
-        raise NotImplementedError(
-            'Only Chemical Interventions supported at this time')
+
+    interventions = []
+    if intervention_type == 'chemical intervention':
+        interventions = INTERVENTIONS['CHEMICAL']
+    elif intervention_type == 'behavioural intervention':
+        interventions = INTERVENTIONS['BEHAVIOURAL']
+    elif intervention_type == 'biological intervention':
+        interventions = INTERVENTIONS['BIOLOGICAL']
+    elif intervention_type == 'surgical intervention':
+        interventions = INTERVENTIONS['SURGICAL']
 
     treatment_factory = TreatmentFactory(
-        intervention_type=INTERVENTIONS['CHEMICAL'], factors=BASE_FACTORS)
+        intervention_type=interventions, factors=BASE_FACTORS)
     agent_levels = treatment_plan_params['study_type_cond']['one_or_more'][
         'intervention_type']['agent'].split(',')
     for agent_level in agent_levels:
