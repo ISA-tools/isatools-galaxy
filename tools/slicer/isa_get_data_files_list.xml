@@ -24,6 +24,7 @@
         #set $source = $data_file.isatab_input
     #end if
 
+    pip install -U git+https://github.com/ISA-tools/isa-api.git@develop#egg=isatools &&
     $__tool_directory__/run_mtblisa.py "$command" "${source}" "${output}" --galaxy_parameters_file "$inputs"
 
 ]]>
