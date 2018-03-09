@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <tool id="isa_get_factors_summary" name="Get summary of factors" version="1.1">
-    <description>Produce a summary table of variable factors of a MetaboLights study
+    <description>Produce a summary table of variable factors of a ISA-Tab study
     </description>
 
     <requirements>
@@ -59,9 +59,9 @@
 
     <help>
 <!-- @@@BEGIN_RST@@@ -->
-===============================================
-Get summary of factors for a MetaboLights study
-===============================================
+==========================================
+Get summary of factors for a ISA-Tab study
+==========================================
 
 This tool returns a table of sample names and related associated factor
 values. The tool calculates this by inspecting the ISA study and assay

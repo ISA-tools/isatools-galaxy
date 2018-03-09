@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <tool id="isa_get_study_factors" name="Get study factors" version="1.1">
     <description>
-        Get list of study factors for a MetaboLights study
+        Get list of study factors for a ISA-Tab study
     </description>
 
     <requirements>
@@ -62,9 +62,9 @@
     <help>
 <!-- @@@BEGIN_RST@@@ -->
 
-==================================================
-Get list of study factors for a MetaboLights study
-==================================================
+=============================================
+Get list of study factors for a ISA-Tab study
+=============================================
 
 This tool gets the list of study factors from a MetaboLights study. It
 extracts the factors from the ISA-Tab metadata stored in MetaboLights.

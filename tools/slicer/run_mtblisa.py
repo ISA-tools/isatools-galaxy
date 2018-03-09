@@ -8,6 +8,8 @@ import logging
 import glob
 import re
 import pandas as pd
+import json
+import zipfile
 
 from isatools import isatab
 from isatools.net import mtbls as MTBLS
@@ -80,10 +82,12 @@ def make_parser():
     subparser.add_argument('study_id')
     subparser.add_argument('output',nargs='?', type=argparse.FileType('w'), default=sys.stdout,
                            help="Output file")
-
     subparser.add_argument(
         '--json-query',
         help="Factor query in JSON (e.g., '{\"Gender\":\"Male\"}'")
+    subparser.add_argument(
+        '--galaxy_parameters_file',
+        help="Path to JSON file containing input Galaxy JSON")
 
     subparser = subparsers.add_parser(
         'mtbls-get-factors-summary', aliases=['gsum'],
@@ -149,6 +153,9 @@ def make_parser():
     subparser.add_argument(
         '--json-query',
         help="Factor query in JSON (e.g., '{\"Gender\":\"Male\"}'")
+    subparser.add_argument(
+        '--galaxy_parameters_file',
+        help="Path to JSON file containing input Galaxy JSON")
 
     subparser = subparsers.add_parser('zip-get-data-list', aliases=['dtgd'],
                                       help="Get data files list in json format")
@@ -159,6 +166,9 @@ def make_parser():
     subparser.add_argument(
         '--json-query',
         help="Factor query in JSON (e.g., '{\"Gender\":\"Male\"}'")
+    subparser.add_argument(
+        '--galaxy_parameters_file',
+        help="Path to JSON file containing input Galaxy JSON")
 
     subparser = subparsers.add_parser('isa-tab-get-data-collection', aliases=['dtgd'],
                                       help="Get data files collection")
@@ -290,18 +300,24 @@ def get_factor_values_command(options):
 
 
 def get_data_files_command(options):
-    import json
     logger.info("Getting data files for study %s. Writing to %s.",
                 options.study_id, options.output.name)
     if options.json_query:
         logger.debug("This is the specified query:\n%s", options.json_query)
-    else:
-        logger.debug("No query was specified")
-
-    if options.json_query is not None:
         json_struct = json.loads(options.json_query)
         data_files = MTBLS.get_data_files(options.study_id, json_struct)
+    elif options.galaxy_parameters_file:
+        logger.debug("Using input Galaxy JSON parameters from:\n%s",
+                     options.galaxy_parameters_file)
+        with open(options.galaxy_parameters_file) as json_fp:
+            galaxy_json = json.load(json_fp)
+            json_struct = {}
+            for fv_item in galaxy_json['factor_value_series']:
+                json_struct[fv_item['factor_name']] = fv_item['factor_value']
+            print(json_struct)
+            data_files = MTBLS.get_data_files(options.study_id, json_struct)
     else:
+        logger.debug("No query was specified")
         data_files = MTBLS.get_data_files(options.study_id)
 
     logger.debug("Result data files list: %s", data_files)
@@ -330,19 +346,24 @@ def get_summary_command(options):
 # isaslicer commands
 
 def isatab_get_data_files_list_command(options):
-    import json
     logger.info("Getting data files for study %s. Writing to %s.",
                 options.input_path, options.output.name)
     if options.json_query:
         logger.debug("This is the specified query:\n%s", options.json_query)
+        json_struct = json.loads(options.json_query)
+    elif options.galaxy_parameters_file:
+        logger.debug("Using input Galaxy JSON parameters from:\n%s",
+                     options.galaxy_parameters_file)
+        with open(options.galaxy_parameters_file) as json_fp:
+            galaxy_json = json.load(json_fp)
+            json_struct = {}
+            for fv_item in galaxy_json['factor_value_series']:
+                json_struct[fv_item['factor_name']] = fv_item['factor_value']
     else:
         logger.debug("No query was specified")
+        json_struct = None
+    factor_selection = json_struct
     input_path = next(iter(options.input_path))
-    if options.json_query is not None:
-        json_struct = json.loads(options.json_query)
-        factor_selection = json_struct
-    else:
-        factor_selection = None
     result = slice_data_files(input_path, factor_selection=factor_selection)
     data_files = result
     logger.debug("Result data files list: %s", data_files)
@@ -355,20 +376,24 @@ def isatab_get_data_files_list_command(options):
 
 
 def zip_get_data_files_list_command(options):
-    import json
     logger.info("Getting data files for study %s. Writing to %s.",
                 options.input_path, options.output.name)
     if options.json_query:
         logger.debug("This is the specified query:\n%s", options.json_query)
+        json_struct = json.loads(options.json_query)
+    elif options.galaxy_parameters_file:
+        logger.debug("Using input Galaxy JSON parameters from:\n%s",
+                     options.galaxy_parameters_file)
+        with open(options.galaxy_parameters_file) as json_fp:
+            galaxy_json = json.load(json_fp)
+            json_struct = {}
+            for fv_item in galaxy_json['factor_value_series']:
+                json_struct[fv_item['factor_name']] = fv_item['factor_value']
     else:
         logger.debug("No query was specified")
+        json_struct = None
+    factor_selection = json_struct
     input_path = next(iter(options.input_path))
-    if options.json_query is not None:
-        json_struct = json.loads(options.json_query)
-        factor_selection = json_struct
-    else:
-        factor_selection = None
-    import zipfile
     with zipfile.ZipFile(input_path) as zfp:
         import tempfile
         tmpdir = tempfile.mkdtemp()
@@ -413,7 +438,6 @@ def isatab_get_data_files_collection_command(options):
 
 
 def zip_get_data_files_collection_command(options):
-    import json
     logger.info("Getting data files for study %s. Writing to %s.",
                 options.input_path, options.output_path)
     if options.json_query:
@@ -427,7 +451,6 @@ def zip_get_data_files_collection_command(options):
         factor_selection = json_struct
     else:
         factor_selection = None
-    import zipfile
     with zipfile.ZipFile(input_path) as zfp:
         import tempfile
         tmpdir = tempfile.mkdtemp()
@@ -1001,6 +1024,7 @@ def main(args):
 
 if __name__ == '__main__':
     try:
+        print(sys.argv[1:])
         main(sys.argv[1:])
         sys.exit(0)
     except Exception as e:

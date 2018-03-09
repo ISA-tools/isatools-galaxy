@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <tool id="isa_get_data_files_collection" name="Get data files collection"
       version="1.1">
-    <description>Get a collection of MetaboLights study data files filtered on
+    <description>Get a collection of ISA-Tab study data files filtered on
         factor values</description>
 
     <requirements>
@@ -48,9 +48,9 @@
 
     <help>
 <!-- @@@BEGIN_RST@@@ -->
-========================================
-Get a MetaboLights study data files list
-========================================
+=========================================
+Get a ISA-Tab study data files collection
+=========================================
 
 This tool returns a list of data files sliced on a filtered factor name
 and value.
@@ -58,16 +58,6 @@ and value.
 -----
 Input
 -----
-
-ISA-Tab input source
-====================
-Choose an input source, either direct from Metabolights or from an ISA-Tab
-history item that has already been downloaded or created in Galaxy.
-
-MetaboLights Study Identifier
-=============================
-If the input source is Metabolights, then provide the MTBLS identifier
-available at MetaboLights, e.g. MTBLS2.
 
 ISA-Tab datatype history item
 =============================
