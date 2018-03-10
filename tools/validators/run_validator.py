@@ -31,3 +31,51 @@ if len(i_files) == 1:
                 json.dump(json_report, out_fp, indent=4)
 import shutil
 shutil.rmtree(tmp_dir)
+
+
+def build_messages(messages):
+    messages_table = "<table>"
+    messages_table += "<tr><th>Code</th><th>Message</th><th>Supplemental information</th></tr>"
+    for message in messages:
+        messages_table += "<tr><td>{code}</td><td>{message}</td><td>{supplemental}</td></tr>".format(
+            code=message['code'], message=message['message'], supplemental=message['suplemental']
+        )
+    messages_table += "</table>"
+    return messages_table
+
+
+# now convert to html
+report_html = """
+<html>
+<head>
+<title>ISA-Tab validator | Validation report</title>
+</head>
+<body>
+
+<p>Validation completed: {valdation_finished}</p>
+
+<p>Info messages</p>
+<p>
+{info_table}
+</p>
+
+<p>Warning messages</p>
+<p>
+{warnings_table}
+</p>
+
+<p>Error messages</p>
+<p>
+{errors_table}
+</p>
+
+</body>
+</html>
+""".format(
+    valdation_finished=json_report['validation_finished'],
+    info_table=build_messages(json_report['info']),
+    warnings_table=build_messages(json_report['warnings']),
+    errors_table=build_messages(json_report['errors'])
+)
+
+print(report_html)
