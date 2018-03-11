@@ -12,14 +12,15 @@
     </stdio>
 
     <command><![CDATA[
-        $__tool_directory__/run_validator.py "$isatab_input" "$output"
+        $__tool_directory__/run_validator.py '$isatab_input' '$json_output' '$html_output'
   ]]>
     </command>
     <inputs>
         <param name="isatab_input" label="ISA" type="data" format="zip"/>
     </inputs>
     <outputs>
-        <data format="json" name="output" label="Validation report in JSON format."/>
+        <data format="json" name="json_output" label="Validation report in JSON format."/>
+        <data format="html" name="html_output" label="Validation report in HTML format."/>
     </outputs>
 
     <tests>
