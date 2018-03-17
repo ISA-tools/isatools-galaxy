@@ -23,7 +23,7 @@
         #set $source = $data_file.isatab_input
     #end if
 
-    $__tool_directory__/run_mtblisa.py "$command" "${source}" "${output}"
+    $__tool_directory__/run_mtblisa.py "$command" "${source}" "${json_output}" "${html_output}"
 
 ]]>
     </command>
@@ -42,18 +42,19 @@
         </conditional>
     </inputs>
     <outputs>
-        <data format="json" name="output" label="Study factors summary"/>
+        <data format="json" name="json_output" label="Study factors summary (JSON)"/>
+        <data format="html" name="html_output" label="Study factors summary (HTML)"/>
     </outputs>
     <tests>
         <test>
             <param name="data_file.input" value="isatab_input"/>
             <param name="isatab_input" value="test-data/BII-S-7.zip"/>
-            <output name="output" file="bii_s_7_factors_summary_out.json" compare="sim_size"/>
+            <output name="json_output" file="bii_s_7_factors_summary_out.json" compare="sim_size"/>
         </test>
         <test>
             <param name="data_file.input" value="mtbls_id"/>
             <param name="mtbls_id" value="MTBLS1"/>
-            <output name="output" file="mtbls1_factors_summary_out.json" compare="sim_size"/>
+            <output name="json_output" file="mtbls1_factors_summary_out.json" compare="sim_size"/>
         </test>
     </tests>
 

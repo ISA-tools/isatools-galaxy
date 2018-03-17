@@ -95,8 +95,11 @@ def make_parser():
     subparser.set_defaults(func=get_summary_command)
     subparser.add_argument('study_id')
     subparser.add_argument(
-        'output', nargs='?', type=argparse.FileType('w'), default=sys.stdout,
-        help="Output file")
+        'json_output', nargs='?', type=argparse.FileType('w'), default=sys.stdout,
+        help="Output JSON file")
+    subparser.add_argument(
+        'html_output', nargs='?', type=argparse.FileType('w'), default=sys.stdout,
+        help="Output HTML file")
 
     # isaslicer commands on path to unpacked ISA-Tab as input
 
@@ -330,15 +333,43 @@ def get_data_files_command(options):
 
 
 def get_summary_command(options):
-    import json
     logger.info("Getting summary for study %s. Writing to %s.",
-                options.study_id, options.output.name)
+                options.study_id, options.json_output.name)
 
     summary = MTBLS.get_study_variable_summary(options.study_id)
-    print('summary: ', list(summary))
     if summary is not None:
-        json.dump(summary, options.output, indent=4)
-        logger.debug("Summary dumped")
+        json.dump(summary, options.json_output, indent=4)
+        logger.debug("Summary dumped to JSON")
+        study_groups = {}
+        for item in summary:
+            sample_name = item['sample_name']
+            study_factors = []
+            for item in [x for x in item.items() if x[0] != "sample_name"]:
+                study_factors.append(': '.join([item[0], item[1]]))
+            study_group = ', '.join(study_factors)
+            if study_group not in study_groups.keys():
+                study_groups[study_group] = []
+            study_groups[study_group].append(sample_name)
+        summary_table = '<table>'
+        summary_table += '<tr><th>Study group</th><th>Number of samples</th></tr>'
+        for item in study_groups.items():
+            study_group = item[0]
+            num_samples = len(item[1])
+            summary_table += '<tr><td>{study_group}</td><td>{num_samples}</td>'\
+                .format(study_group=study_group, num_samples=num_samples)
+        summary_table += '</table>'
+        html_summary = """
+<html>
+<head>
+<title>ISA-Tab Factors Summary</title>
+</head>
+<body>
+{summary_table}
+</body>
+</html>
+""".format(summary_table=summary_table)
+        with options.html_output as html_fp:
+            html_fp.write(html_summary)
     else:
         raise RuntimeError("Error getting study summary")
 
