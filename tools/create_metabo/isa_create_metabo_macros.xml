@@ -212,13 +212,22 @@
                 <when value="observation"/>
             </conditional>
             <!-- INPUT FOR SETTING CHARACTERISTICS OF STUDY GROUPS -->
-            <param name="group_balanced" type="select"
-                   label="study design balance">
-                <option value="balanced" selected="True">balanced</option>
-                <option value="unbalanced">unbalanced</option>
-            </param>
-            <param name="study_group_size" type="integer"
-                   label="study group size" value="3"/>
+            <conditional name="group_balanced_cond">
+                <param name="select_group_balanced" type="select" label="study design balance">
+                    <option value="balanced" selected="True">balanced</option>
+                    <option value="unbalanced">unbalanced</option>
+                </param>
+                 <when value="balanced">
+                     <param name="study_group_size" type="integer" label="study group size" value="3"/>
+                 </when>
+                <when value="unbalanced">
+                     <param name="factors" type="text" label="factors" value="agent,intensity,duration"/>
+                     <repeat name="factor_value_series" title="factor values" default="1">
+                         <param name="factor_value" type="text" value="aspirin,low dose,t1"/>
+                     </repeat>
+                     <param name="study_group_size" type="integer" label="study group size" value="3,2,3"/>
+                </when>
+            </conditional>
         </section>
     </xml>
     <xml name="sample_assay_plan_macro">

@@ -339,6 +339,27 @@ def get_data_files_command(options):
     logger.info("Finished writing data files to {}".format(options.output))
 
 
+def build_html_data_files_list(data_files_list):
+    data_files_table = '<table>'
+    data_files_table += '<tr><th>Sample Name</th><th>Data File Names</th></tr>'
+    for data_file in data_files_list:
+        sample_name = data_file['sample']
+        data_files = ', '.join(data_file['data_files'])
+        data_files_table += '<tr><td>{sample_name}</td><td>{data_files}</td>' \
+            .format(sample_name=sample_name, data_files=data_files)
+    html_data_files_list = """
+    <html>
+    <head>
+    <title>ISA-Tab Factors Summary</title>
+    </head>
+    <body>
+    {summary_table}
+    </body>
+    </html>
+""".format(summary_table=data_files_table)
+    return html_data_files_list
+
+
 def build_html_summary(summary):
     study_groups = {}
     for item in summary:
@@ -438,7 +459,6 @@ def zip_get_data_files_list_command(options):
     factor_selection = json_struct
     input_path = next(iter(options.input_path))
     with zipfile.ZipFile(input_path) as zfp:
-        import tempfile
         tmpdir = tempfile.mkdtemp()
         zfp.extractall(path=tmpdir)
         result = slice_data_files(tmpdir, factor_selection=factor_selection)
