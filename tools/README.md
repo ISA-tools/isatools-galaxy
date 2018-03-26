@@ -19,19 +19,19 @@ Create ISA template content from study design information.
 
 	-- adding a table definition to the tool_data_table_conf.xml galaxy configurations files
     <!-- Locations of terminology files under genome directory -->
-    <table name="isa_cvterms" comment_char="#">
+    `<table name="isa_cvterms" comment_char="#">`
         <columns>dbkey, name, value</columns>
         <file path="tool-data/isa_cvterms.loc" />
-    </table>
+    `</table>`
 
-	-- copying the file 'isa-cvterms.loc' under 'tool-data' folder 
+	-- copying the file `isa-cvterms.loc` under `tool-data` folder 
 
-	-- editing the galaxy config.ini file to make galaxy aware of this support file
+	-- editing the galaxy `config.ini` file to make galaxy aware of this support file
 
-	XML config file that contains data table entries for the
-	ToolDataTableManager.  This file is manually # maintained by the Galaxy
-	administrator (.sample used if default does not exist).
-	tool_data_table_config_path = config/tool_data_table_conf.xml
+	`XML config file that contains data table entries for the`
+	`ToolDataTableManager.  This file is manually # maintained by the Galaxy`
+	`administrator (.sample used if default does not exist).`
+	`tool_data_table_config_path = config/tool_data_table_conf.xml`
 
  
 ISA-Tab slicer
