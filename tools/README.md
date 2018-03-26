@@ -17,7 +17,7 @@ Create ISA template content from study design information.
  - Installation requires:
 
 
-	-- adding a table definition to the tool_data_table_conf.xml galaxy configurations files
+	-- adding a table definition to the `tool_data_table_conf.xml` galaxy configurations files
     <!-- Locations of terminology files under genome directory -->
     `<table name="isa_cvterms" comment_char="#">`
         <columns>dbkey, name, value</columns>
