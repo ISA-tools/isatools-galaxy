@@ -10,10 +10,12 @@ tmp=$scriptdir/tmp
 # Set up venv and activate
 virtualenv -q -p python3.5 $venv
 source $venv/bin/activate
-pip install isatools==0.9.4 click==6.7
+pip install isatools==0.9.5 click==6.7
 
-$scriptdir/cli.py --galaxy_parameters_file=$testdir/galaxy_inputs.json --target_dir=$tmp/
-#$scriptdir/cli.py --sample_assay_plans_file=$testdir/sample_assay_plans.json --study_info_file=$testdir/study_info.json --treatment_plans_file=$testdir/treatment_plan.json --target_dir=$tmp/
+#planemo lint $scriptdir/tools/isa_create_metabo/isa_create_metabo.xml
+#planemo test $scriptdir/tools/isa_create_metabo/isa_create_metabo.xml
+
+$scriptdir/cli.py --galaxy_parameters_file=$scriptdir/tools/create_metabo/test-data/galaxy_inputs.json --target_dir=$tmp/
 
 
 # Deactivate venv and cleanup
