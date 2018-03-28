@@ -16,13 +16,18 @@ except ImportError as e:
     raise RuntimeError('Could not import isatools.isatab package')
 
 tmp_dir = tempfile.mkdtemp()
-with zipfile.ZipFile(input_path) as zfp:
-    zfp.extractall(path=tmp_dir)
+
+if os.path.isdir(input_path):
+    isatab_dir = input_path
+else:
+    with zipfile.ZipFile(input_path) as zfp:
+        zfp.extractall(path=tmp_dir)
+    isatab_dir = tmp_dir
 if not os.path.exists(tmp_dir):
-    print('File path to ISA files \'{}\' does not exist'.format(tmp_dir))
+    print('File path to ISA files \'{}\' does not exist'.format(isatab_dir))
     sys.exit(0)
 report = None
-i_files = glob.glob(os.path.join(tmp_dir, 'i_*.txt'))
+i_files = glob.glob(os.path.join(isatab_dir, 'i_*.txt'))
 if len(i_files) == 1:
     i_file_name = next(iter(i_files))
     with open(i_file_name) as in_fp:

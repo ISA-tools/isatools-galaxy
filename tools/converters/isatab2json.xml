@@ -11,7 +11,7 @@
     </stdio>
 
     <command><![CDATA[
-        $__tool_directory__/run_tab2json.py "$isatab_input" "$output"
+        run_tab2json.py "$isatab_input.extra_files_path" "$output"
 ]]>
     </command>
     <inputs>
