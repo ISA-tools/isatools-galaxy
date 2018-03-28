@@ -125,7 +125,7 @@
                                 <when value="surgical intervention">
                                     <param name="agent" type="text"
                                            value="procedure 1,procedure 2"/>
-                                    <!--<param name="intensity" type="text" value="low dose,moderate dose,high dose"/>-->
+                                    <param name="intensity" type="text" value="standard"/>
                                     <param name="duration" type="text"
                                            value="t0,t1,t2"/>
                                 </when>
@@ -191,7 +191,7 @@
                                     <when value="surgical intervention">
                                         <param name="agent" type="text"
                                                value="procedure 1,procedure 2"/>
-                                        <!--<param name="intensity" type="text" value="low dose,moderate dose,high dose"/>-->
+                                        <param name="intensity" type="text" value="standard"/>
                                         <param name="duration" type="text"
                                                value="t0,t1,t2"/>
                                     </when>
@@ -704,7 +704,7 @@
                                                    value="1"/>
                                         </repeat>
                                         <repeat name="derivatization_series"
-                                                title="derivations">
+                                                title="derivatizations">
                                             <param name="derivatization"
                                                    type="select"
                                                    label="derivatization">

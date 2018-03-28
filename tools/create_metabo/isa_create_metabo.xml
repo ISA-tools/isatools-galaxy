@@ -7,7 +7,7 @@
 
     <requirements>
         <requirement type="package" version="6.7">click</requirement>
-        <!--<requirement type="package" version="0.9.4">isatools</requirement>-->
+        <!--<requirement type="package" version="0.9.5">isatools</requirement>-->
     </requirements>
 
     <stdio>
@@ -45,7 +45,7 @@
         <collection type="list" label="All files" name="all_files">
             <discover_datasets pattern="(?P&lt;designation&gt;.+)\.[a-zA-Z0-9]+" directory="study_dir" />
         </collection>
-        <data format="isa-tab" name="output" label="New ISA-Tab"/>
+        <data format="zip" name="output" label="New ISA-Tab"/>
     </outputs>
 
     <tests>
