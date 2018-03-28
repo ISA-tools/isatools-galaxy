@@ -1,5 +1,4 @@
-tool_test_output.html
-tool_test_output.json
+tool_test_output.*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

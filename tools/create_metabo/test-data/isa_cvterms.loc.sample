@@ -1,0 +1,15 @@
+#<dbkey>	<name>	<value>
+1	Illumina Genome Analyzer II	instrument
+2	Illumina Genome Analyzer Iix	instrument
+3	Illumina HiSeq 1000	instrument
+4	Illumina HiSeq  2000	instrument
+5	Illumina HiSeq	instrument
+6	Illumina HiSeq 2500	instrument
+7	Illumina HiSeq 3000	instrument
+8	Illumina HiSeq 4000	instrument
+9	Illumina HiScanSQ	instrument
+10	Illumina MiSeq	instrument
+11	HiSeq X Five	instrument
+12	HiSeq X Ten	instrument
+13	NextSeq 500	instrument
+14	NextSeq 550	instrument
