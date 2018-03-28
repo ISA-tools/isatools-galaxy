@@ -26,13 +26,6 @@
 
         ]]>
     </command>
-<!--
-        mkdir '${output.files_path}' &&
-        cli.py
-        -galaxy_parameters_file='$inputs'
-        -target_dir='./' &&
-        cp ./*.txt '${output.files_path}'
--->
 
     <configfiles>
         <inputs name="inputs" />

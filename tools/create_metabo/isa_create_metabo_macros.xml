@@ -35,20 +35,20 @@
                  <param name="protocol_desc" area="True" size="5x25" type="text" label="Protocol Description"></param>
                  <param name="protocol_uri" type="text" label="Protocol URI"></param>
              </repeat> -->
-            <param name="study_consent" type="select" label="Consent Information (ICO:0000011)">
-                 <options from_data_table="isa_cvterms">
-                     <column name="value" index="1"/>
-                     <filter type="static_value" column="2" value="consent"/>
-                     <filter type="add_value" value="isa user defined"/>
-                 </options>
-             </param>
-            <param name="study_use_condition" type="select" label="Data Use Requirement (DUO:0000017)">
-                 <options from_data_table="isa_cvterms">
-                     <column name="value" index="1"/>
-                     <filter type="static_value" column="2" value="data use requirement"/>
-                     <filter type="add_value" value="isa user defined"/>
-                 </options>
-             </param> 
+            <!--<param name="study_consent" type="select" label="Consent Information (ICO:0000011)">-->
+                 <!--<options from_data_table="isa_cvterms">-->
+                     <!--<column name="value" index="1"/>-->
+                     <!--<filter type="static_value" column="2" value="consent"/>-->
+                     <!--<filter type="add_value" value="isa user defined"/>-->
+                 <!--</options>-->
+             <!--</param>-->
+            <!--<param name="study_use_condition" type="select" label="Data Use Requirement (DUO:0000017)">-->
+                 <!--<options from_data_table="isa_cvterms">-->
+                     <!--<column name="value" index="1"/>-->
+                     <!--<filter type="static_value" column="2" value="data use requirement"/>-->
+                     <!--<filter type="add_value" value="isa user defined"/>-->
+                 <!--</options>-->
+             <!--</param> -->
         </section>
     </xml>
     <xml name="treatment_plan_macro">
@@ -309,12 +309,12 @@
                                     <when value="DI">
                                         <param name="instrument" type="select"
                                                min="1" label="MS instrument">
-                                            <options from_data_table="isa_cvterms">
-                                                <column name="value" index="1"/>
-                                                <filter type="static_value" column="2" value="mass spectrometry instrument"/>
-                                                <filter type="add_value" value="isa user defined"/>
-                                            </options>
-                                            <!--<option value="none reported">none
+                                            <!--<options from_data_table="isa_cvterms">-->
+                                                <!--<column name="value" index="1"/>-->
+                                                <!--<filter type="static_value" column="2" value="mass spectrometry instrument"/>-->
+                                                <!--<filter type="add_value" value="isa user defined"/>-->
+                                            <!--</options>-->
+                                            <option value="none reported">none
                                                 reported
                                             </option>
                                             <option value="AB SCIEX API 4000"/>
@@ -385,7 +385,7 @@
                                             <option value="Waters Xevo G2-XS QTof"/>
                                             <option value="Waters Xevo TQ"/>
                                             <option value="Waters Xevo TQ-S"/>
-                                            <option value="other">other</option>-->
+                                            <option value="other">other</option>
                                         </param>
                                         <repeat name="acq_mod_series"
                                                 title="acquisition series">
@@ -406,12 +406,12 @@
                                     <when value="FIA">
                                         <param name="instrument" type="select"
                                                min="1" label="MS instrument">
-                                            <options from_data_table="isa_cvterms">
-                                                <column name="value" index="1"/>
-                                                <filter type="static_value" column="2" value="mass spectrometry instrument"/>
-                                                <filter type="add_value" value="isa user defined"/>
-                                            </options>
-                                            <!--<option value="none reported">none
+                                            <!--<options from_data_table="isa_cvterms">-->
+                                                <!--<column name="value" index="1"/>-->
+                                                <!--<filter type="static_value" column="2" value="mass spectrometry instrument"/>-->
+                                                <!--<filter type="add_value" value="isa user defined"/>-->
+                                            <!--</options>-->
+                                            <option value="none reported">none
                                                 reported
                                             </option>
                                             <option value="AB SCIEX API 4000"/>
@@ -482,7 +482,7 @@
                                             <option value="Waters Xevo G2-XS QTof"/>
                                             <option value="Waters Xevo TQ"/>
                                             <option value="Waters Xevo TQ-S"/>
-                                            <option value="other">other</option>-->
+                                            <option value="other">other</option>
                                         </param>
                                         <repeat name="acq_mod_series"
                                                 title="acquisition series">
@@ -514,13 +514,13 @@
                                         <param name="chromato" type="select"
                                                min="1"
                                                label="chromatography instrument">
-                                            <options from_data_table="isa_cvterms">
-                                                <column name="value" index="1"/>
-                                                <filter type="static_value" column="2" value="liquid chromatography instrument"/>
-                                                <filter type="add_value" value="isa user defined"/>
-                                            </options>
+                                            <!--<options from_data_table="isa_cvterms">-->
+                                                <!--<column name="value" index="1"/>-->
+                                                <!--<filter type="static_value" column="2" value="liquid chromatography instrument"/>-->
+                                                <!--<filter type="add_value" value="isa user defined"/>-->
+                                            <!--</options>-->
                                             
-                                            <!--<option value="none reported">none
+                                            <option value="none reported">none
                                                 reported
                                             </option>
                                             <option value="Agilent 1100 Series HPLC System"/>
@@ -568,16 +568,16 @@
                                             <option value="Waters ACQUITY UPLC system"/>
                                             <option value="Waters ACQUITY UPLC system and PDA detector"/>
                                             <option value="Waters Alliance 2695 Separations Module (modified)"/>
-                                            <option value="other">other</option>-->
+                                            <option value="other">other</option>
                                         </param>
                                         <param name="instrument" type="select"
                                                label="MS instrument">
-                                            <options from_data_table="isa_cvterms">
-                                                <column name="value" index="1"/>
-                                                <filter type="static_value" column="2" value="mass spectrometry instrument"/>
-                                                <filter type="add_value" value="isa user defined"/>
-                                            </options>
-                                            <!-- <option value="none reported">none
+                                            <!--<options from_data_table="isa_cvterms">-->
+                                                <!--<column name="value" index="1"/>-->
+                                                <!--<filter type="static_value" column="2" value="mass spectrometry instrument"/>-->
+                                                <!--<filter type="add_value" value="isa user defined"/>-->
+                                            <!--</options>-->
+                                            <option value="none reported">none
                                                 reported
                                             </option>
                                             <option value="AB SCIEX API 4000"/>
@@ -648,7 +648,7 @@
                                             <option value="Waters Xevo G2-XS QTof"/>
                                             <option value="Waters Xevo TQ"/>
                                             <option value="Waters Xevo TQ-S"/>
-                                            <option value="other">other</option> -->
+                                            <option value="other">other</option>
                                         </param>
                                         <repeat name="acq_mod_series"
                                                 title="acquisition series">
@@ -670,12 +670,12 @@
                                         <param name="chromato" type="select"
                                                min="1"
                                                label="chromatography instrument">
-                                            <options from_data_table="isa_cvterms">
-                                                <column name="value" index="1"/>
-                                                <filter type="static_value" column="2" value="gas chromatography instrument"/>
-                                                <filter type="add_value" value="isa user defined"/>
-                                            </options>
-                                          <!--  <option value="none reported">none
+                                            <!--<options from_data_table="isa_cvterms">-->
+                                                <!--<column name="value" index="1"/>-->
+                                                <!--<filter type="static_value" column="2" value="gas chromatography instrument"/>-->
+                                                <!--<filter type="add_value" value="isa user defined"/>-->
+                                            <!--</options>-->
+                                            <option value="none reported">none
                                                 reported
                                             </option>
                                             <option value="Agilent 6890 GC"/>
@@ -689,16 +689,16 @@
                                             <option value="Thermo Scientific TRACE GC Ultra"/>
                                             <option value="Thermo Scientific TRACE 1310 GC"/>
                                             <option value="ThermoQuest GC 8000"/>
-                                            <option value="other"/> -->
+                                            <option value="other"/>
                                         </param>
                                         <param name="instrument" type="select"
                                                min="1" label="MS instrument">
-                                            <options from_data_table="isa_cvterms">
-                                                <column name="value" index="1"/>
-                                                <filter type="static_value" column="2" value="MS instrument for GC"/>
-                                                <filter type="add_value" value="isa user defined"/>
-                                            </options>
-                                            <!-- <option value="none reported">none
+                                            <!--<options from_data_table="isa_cvterms">-->
+                                                <!--<column name="value" index="1"/>-->
+                                                <!--<filter type="static_value" column="2" value="MS instrument for GC"/>-->
+                                                <!--<filter type="add_value" value="isa user defined"/>-->
+                                            <!--</options>-->
+                                            <option value="none reported">none
                                                 reported
                                             </option>
                                             <option value="Agilent 5973N MSD"/>
@@ -725,7 +725,7 @@
                                             <option value="Thermo Scientific TSQ Quantum XLS"/>
                                             <option value="ThermoQuest Voyager"/>
                                             <option value="Waters GCT Premier"/>
-                                            <option value="other">other</option> -->
+                                            <option value="other">other</option>
                                         </param>
                                         <repeat name="acq_mod_series"
                                                 title="acquisition series">
@@ -746,12 +746,12 @@
                                             <param name="derivatization"
                                                    type="select"
                                                    label="derivatization">
-                                                <options from_data_table="isa_cvterms">
-                                                    <column name="value" index="1"/>
-                                                    <filter type="static_value" column="2" value="derivatization"/>
-                                                    <filter type="add_value" value="isa user defined"/>
-                                                </options>
-                                                <!-- <option value="none reported">
+                                                <!--<options from_data_table="isa_cvterms">-->
+                                                    <!--<column name="value" index="1"/>-->
+                                                    <!--<filter type="static_value" column="2" value="derivatization"/>-->
+                                                    <!--<filter type="add_value" value="isa user defined"/>-->
+                                                <!--</options>-->
+                                                <option value="none reported">
                                                     none reported
                                                 </option>
                                                 <option value="acetylation"/>
@@ -760,8 +760,7 @@
                                                 <option value="methylation"/>
                                                 <option value="oxymation"/>
                                                 <option value="silylation"/>
-                                                <option value="other">other
-                                                </option> -->
+                                                <option value="other">other</option>
                                                 
                                             </param>
                                         </repeat>
@@ -1610,17 +1609,17 @@
                     title="Quality Control / Quality Assurance Plan">
                 <conditional name="qc_type_conditional">
                     <param name="qc_type" type="select" label="study qc types">
-                        <options from_data_table="isa_cvterms">
-                            <column name="value" index="1"/>
-                            <filter type="static_value" column="2" value="QC terms"/>
-                        </options>
-                        <!-- <option value="long term reference">long term reference</option>
+                        <!--<options from_data_table="isa_cvterms">-->
+                            <!--<column name="value" index="1"/>-->
+                            <!--<filter type="static_value" column="2" value="QC terms"/>-->
+                        <!--</options>-->
+                        <option value="long term reference">long term reference</option>
                         <option value="study reference" selected="True">study reference</option>
                         <option value="reference compound">reference compound</option>
                         <option value="reference compound mix">reference compound mix</option>
                         <option value="sample preparation blank">sample preparation blank</option>
                         <option value="solvent blank">solvent blank</option>
-                        <option value="dilution series reference">dilution series reference</option> -->
+                        <option value="dilution series reference">dilution series reference</option>
                     </param>
                     <when value="long term reference">
                         <param name="nb_injection" type="integer"
