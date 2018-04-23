@@ -1,12 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<tool id="isa_get_study_factor_values" name="Get values of a study factor" version="1.1">
+<tool id="isa_get_study_factor_values" name="Get values of a study factor"
+      version="1.0">
     <description>
-        Get list of factor values for given factor used in a ISA-Tab study
+        Get list of factor values for given factor used in a MetaboLights study
     </description>
 
     <requirements>
         <requirement type="package" version="6.7">click</requirement>
-        <requirement type="package" version="0.9.5">isatools</requirement>
+        <requirement type="package" version="0.9.4">isatools</requirement>
     </requirements>
 
     <stdio>
@@ -14,17 +15,17 @@
     </stdio>
     <command><![CDATA[
 
-    #if $data_file.input == "mtbls_id"
-        #set $command = "mtbls-get-factor-values"
-        #set $source = $data_file.mtbls_id
-    #end if
+        #if $data_file.input == "mtbls_id"
+            #set $command = "mtbls-get-factor-values"
+            #set $source = $data_file.mtbls_id
+        #end if
 
-    #if $data_file.input == "isatab_input"
-        #set $command = "zip-get-factor-values"
-        #set $source = $data_file.isatab_input
-    #end if
+        #if $data_file.input == "isatab_input"
+            #set $command = "isa-tab-get-factor-values"
+            #set $source = $data_file.isatab_input.extra_files_path
+        #end if
 
-    $__tool_directory__/run_mtblisa.py "$command" "${source}" "${factor_name}" "${output}"
+        $__tool_directory__/run_mtblisa.py "$command" "${source}" "${factor_name}" "${output}"
 
 ]]>
     </command>
@@ -38,7 +39,7 @@
                 <param name="mtbls_id" type="text" label="MetaboLights Study Identifier" help="MTBLS ID available at MetaboLights, e.g. MTBLS2."/>
             </when>
             <when value="isatab_input">
-                <param format="zip" name="isatab_input" type="data" label="ISA-Tab"  help="An ISA-Tab datatype history item"/>
+                <param format="isa-tab" name="isatab_input" type="data" label="ISA-Tab"  help="An ISA-Tab datatype history item"/>
             </when>
         </conditional>
         <param name="factor_name" type="text" label="Factor name to filter on."
@@ -51,24 +52,17 @@
 
     <tests>
         <test>
-            <param name="data_file.input" value="mtbls_id"/>
             <param name="mtbls_id" value="MTBLS1"/>
             <param name="factor" value="Gender"/>
             <output name="output" file="mtbls1_factor_values_out.json" compare="sim_size"/>
-        </test>
-        <test>
-            <param name="data_file.input" value="isatab_input"/>
-            <param name="isatab_input" value="test-data/BII-S-7.zip"/>
-            <param name="factor" value="Gender"/>
-            <output name="output" file="bii_s_7_factor_values_out.json" compare="sim_size"/>
         </test>
     </tests>
 
     <help>
 <!-- @@@BEGIN_RST@@@ -->
-=============================================
-Get list of study factors for a ISA-Tab study
-=============================================
+==================================================
+Get list of study factors for a MetaboLights study
+==================================================
 
 This tool gets the list of factor values from a MetaboLights study for a
 given study factor name. It extracts the factor values from the ISA-Tab

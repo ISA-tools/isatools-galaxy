@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<tool id="isa_get_data_files_list" name="Get data files list" version="1.1">
-    <description>Get a list of ISA-Tab study data files filtered on factor
+<tool id="isa_get_data_files_list" name="Get data files list" version="1.0">
+    <description>Get a list of MetaboLights study data files filtered on factor
         values
     </description>
 
     <requirements>
         <requirement type="package" version="6.7">click</requirement>
-        <requirement type="package" version="0.9.5">isatools</requirement>
+        <requirement type="package" version="0.9.4">isatools</requirement>
     </requirements>
 
     <stdio>
@@ -14,25 +14,20 @@
     </stdio>
     <command><![CDATA[
 
-    #if $data_file.input == "mtbls_id"
-        #set $command = "mtbls-get-data-list"
-        #set $source = $data_file.mtbls_id
-    #end if
+        #if $data_file.input == "mtbls_id"
+            #set $command = "mtbls-get-data-list"
+            #set $source = $data_file.mtbls_id
+        #end if
 
-    #if $data_file.input == "isatab_input"
-        #set $command = "zip-get-data-list"
-        #set $source = $data_file.isatab_input
-    #end if
+        #if $data_file.input == "isatab_input"
+            #set $command = "isa-tab-get-data-list"
+            #set $source = $data_file.isatab_input.extra_files_path
+        #end if
 
-    $__tool_directory__/run_mtblisa.py "$command" "${source}" "${output}" --galaxy_parameters_file "$inputs"
+        $__tool_directory__/run_mtblisa.py "$command" "${source}" "${output}" --json-query "{ \"$factor_name\": \"$factor_value\" }"
 
-]]>
+    ]]>
     </command>
-
-    <configfiles>
-        <inputs name="inputs" />
-    </configfiles>
-
     <inputs>
 	    <conditional name="data_file">
             <param name="input" type="select" label="Choose your ISA-Tab input source">
@@ -43,43 +38,34 @@
                 <param name="mtbls_id" type="text" label="MetaboLights Study Identifier" help="MTBLS ID available at MetaboLights, e.g. MTBLS2."/>
             </when>
             <when value="isatab_input">
-                <param format="zip" name="isatab_input" type="data" label="ISA-Tab"  help="An ISA-Tab datatype history item"/>
+                <param format="isa-tab" name="isatab_input" type="data" label="ISA-Tab"  help="An ISA-Tab datatype history item"/>
             </when>
         </conditional>
-        <repeat name="factor_value_series" title="Factor selection criteria" default="1">
-            <param name="factor_name" type="text" label="Factor name to filter on."
-                   help="Factor name relevant to the specified MetaboLights study, e.g. genotype. You can get a study's factor names by using the study_factors tool."/>
-            <param name="factor_value" type="text"
-                   label="Factor value to filter on."
-                   help="Factor value relevant to the specified MetaboLights study, e.g. cyp79. You can get a study's factor values by using the study_factor_values tool."/>
-        </repeat>
+        <param name="factor_name" type="text" label="Factor name to filter on."
+               help="Factor name relevant to the specified MetaboLights study, e.g. genotype. You can get a study's factor names by using the study_factors tool."/>
+        <param name="factor_value" type="text"
+               label="Factor value to filter on."
+               help="Factor value relevant to the specified MetaboLights study, e.g. cyp79. You can get a study's factor values by using the study_factor_values tool."/>
     </inputs>
     <outputs>
-        <data format="json" name="output" label="Study sliced data files list"/>
+        <data format="json" name="output"
+              label="Study sliced data files list"/>
     </outputs>
 
     <tests>
         <test>
-            <param name="data_file.input" value="mtbls_id"/>
             <param name="mtbls_id" value="MTBLS1"/>
             <param name="factor_name" value="Gender"/>
             <param name="factor_value" value="Female"/>
             <output name="output" file="mtbls1_sliced_data_files_out.json" compare="sim_size"/>
         </test>
-        <test>
-            <param name="data_file.input" value="isatab_input"/>
-            <param name="isatab_input" value="test-data/BII-S-7.zip"/>
-            <param name="factor_name" value="diet"/>
-            <param name="factor_value" value="mediterranean diet"/>
-            <output name="output" file="bii_s_7_sliced_data_files_out.json" compare="sim_size"/>
-        </test>
     </tests>
 
     <help>
 <!-- @@@BEGIN_RST@@@ -->
-===================================
-Get a ISA-Tab study data files list
-===================================
+========================================
+Get a MetaboLights study data files list
+========================================
 
 This tool returns a list of data files sliced on a filtered factor name
 and value.
@@ -104,14 +90,9 @@ If the input source is an ISA-Tab history item, select from existing data
 history items. ISA-Tab items can be created by using the Metabolights
 downloader or the ISA-Tab metadata creation tools.
 
-Factor selection criteria
-=========================
-
-Specify a list of factor names and values.
-
 Factor name to filter on
 ========================
-Factor name relevant to the specified ISA-Tab study, e.g.
+Factor name relevant to the specified MetaboLights study, e.g.
 replicate. You can get the relevant factor names for a particular study
 by using the `study_factors` tool.
 

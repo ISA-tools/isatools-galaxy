@@ -7,7 +7,7 @@
 
     <requirements>
         <requirement type="package" version="6.7">click</requirement>
-        <!--<requirement type="package" version="0.9.6">isatools</requirement>-->
+        <requirement type="package" version="0.9.5">isatools</requirement>
     </requirements>
 
     <stdio>
@@ -16,23 +16,16 @@
 
     <command>
         <![CDATA[
-        pip install -U git+https://github.com/ISA-tools/isa-api.git@v0.9.5-cbln1.1#egg=isatools &&
+
         mkdir study_dir &&
+        mkdir -p '${output.files_path}' &&
         $__tool_directory__/cli.py
         --galaxy_parameters_file='$inputs'
         --target_dir='study_dir/' &&
-        cd study_dir &&
-        zip isa.zip *.* && mv isa.zip "$output"
+        cp study_dir/* '${output.files_path}'
 
         ]]>
     </command>
-<!--
-        mkdir '${output.files_path}' &&
-        cli.py
-        -galaxy_parameters_file='$inputs'
-        -target_dir='./' &&
-        cp ./*.txt '${output.files_path}'
--->
 
     <configfiles>
         <inputs name="inputs" />
@@ -52,14 +45,12 @@
         <collection type="list" label="All files" name="all_files">
             <discover_datasets pattern="(?P&lt;designation&gt;.+)\.[a-zA-Z0-9]+" directory="study_dir" />
         </collection>
-        <data format="zip" name="output" label="New ISA-Tab"/>
+        <data format="isa-tab" name="output" label="New ISA-Tab"/>
     </outputs>
 
     <tests>
         <test>
-            <param name="inputs" value="test-data/galaxy_inputs.json"/>
             <output_collection name="isa_files" type="list" count="1"/>
-            <output_collection name="all_files" type="list" count="1"/>
         </test>
     </tests>
 

@@ -47,7 +47,7 @@ def make_parser():
         'zip', 'tar', 'gztar', 'bztar', 'xztar'], default='zip',
                            help="Type of archive to create")
 
-    subparser = subparsers.add_parser('get-study', aliases=['gs'],
+    subparser = subparsers.add_parser('mtbls-get-study', aliases=['gs'],
                                       help="Get ISA study from MetaboLights")
     subparser.set_defaults(func=get_study_command)
     subparser.add_argument('study_id')
@@ -105,7 +105,7 @@ def make_parser():
     # isaslicer commands on path to unpacked ISA-Tab as input
 
     subparser = subparsers.add_parser(
-        'isa-tab-get-factors', aliases=['dtgf'],
+        'isa-tab-get-factors', aliases=['isagf'],
         help="Get factor names from a study in json format")
     subparser.set_defaults(func=isatab_get_factor_names_command)
     subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab path")
@@ -114,7 +114,7 @@ def make_parser():
         help="Output file")
 
     subparser = subparsers.add_parser(
-        'zip-get-factors', aliases=['dtgf'],
+        'zip-get-factors', aliases=['zipgf'],
         help="Get factor names from a study in json format")
     subparser.set_defaults(func=zip_get_factor_names_command)
     subparser.add_argument('input_path', nargs=1, type=str,
@@ -124,7 +124,7 @@ def make_parser():
         help="Output file")
 
     subparser = subparsers.add_parser(
-        'isa-tab-get-factor-values', aliases=['dtgfv'],
+        'isa-tab-get-factor-values', aliases=['isagfv'],
         help="Get factor values from a study in json format")
     subparser.set_defaults(func=isatab_get_factor_values_command)
     subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab path")
@@ -136,7 +136,7 @@ def make_parser():
         help="Output file")
 
     subparser = subparsers.add_parser(
-        'zip-get-factor-values', aliases=['dtgfv'],
+        'zip-get-factor-values', aliases=['zipgfv'],
         help="Get factor values from a study in json format")
     subparser.set_defaults(func=zip_get_factor_values_command)
     subparser.add_argument('input_path', nargs=1, type=str,
@@ -148,7 +148,7 @@ def make_parser():
         'output',nargs='?', type=argparse.FileType('w'), default=sys.stdout,
         help="Output file")
 
-    subparser = subparsers.add_parser('isa-tab-get-data-list', aliases=['dtgd'],
+    subparser = subparsers.add_parser('isa-tab-get-data-list', aliases=['isagdl'],
                                       help="Get data files list in json format")
     subparser.set_defaults(func=isatab_get_data_files_list_command)
     subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab path")
@@ -161,7 +161,7 @@ def make_parser():
         '--galaxy_parameters_file',
         help="Path to JSON file containing input Galaxy JSON")
 
-    subparser = subparsers.add_parser('zip-get-data-list', aliases=['dtgd'],
+    subparser = subparsers.add_parser('zip-get-data-list', aliases=['zipgdl'],
                                       help="Get data files list in json format")
     subparser.set_defaults(func=zip_get_data_files_list_command)
     subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab zip path")
@@ -174,7 +174,7 @@ def make_parser():
         '--galaxy_parameters_file',
         help="Path to JSON file containing input Galaxy JSON")
 
-    subparser = subparsers.add_parser('isa-tab-get-data-collection', aliases=['dtgd'],
+    subparser = subparsers.add_parser('isa-tab-get-data-collection', aliases=['isagdc'],
                                       help="Get data files collection")
     subparser.set_defaults(func=isatab_get_data_files_collection_command)
     subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab path")
@@ -183,7 +183,7 @@ def make_parser():
         '--json-query',
         help="Factor query in JSON (e.g., '{\"Gender\":\"Male\"}'")
 
-    subparser = subparsers.add_parser('zip-get-data-collection', aliases=['dtgd'],
+    subparser = subparsers.add_parser('zip-get-data-collection', aliases=['zipgdc'],
                                       help="Get data files collection")
     subparser.set_defaults(func=zip_get_data_files_collection_command)
     subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab zip path")
@@ -193,7 +193,7 @@ def make_parser():
         help="Factor query in JSON (e.g., '{\"Gender\":\"Male\"}'")
 
     subparser = subparsers.add_parser(
-        'isa-tab-get-factors-summary', aliases=['dtgsum'],
+        'isa-tab-get-factors-summary', aliases=['isasum'],
         help="Get the variables summary from a study, in json format")
     subparser.set_defaults(func=isatab_get_factors_summary_command)
     subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab path")
@@ -202,7 +202,7 @@ def make_parser():
         help="Output file")
 
     subparser = subparsers.add_parser(
-        'zip-get-factors-summary', aliases=['dtgsum'],
+        'zip-get-factors-summary', aliases=['zipsum'],
         help="Get the variables summary from a study, in json format")
     subparser.set_defaults(func=zip_get_factors_summary_command)
     subparser.add_argument('input_path', nargs=1, type=str,
@@ -475,12 +475,12 @@ def zip_get_data_files_list_command(options):
 def isatab_get_data_files_collection_command(options):
     import json
     logger.info("Getting data files for study %s. Writing to %s.",
-                options.input_path, options.output.name)
+                options.input_path, options.output_path)
     if options.json_query:
         logger.debug("This is the specified query:\n%s", options.json_query)
     else:
         logger.debug("No query was specified")
-    input_path = options.input_path[-1]
+    input_path = next(iter(options.input_path))
     if options.json_query is not None:
         json_struct = json.loads(options.json_query)
         factor_selection = json_struct
@@ -491,13 +491,13 @@ def isatab_get_data_files_collection_command(options):
     logger.debug("Result data files list: %s", data_files)
     if data_files is None:
         raise RuntimeError("Error getting data files with isatools")
-    output_path = options.output_path
+    output_path = next(iter(options.output_path))
     logger.debug("copying data files to %s", output_path)
     for result in data_files:
         for data_file_name in result['data_files']:
-            print(data_file_name)
+            logging.info("Copying {}".format(data_file_name))
             shutil.copy(os.path.join(input_path, data_file_name), output_path)
-    logger.info("Finished writing data files to {}".format(options.output_path))
+    logger.info("Finished writing data files to {}".format(output_path))
 
 
 def zip_get_data_files_collection_command(options):
@@ -528,7 +528,7 @@ def zip_get_data_files_collection_command(options):
             for data_file_name in result['data_files']:
                 logging.info("Copying {}".format(data_file_name))
                 shutil.copy(os.path.join(tmpdir, data_file_name), output_path)
-    logger.info("Finished writing data files to {}".format(options.output_path))
+    logger.info("Finished writing data files to {}".format(output_path))
     shutil.rmtree(tmpdir)
 
 

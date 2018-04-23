@@ -1,44 +1,35 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <tool id="isatab_validator" name="isatab_validator" version="1.0">
-    <description>Produce a validation report on an ISA-Tab ZIP archive
-    </description>
+  <description>Produce a validation report on an ISA-Tab ZIP archive</description>
 
-    <requirements>
-        <requirement type="package" version="0.9.5">isatools</requirement>
-    </requirements>
+  <requirements>
+      <requirement type="package" version="6.7">click</requirement>
+      <requirement type="package" version="0.9.4">isatools</requirement>
+  </requirements>
 
-    <stdio>
-        <exit_code range="1:" level="fatal"/>
-    </stdio>
+  <stdio>
+      <exit_code range="1:" level="fatal"/>
+  </stdio>
 
-    <command><![CDATA[
-        $__tool_directory__/run_validator.py '$isatab_input' '$json_output' '$html_output'
+  <command><![CDATA[
+    $__tool_directory__/run_validator.py "$isatab.extra_files_path"
   ]]>
-    </command>
-    <inputs>
-        <param name="isatab_input" label="ISA" type="data" format="zip"/>
-    </inputs>
-    <outputs>
-        <data format="json" name="json_output" label="Validation report in JSON format."/>
-        <data format="html" name="html_output" label="Validation report in HTML format."/>
-    </outputs>
+  </command>
+  <inputs>
+      <param name="isatab" label="ISA" type="data" format="isa-tab"/>
+  </inputs>
+  <outputs>
+      <data format="json" name="output" from_work_dir="report.json" label="Validation report in JSON format." />
+  </outputs>
 
-    <tests>
-        <test>
-            <param name="isatab_input" value="test-data/BII-S-7.zip"/>
-            <output name="output" file="bii_s_7_validation_report.json" compare="sim_size"/>
-        </test>
-    </tests>
-
-    <help>
+  <help>
 <!-- @@@BEGIN_RST@@@ -->
 
 =================
 ISA-Tab validator
 =================
 
-This tool validates an ISA-Tab set of files, contained in an ISA-Tab
-archive (zip).
+This tool validates an ISA-Tab set of files, contained in an ISA-Tab archive (zip).
 
 -----
 Input
@@ -46,11 +37,9 @@ Input
 
 Zip file containing ISA files
 =============================
-The input zip file must contain the i_*.txt, s_*.txt and a_*.txt files
-expected in an *ISA-Tab* archive.
+The input zip file must contain the i_*.txt, s_*.txt and a_*.txt files expected in an *ISA-Tab* archive.
 
-For details on the ISA-Tab format, please see
-http://isa-specs.readthedocs.io/en/latest/isatab.html
+For details on the ISA-Tab format, please see http://isa-specs.readthedocs.io/en/latest/isatab.html
 
 ------
 Output
@@ -61,41 +50,35 @@ Validation report in JSON format
 
 A single JSON file containing the ISA-Tab validation report.
 
-The validation report may contain lists of `errors`, `warnings`, and
-`fatal` messages. To detect that the validation finished without the
-validation itself crashing, check that the property
-`validation_finished` is present and `True`.
+The validation report may contain lists of `errors`, `warnings`, and `fatal` messages. To detect that the validation finished without the validation itself crashing, check that the property `validation_finished` is present and `True`.
 
 A validation report may be structure like:
 
 ::
 
-    {
-        "warnings": [
-            {
-                "code": 1019,
-                "message": "Protocol declared but not used",
-                "supplemental": "protocols declared in the file s_study.txt are not used in any assay file: {'sample collection'}"
-            }
-        ],
-        "errors": [],
-        "validation_finished": True
-    }
+  {
+    "warnings": [
+      {
+        "code": 1019,
+        "message": "Protocol declared but not used",
+        "supplemental": "protocols declared in the file s_study.txt are not used in any assay file: {'sample collection'}"
+      }
+    ],
+    "errors": [],
+    "validation_finished": True
+  }
 
 
-For each warning or error, there will be a validation `code` (Integer),
-a user-readable `message` string and a `supplemental` section that
-intends to provide extra contextual information on the error.
+For each warning or error, there will be a validation `code` (Integer), a user-readable `message` string and a `supplemental` section that intends to provide extra contextual information on the error.
 
-The current set of validation rules that have been implemented are
-listed in this Google sheet: https://goo.gl/FRHKrQ
+The current set of validation rules that have been implemented are listed in this Google sheet: https://goo.gl/FRHKrQ
 
 <!-- @@@END_RST@@@ -->
-    </help>
+  </help>
 
-    <citations>
-        <citation type="doi">10.5281/zenodo.163640</citation>
-        <citation type="doi">10.1038/ng.1054</citation>
-    </citations>
+  <citations>
+    <citation type="doi">10.5281/zenodo.163640</citation>
+    <citation type="doi">10.1038/ng.1054</citation>
+  </citations>
 
 </tool>

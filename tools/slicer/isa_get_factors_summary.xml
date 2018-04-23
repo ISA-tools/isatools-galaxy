@@ -1,11 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<tool id="isa_get_factors_summary" name="Get summary of factors" version="1.1">
-    <description>Produce a summary table of variable factors of a ISA-Tab study
+<tool id="isa_get_factors_summary" name="Get summary of factors" version="1.0">
+    <description>Produce a summary table of variable factors of a MetaboLights
+        study
     </description>
 
     <requirements>
         <requirement type="package" version="6.7">click</requirement>
-        <requirement type="package" version="0.9.5">isatools</requirement>
+        <requirement type="package" version="0.9.4">isatools</requirement>
     </requirements>
 
     <stdio>
@@ -13,17 +14,17 @@
     </stdio>
     <command><![CDATA[
 
-    #if $data_file.input == "mtbls_id"
-        #set $command = "mtbls-get-factors-summary"
-        #set $source = $data_file.mtbls_id
-    #end if
+        #if $data_file.input == "mtbls_id"
+            #set $command = "mtbls-get-factors-summary"
+            #set $source = $data_file.mtbls_id
+        #end if
 
-    #if $data_file.input == "isatab_input"
-        #set $command = "zip-get-factors-summary"
-        #set $source = $data_file.isatab_input
-    #end if
+        #if $data_file.input == "isatab_input"
+            #set $command = "isa-tab-get-factors-summary"
+            #set $source = $data_file.isatab_input.extra_files_path
+        #end if
 
-    $__tool_directory__/run_mtblisa.py "$command" "${source}" "${json_output}" "${html_output}"
+        $__tool_directory__/run_mtblisa.py "$command" "${source}" "${output}"
 
 ]]>
     </command>
@@ -37,32 +38,25 @@
                 <param name="mtbls_id" type="text" label="MetaboLights Study Identifier" help="MTBLS ID available at MetaboLights, e.g. MTBLS2."/>
             </when>
             <when value="isatab_input">
-                <param format="zip" name="isatab_input" type="data" label="ISA-Tab"  help="An ISA-Tab zip"/>
+                <param format="isa-tab" name="isatab_input" type="data" label="ISA-Tab"  help="An ISA-Tab datatype history item"/>
             </when>
         </conditional>
     </inputs>
     <outputs>
-        <data format="json" name="json_output" label="Study factors summary (JSON)"/>
-        <data format="html" name="html_output" label="Study factors summary (HTML)"/>
+        <data format="json" name="output" label="Study factors summary"/>
     </outputs>
     <tests>
         <test>
-            <param name="data_file.input" value="isatab_input"/>
-            <param name="isatab_input" value="test-data/BII-S-7.zip"/>
-            <output name="json_output" file="bii_s_7_factors_summary_out.json" compare="sim_size"/>
-        </test>
-        <test>
-            <param name="data_file.input" value="mtbls_id"/>
             <param name="mtbls_id" value="MTBLS1"/>
-            <output name="json_output" file="mtbls1_factors_summary_out.json" compare="sim_size"/>
+            <output name="output" file="mtbls1_factors_summary_out.json" compare="sim_size"/>
         </test>
     </tests>
 
     <help>
 <!-- @@@BEGIN_RST@@@ -->
-==========================================
-Get summary of factors for a ISA-Tab study
-==========================================
+===============================================
+Get summary of factors for a MetaboLights study
+===============================================
 
 This tool returns a table of sample names and related associated factor
 values. The tool calculates this by inspecting the ISA study and assay
