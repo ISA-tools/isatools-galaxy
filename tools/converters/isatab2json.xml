@@ -1,8 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <tool id="isatab2json" name="isatab2json" version="1.0">
   <description>Converts an ISA-Tab to ISA-JSON</description>
+
+  <requirements>
+      <requirement type="package" version="6.7">click</requirement>
+      <requirement type="package" version="0.9.4">isatools</requirement>
+  </requirements>
+
+  <stdio>
+      <exit_code range="1:" level="fatal"/>
+  </stdio>
   <command><![CDATA[
-    run_tab2json.py $isatab.extra_files_path
+    $__tool_directory__/run_tab2json.py "$isatab.extra_files_path"
   ]]>
   </command>
   <inputs>

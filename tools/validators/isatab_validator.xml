@@ -1,8 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <tool id="isatab_validator" name="isatab_validator" version="1.0">
   <description>Produce a validation report on an ISA-Tab ZIP archive</description>
+
+  <requirements>
+      <requirement type="package" version="6.7">click</requirement>
+      <requirement type="package" version="0.9.4">isatools</requirement>
+  </requirements>
+
+  <stdio>
+      <exit_code range="1:" level="fatal"/>
+  </stdio>
+
   <command><![CDATA[
-    run_validator.py $isatab.extra_files_path
+    $__tool_directory__/run_validator.py "$isatab.extra_files_path"
   ]]>
   </command>
   <inputs>

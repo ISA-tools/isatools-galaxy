@@ -21,10 +21,10 @@
 
         #if $data_file.input == "isatab_input"
             #set $command = "isa-tab-get-factors-summary"
-            #set $source = $data_file.isatab_input
+            #set $source = $data_file.isatab_input.extra_files_path
         #end if
 
-        run_mtblisa.py "$command" "${source}" "${output}"
+        $__tool_directory__/run_mtblisa.py "$command" "${source}" "${output}"
 
 ]]>
     </command>
