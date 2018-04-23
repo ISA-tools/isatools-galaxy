@@ -153,8 +153,7 @@ echo -e "${study_type_cond.one_or_more.single_or_multiple}"
         <section name="Protocol Declaration" title="Protocols">
             <repeat name="protocol_series" title="Protocols">
                 <conditional name="protocol_conditional">
-                    <param name="protocol type" type="select" label="protocol type"
-                        argument="--protocols">
+                    <param name="protocol type" type="select" label="protocol type" help="some stuff">
                         <option value="dna extraction"/>
                         <option value="rna extraction"/>
                         <option value="labeling"/>
@@ -164,23 +163,29 @@ echo -e "${study_type_cond.one_or_more.single_or_multiple}"
                         <option value="data normalization"/>
                         <option value="data transformation"/>
                     </param>
+                    <when value="dna extraction">
+                        <param name="protocol description" type="text" label="protocol description"   help="--prot_desc"/>
+                    </when>
+                    <when value="rna extraction">
+                        <param name="protocol description" type="text" label="protocol description"   help="--prot_desc"/>
+                    </when>                    
                     <when value="labeling">
-                        <param name="protocol description" type="string" label="protocol description"   argument="--prot_desc"/>
+                        <param name="protocol description" type="text" label="protocol description"   help="--prot_desc"/>
                     </when>
                     <when value="dna library preparation">
-                        <param name="protocol description" type="string" label="protocol description"   argument="--prot_desc"/>
+                        <param name="protocol description" type="text" label="protocol description"   help="--prot_desc"/>
                     </when>
                     <when value="dna microarray hybridization">
-                        <param name="protocol description" type="string" label="protocol description"   argument="--prot_desc"/>
+                        <param name="protocol description" type="text" label="protocol description"   help="--prot_desc"/>
                     </when>
                     <when value="data acquisition">
-                        <param name="protocol description" type="string" label="protocol description"   argument="--prot_desc"/>
+                        <param name="protocol description" type="text" label="protocol description"   help="--prot_desc"/>
                     </when>
                     <when value="data normalization">
-                        <param name="protocol description" type="string" label="protocol description"   argument="--prot_desc"/>
+                        <param name="protocol description" type="text" label="protocol description"   help="--prot_desc"/>
                     </when>
                     <when value="data transformation">
-                        <param name="protocol description" type="string" label="protocol description"   argument="--prot_desc"/>
+                        <param name="protocol description" type="text" label="protocol description"   help="--prot_desc"/>
                     </when>                    
                 </conditional>
             </repeat>
@@ -336,8 +341,7 @@ echo -e "${study_type_cond.one_or_more.single_or_multiple}"
                                     <option value="AB SOLiD"/>
                                 </param>
                                 <when value="illumina">
-                                    <param name="instrument" type="select"
-                                        label="sequencing instrument">
+                                    <param name="instrument" type="select" label="sequencing instrument" help="&lt;`a href='http://purl.obolibrary.org/obo/OBI_0400103'&gt;">
                                         <option value="Illumina Genome Analyzer"/>
                                         <option value="Illumina Genome Analyzer II"/>
                                         <option value="Illumina Genome Analyzer IIx"/>
@@ -374,7 +378,7 @@ echo -e "${study_type_cond.one_or_more.single_or_multiple}"
                                     <param name="instrument" type="select"
                                         label="sequencing instrument">
                                         <option value="MinION"/>
-                                        <option value=",GridION,"/>
+                                        <option value="GridION"/>
                                     </param>
                                 </when>
                                 <when value="454">
@@ -451,6 +455,10 @@ echo -e "${study_type_cond.one_or_more.single_or_multiple}"
                                         <option value="Agilent A"/>
                                         <option value="Agilent B"/>
                                     </param>
+                                </when>
+                                <when value="other">
+                                    <param name="array_design_ud" type="text"
+                                        label="user defined array design"/>
                                 </when>
                             </conditional>
                             <param name="technical_replicates" type="integer"

@@ -748,7 +748,7 @@
                                 <when value="1D 1H NMR">
                                     <param name="nmr_instrument" type="select"
                                            min="1" label="nmr instrument">
-                                        <option value="none reported">none
+                                        <option value="none reported">none 
                                             reported
                                         </option>
                                         <option value="Bruker 400 Mhz">Bruker
@@ -1423,9 +1423,7 @@
                                     </param>
                                     <param name="pulse_seq" type="select"
                                            min="1" label="pulse sequence">
-                                        <option value="none reported">none
-                                            reported
-                                        </option>
+                                        <option value="none reported">none reported</option>
                                         <option value="HOESY"/>
                                         <option value="INADEQUATE"/>
                                         <option value="watergate"/>
@@ -1486,143 +1484,47 @@
                                 <when value="2D 1H-13C NMR">
                                     <param name="nmr_instrument" type="select"
                                            min="1" label="nmr instrument">
-                                        <option value="none reported">none
-                                            reported
-                                        </option>
-                                        <option value="Bruker 400 Mhz">Bruker
-                                            400 MHz spectrometer
-                                        </option>
-                                        <option value="Bruker 500 Mhz">Bruker
-                                            500 MHz spectrometer
-                                        </option>
-                                        <option value="Bruker 600 Mhz">Bruker
-                                            600 MHz spectrometer
-                                        </option>
-                                        <option value="Bruker 600 Mhz US">Bruker
-                                            600 MHz Ultrashield spectrometer
-                                        </option>
-                                        <option value="Bruker Avance 500 Mhz">
-                                            Bruker AVANCE 500 MHz spectrometer
-                                        </option>
-                                        <option value="Bruker Avance 600 Mhz">
-                                            Bruker AVANCE 600 MHz spectrometer
-                                        </option>
-                                        <option value="Bruker Avance 700 Mhz">
-                                            Bruker AVANCE 700 MHz spectrometer
-                                        </option>
-                                        <option value="Bruker Avance 900 Mhz">
-                                            Bruker AVANCE 900 MHz spectrometer
-                                        </option>
-                                        <option value="Bruker Avance AV 500 Mhz">
-                                            Bruker AVANCE AV 500 MHz
-                                            spectrometer
-                                        </option>
-                                        <option value="Bruker Avance AV 600 Mhz">
-                                            Bruker AVANCE AV 600 MHz
-                                            spectrometer
-                                        </option>
-                                        <option value="Bruker Avance DRX 500 MHz">
-                                            Bruker AVANCE DRX 500 MHz
-                                            spectrometer
-                                        </option>
-                                        <option value="Bruker Avance DRX 600 MHz">
-                                            Bruker AVANCE DRX 600 MHz
-                                            spectrometer
-                                        </option>
-                                        <option value="Bruker Avance DRX 700 MHz">
-                                            Bruker AVANCE DRX 700 MHz
-                                            spectrometer
-                                        </option>
-                                        <option value="Bruker Avance II 500 MHz">
-                                            Bruker AVANCE II 500 MHz
-                                            spectrometer
-                                        </option>
-                                        <option value="Bruker Avance II 500 MHz US">
-                                            Bruker AVANCE II 500 MHz Ultrashield
-                                            spectrometer
-                                        </option>
-                                        <option value="Bruker Avance II+ 500 MHz">
-                                            Bruker AVANCE II+ 500 MHz
-                                            spectrometer
-                                        </option>
-                                        <option value="Bruker Avance II 600 MHz">
-                                            Bruker AVANCE II 600 MHz
-                                            spectrometer
-                                        </option>
-                                        <option value="Bruker Avance II 700 MHz">
-                                            Bruker AVANCE II 700 MHz
-                                            spectrometer
-                                        </option>
-                                        <option value="Bruker Avance II 800 MHz US2">
-                                            Bruker AVANCE II 800 MHz US2
-                                            spectrometer
-                                        </option>
-                                        <option value="Bruker Avance III 400 MHz">
-                                            Bruker AVANCE III 400 MHz
-                                            spectrometer
-                                        </option>
-                                        <option value="Bruker Avance III 500 MHz">
-                                            Bruker AVANCE III 500 MHz
-                                            spectrometer
-                                        </option>
-                                        <option value="Bruker Avance III 600 MHz">
-                                            Bruker AVANCE III 600 MHz
-                                            spectrometer
-                                        </option>
-                                        <option value="Bruker Avance III 800 MHz">
-                                            Bruker AVANCE III 800 MHz
-                                            spectrometer
-                                        </option>
-                                        <option value="Bruker Avance III HD 600 MHz">
-                                            Bruker AVANCE III HD 600 MHz
-                                            spectrometer
-                                        </option>
-                                        <option value="Bruker Avance III HD 700 MHz">
-                                            Bruker AVANCE III HD 700 MHz
-                                            spectrometer
-                                        </option>
-                                        <option value="Bruker Avance III HD 800 MHz">
-                                            Bruker AVANCE III HD 800 MHz
-                                            spectrometer
-                                        </option>
-                                        <option value="Bruker Avance IV Dr">
-                                            Bruker Avance IV Dr
-                                        </option>
-                                        <option value="Bruker DNP-NMR">Bruker
-                                            DNP-NMR
-                                        </option>
-                                        <option value="Bruker Fourier-300HD">
-                                            Bruker Fourier-300HD
-                                        </option>
-                                        <option value="Varian Mercury AS400 MHz">
-                                            Varian Mercury AS400 MHz
-                                            spectrometer
-                                        </option>
-                                        <option value="Varian Unity Inova 400 MHz">
-                                            Varian Unity Inova 400 MHz
-                                            spectrometer
-                                        </option>
-                                        <option value="Varian Unity Inova 500 MHz">
-                                            Varian Unity Inova 500 MHz
-                                            spectrometer
-                                        </option>
-                                        <option value="Varian Unity Inova 600 MHz">
-                                            Varian Unity Inova 600 MHz
-                                            spectrometer
-                                        </option>
-                                        <option value="Varian VNMRS 600 MHz">
-                                            Varian VNMRS 600 MHz spectrometer
-                                        </option>
+                                        <option value="none reported">none reported</option>
+                                        <option value="Bruker 400 Mhz">Bruker 400 MHz spectrometer</option>
+                                        <option value="Bruker 500 Mhz">Bruker 500 MHz spectrometer</option>
+                                        <option value="Bruker 600 Mhz">Bruker 600 MHz spectrometer</option>
+                                        <option value="Bruker 600 Mhz US">Bruker 600 MHz Ultrashield spectrometer</option>
+                                        <option value="Bruker Avance 500 Mhz">Bruker AVANCE 500 MHz spectrometer</option>
+                                        <option value="Bruker Avance 600 Mhz">Bruker AVANCE 600 MHz spectrometer</option>
+                                        <option value="Bruker Avance 700 Mhz">Bruker AVANCE 700 MHz spectrometer</option>
+                                        <option value="Bruker Avance 900 Mhz">Bruker AVANCE 900 MHz spectrometer</option>
+                                        <option value="Bruker Avance AV 500 Mhz">Bruker AVANCE AV 500 MHz spectrometer</option>
+                                        <option value="Bruker Avance AV 600 Mhz">Bruker AVANCE AV 600 MHz spectrometer</option>
+                                        <option value="Bruker Avance DRX 500 MHz">Bruker AVANCE DRX 500 MHz spectrometer</option>
+                                        <option value="Bruker Avance DRX 600 MHz"> ruker AVANCE DRX 600 MHz spectrometer</option>
+                                        <option value="Bruker Avance DRX 700 MHz">Bruker AVANCE DRX 700 MHz spectrometer</option>
+                                        <option value="Bruker Avance II 500 MHz">Bruker AVANCE II 500 MHz spectrometer</option>
+                                        <option value="Bruker Avance II 500 MHz US">Bruker AVANCE II 500 MHz Ultrashield spectrometer</option>
+                                        <option value="Bruker Avance II+ 500 MHz">Bruker AVANCE II+ 500 MHz spectrometer</option>
+                                        <option value="Bruker Avance II 600 MHz">Bruker AVANCE II 600 MHz spectrometer</option>
+                                        <option value="Bruker Avance II 700 MHz">Bruker AVANCE II 700 MHz spectrometer</option>
+                                        <option value="Bruker Avance II 800 MHz US2">Bruker AVANCE II 800 MHz US2 spectrometer</option>
+                                        <option value="Bruker Avance III 400 MHz">Bruker AVANCE III 400 MHz spectrometer</option>
+                                        <option value="Bruker Avance III 500 MHz">Bruker AVANCE III 500 MHz </option>
+                                        <option value="Bruker Avance III 600 MHz">Bruker AVANCE III 600 MHz</option>
+                                        <option value="Bruker Avance III 800 MHz">Bruker AVANCE III 800 MHz spectrometer</option>
+                                        <option value="Bruker Avance III HD 600 MHz">Bruker AVANCE III HD 600 MHz spectrometer</option>
+                                        <option value="Bruker Avance III HD 700 MHz">Bruker AVANCE III HD 700 MHz spectrometer</option>
+                                        <option value="Bruker Avance III HD 800 MHz">Bruker AVANCE III HD 800 MHz spectrometer</option>
+                                        <option value="Bruker Avance IV Dr">Bruker Avance IV Dr</option>
+                                        <option value="Bruker DNP-NMR">Bruker DNP-NMR</option>
+                                        <option value="Bruker Fourier-300HD">Bruker Fourier-300HD</option>
+                                        <option value="Varian Mercury AS400 MHz">Varian Mercury AS400 MHz spectrometer</option>
+                                        <option value="Varian Unity Inova 400 MHz">Varian Unity Inova 400 MHz spectrometer</option>
+                                        <option value="Varian Unity Inova 500 MHz">Varian Unity Inova 500 MHz spectrometer</option>
+                                        <option value="Varian Unity Inova 600 MHz">Varian Unity Inova 600 MHz spectrometer</option>
+                                        <option value="Varian VNMRS 600 MHz">Varian VNMRS 600 MHz spectrometer</option>
                                         <option value="other">other</option>
                                     </param>
                                     <param name="pulse_seq" type="select"
                                            min="1" label="pulse sequence">
-                                        <option value="none reported">none
-                                            reported
-                                        </option>
-                                        <option value="HSQC">2D 1H-13C HSQC
-                                            (hsqcetgppr)
-                                        </option>
+                                        <option value="none reported">none reported</option>
+                                        <option value="HSQC">2D 1H-13C HSQC (hsqcetgppr)</option>
                                         <option value="HOESY"/>
                                         <option value="HSQC"/>
                                         <option value="HMBC"/>
