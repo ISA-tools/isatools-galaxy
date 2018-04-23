@@ -1,7 +1,7 @@
 language: python
 
 before_install:
- - export GALAXY_RELEASE=release_17.09
+ - export GALAXY_REPO=${TRAVIS_BUILD_DIR}/galaxy
  - export PLANEMO_RELEASE=0.40.0
 
 install:
@@ -10,16 +10,17 @@ install:
  - . planemo-venv/bin/activate
  - pip install --upgrade pip setuptools
  - pip install planemo==$PLANEMO_RELEASE
+ - git clone -b release_17.09_plus_isa_k8s_resource_limts https://github.com/ISA-tools/galaxy
 
 script:
  - planemo lint ${TRAVIS_BUILD_DIR}/tools/slicer/
- - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_branch $GALAXY_RELEASE --no_cache_galaxy ${TRAVIS_BUILD_DIR}/tools/slicer/
+ - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_root $GALAXY_REPO --no_cache_galaxy ${TRAVIS_BUILD_DIR}/tools/slicer/
  - planemo lint ${TRAVIS_BUILD_DIR}/tools/create_metabo/
- - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_branch $GALAXY_RELEASE --no_cache_galaxy ${TRAVIS_BUILD_DIR}/tools/create_metabo/
+ - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_branch $GALAXY_REPO --no_cache_galaxy ${TRAVIS_BUILD_DIR}/tools/create_metabo/
  - planemo lint ${TRAVIS_BUILD_DIR}/tools/converters/
- - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_branch $GALAXY_RELEASE --no_cache_galaxy ${TRAVIS_BUILD_DIR}/tools/converters/
+ - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_branch $GALAXY_REPO --no_cache_galaxy ${TRAVIS_BUILD_DIR}/tools/converters/
  - planemo lint ${TRAVIS_BUILD_DIR}/tools/validators/
- - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_branch $GALAXY_RELEASE --no_cache_galaxy ${TRAVIS_BUILD_DIR}/tools/validators/
+ - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_branch $GALAXY_REPO --no_cache_galaxy ${TRAVIS_BUILD_DIR}/tools/validators/
 
 
 branches:

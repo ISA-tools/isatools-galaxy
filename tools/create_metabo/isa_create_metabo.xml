@@ -16,7 +16,7 @@
 
     <command>
         <![CDATA[
-
+        pip install -U git+https://github.com/ISA-tools/isa-api.git@v0.9.5-cbln1.1#egg=isatools &&
         mkdir study_dir &&
         mkdir -p '${output.files_path}' &&
         $__tool_directory__/cli.py
