@@ -122,7 +122,7 @@ def map_galaxy_to_isa_create(tool_params):
                 #     sample_assay_plan.pre_run_batch = batch
                 # elif 'post-run' in qc_plan_params['qc_type_conditional']['qc_type']:
                 #     sample_assay_plan.post_run_batch = batch
-    sample_assay_plan.group_size = tool_params['treatment_plan']['study_group_size']
+    sample_assay_plan.group_size = tool_params['treatment_plan']['study_groups']['study_group_size']
     return sample_assay_plan, tool_params['study_overview'], tool_params['treatment_plan']
 
 
