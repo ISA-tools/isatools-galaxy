@@ -11,14 +11,14 @@
       <exit_code range="1:" level="fatal"/>
   </stdio>
   <command><![CDATA[
-    $__tool_directory__/run_tab2json.py "$isatab.extra_files_path"
+    $__tool_directory__/run_tab2json.py "$isatab_input.extra_files_path" "$output"
   ]]>
   </command>
   <inputs>
-      <param name="isatab" label="ISA" type="data" format="isa-tab"/>
+      <param name="isatab_input" label="ISA" type="data" format="isa-tab"/>
   </inputs>
   <outputs>
-    <data format="json" name="output" from_work_dir="out.json" label="ISA content in ISA-JSON format" />
+    <data format="json" name="output" label="ISA content in ISA-JSON format" />
   </outputs>
 
   <help>

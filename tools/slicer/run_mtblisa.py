@@ -777,9 +777,9 @@ def isatab_get_factors_summary_command(options):
     if summary is not None:
         json.dump(summary, options.output, indent=4)
         logger.debug("Summary dumped to JSON")
-        html_summary = build_html_summary(summary)
-        with options.html_output as html_fp:
-            html_fp.write(html_summary)
+        # html_summary = build_html_summary(summary)
+        # with options.html_output as html_fp:
+        #     html_fp.write(html_summary)
     else:
         raise RuntimeError("Error getting study summary")
 

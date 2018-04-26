@@ -97,6 +97,9 @@ def map_galaxy_to_isa_create(tool_params):
                                         technical_repeats=acq_mod['technical_replicates']
                                     )
                                 )
+                                if inj_mod['inj_mod_cond']['inj_mod'] == 'GC':
+                                    for deriva in inj_mod['inj_mod_cond']['derivatization_series']:
+                                        injection_mode.derivatizations.add(deriva['derivatization'])
                     sample_assay_plan.add_assay_type(ms_assay_type)
                     sample_assay_plan.add_assay_plan_record(sample_type, ms_assay_type)
                 else:
@@ -152,16 +155,20 @@ def create_from_plan_parameters(galaxy_parameters_file, target_dir):
 
     intervention_type = treatment_plan_params['study_type_cond']['one_or_more'][
         'intervention_type']['select_intervention_type']
-
-    interventions = []
     if intervention_type == 'chemical intervention':
         interventions = INTERVENTIONS['CHEMICAL']
+    elif intervention_type == 'dietary intervention':
+        interventions = INTERVENTIONS['DIET']
     elif intervention_type == 'behavioural intervention':
         interventions = INTERVENTIONS['BEHAVIOURAL']
     elif intervention_type == 'biological intervention':
         interventions = INTERVENTIONS['BIOLOGICAL']
     elif intervention_type == 'surgical intervention':
         interventions = INTERVENTIONS['SURGICAL']
+    elif intervention_type == 'radiological intervention':  # not in tool yet
+        interventions = INTERVENTIONS['RADIOLOGICAL']
+    else:  # default to chemical
+        interventions = INTERVENTIONS['CHEMICAL']
 
     treatment_factory = TreatmentFactory(
         intervention_type=interventions, factors=BASE_FACTORS)
