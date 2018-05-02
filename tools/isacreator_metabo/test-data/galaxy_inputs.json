@@ -1,0 +1,97 @@
+{
+    "sampling_and_assay_plans": {
+        "sample_record_series": [
+            {
+                "sample_size": 1,
+                "assay_record_series": [
+                    {
+                        "assay_type": {
+                            "samp_frac_series": [
+                                {
+                                    "fraction": "non-polar"
+                                }
+                            ],
+                            "inj_mod_series": [
+                                {
+                                    "inj_mod_cond": {
+                                        "chromato": "Agilent 6890 GC",
+                                        "inj_mod": "GC",
+                                        "derivatization_series": [
+                                            {
+                                                "derivatization": "oxymation"
+                                            }
+                                        ],
+                                        "acq_mod_series": [
+                                            {
+                                                "technical_replicates": 1,
+                                                "acq_mod": "positive"
+                                            },
+                                            {
+                                                "technical_replicates": 1,
+                                                "acq_mod": "negative"
+                                            }
+                                        ],
+                                        "instrument": "Agilent 7000C Triple Quadrupole"
+                                    }
+                                }
+                            ],
+                            "assay_type": "mass spectrometry"
+                        }
+                    },
+                    {
+                        "assay_type": {
+                            "acq_mod_cond": {
+                                "magnet": "600 Mhz",
+                                "pulse_seq": "zgpr",
+                                "nmr_instrument": "Bruker 400 Mhz",
+                                "technical_replicates": 1,
+                                "acq_mod": "1D 1H NMR"
+                            },
+                            "assay_type": "nmr spectroscopy"
+                        }
+                    }
+                ],
+                "sample_type": {
+                    "sample_type": "plasma"
+                }
+            }
+        ]
+    },
+    "study_overview": {
+        "study_description": "Description",
+        "study_pi_last_name": "Second name",
+        "study_pi_affiliation": "Affiliation",
+        "study_pi_first_name": "First name",
+        "study_title": "Title",
+        "study_pi_email": "email address"
+    },
+    "treatment_plan": {
+        "study_type_cond": {
+            "study_type": "intervention",
+            "one_or_more": {
+                "single_or_multiple": "single",
+                "intervention_type": {
+                    "duration": "t0,t1,t2",
+                    "intensity": "low dose,moderate dose,high dose",
+                    "select_intervention_type": "chemical intervention",
+                    "agent": "aspirin,ibuprofen,morphine"
+                }
+            }
+        },
+        "study_groups": {
+            "study_group_size": 3,
+            "group_balanced": "balanced"
+        }
+    },
+    "qc_plan": {
+        "qc_record_series": [
+            {
+                "qc_type_conditional": {
+                    "qc_type": "solvent blank",
+                    "nb_injection": 10,
+                    "injection_freq": 2
+                }
+            }
+        ]
+    }
+}
