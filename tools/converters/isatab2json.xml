@@ -1,44 +1,50 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <tool id="isatab2json" name="isatab2json" version="1.0">
-  <description>Converts an ISA-Tab to ISA-JSON</description>
+    <description>Converts an ISA-Tab to ISA-JSON</description>
+    <requirements>
+        <requirement type="package" version="6.7">click</requirement>
+        <requirement type="package" version="0.9.5">isatools</requirement>
+    </requirements>
+    <stdio>
+        <exit_code range="1:" level="fatal"/>
+    </stdio>
+    <command><![CDATA[
+    $__tool_directory__/isatab2json.py "$isatab_input.extra_files_path" "$output"
+]]>
+    </command>
+    <inputs>
+        <param name="isatab_input" label="ISA" type="data" format="isa-tab"/>
+    </inputs>
+    <outputs>
+        <data format="json" name="output" label="ISA content in ISA-JSON format"/>
+    </outputs>
+    <tests>
+        <test>
+            <param name="isatab_input" value="BII-S-7/"/>
+            <output name="output" file="test-data/bii_s_7.json" compare="sim_size"/>
+        </test>
+    </tests>
 
-  <requirements>
-      <requirement type="package" version="6.7">click</requirement>
-      <requirement type="package" version="0.9.4">isatools</requirement>
-  </requirements>
-
-  <stdio>
-      <exit_code range="1:" level="fatal"/>
-  </stdio>
-  <command><![CDATA[
-    $__tool_directory__/run_tab2json.py "$isatab_input.extra_files_path" "$output"
-  ]]>
-  </command>
-  <inputs>
-      <param name="isatab_input" label="ISA" type="data" format="isa-tab"/>
-  </inputs>
-  <outputs>
-    <data format="json" name="output" label="ISA content in ISA-JSON format" />
-  </outputs>
-
-  <help>
+    <help>
 <!-- @@@BEGIN_RST@@@ -->
 
 =====================
 isatab2json converter
 =====================
 
-This tool converts an ISA-Tab ZIP archive to ISA-JSON.
+This tool converts an ISA-Tab to ISA-JSON.
 
 -----
 Input
 -----
 
-Zip file containing ISA files
-=============================
-The input zip file must contain the i_*.txt, s_*.txt and a_*.txt files expected in an *ISA-Tab* archive.
+ISA-Tab
+=======
+The input ISA-Tab must contain the i_*.txt, s_*.txt and a_*.txt files
+and be an ISA-Tab Galaxy history item.
 
-For details on the ISA-Tab format, please see http://isa-specs.readthedocs.io/en/latest/isatab.html
+For details on the ISA-Tab format, please see
+http://isa-specs.readthedocs.io/en/latest/isatab.html
 
 .. class:: warningmark
 
@@ -51,15 +57,17 @@ Output
 ISA content in ISA-JSON format
 ==============================
 
-A single JSON file containing the ISA-Tab contents in *ISA-JSON* compliant format.
+A single JSON file containing the ISA-Tab contents in *ISA-JSON*
+compliant format.
 
-For details on the ISA-JSON format, please see http://isa-specs.readthedocs.io/en/latest/isajson.html
+For details on the ISA-JSON format, please see
+http://isa-specs.readthedocs.io/en/latest/isajson.html
 
 <!-- @@@END_RST@@@ -->
-  </help>
-  <citations>
-    <citation type="doi">10.5281/zenodo.163640</citation>
-    <citation type="doi">10.1038/ng.1054</citation>
-  </citations>
+    </help>
+    <citations>
+        <citation type="doi">10.5281/zenodo.163640</citation>
+        <citation type="doi">10.1038/ng.1054</citation>
+    </citations>
 
 </tool>
