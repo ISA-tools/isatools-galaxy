@@ -12,7 +12,7 @@
     </stdio>
 
     <command><![CDATA[
-        $__tool_directory__/run_validator.py "$isatab_input.extra_files_path" "$json_output" "$html_output"
+        $__tool_directory__/isatab_validator.py "$isatab_input.extra_files_path" "$json_output" "$html_output"
   ]]>
     </command>
     <inputs>
