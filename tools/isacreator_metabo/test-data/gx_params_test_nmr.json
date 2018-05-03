@@ -1,0 +1,55 @@
+{
+    "sampling_and_assay_plans": {
+        "sample_record_series": [
+            {
+                "sample_size": 1,
+                "assay_record_series": [
+                    {
+                        "assay_type": {
+                            "acq_mod_cond": {
+                                "magnet": "600 Mhz",
+                                "pulse_seq": "zg30",
+                                "nmr_instrument": "Bruker 400 Mhz",
+                                "technical_replicates": 1,
+                                "acq_mod": "1D 1H NMR"
+                            },
+                            "assay_type": "nmr spectroscopy"
+                        }
+                    }
+                ],
+                "sample_type": {
+                    "sample_type": "plasma"
+                }
+            }
+        ]
+    },
+    "study_overview": {
+        "study_description": "Textual description",
+        "study_pi_last_name": "Last name",
+        "study_pi_affiliation": "University Institut",
+        "study_pi_first_name": "First name",
+        "study_title": "Study title",
+        "study_pi_email": "email__at__address.com"
+    },
+    "treatment_plan": {
+        "study_type_cond": {
+            "study_type": "intervention",
+            "one_or_more": {
+                "single_or_multiple": "single",
+                "intervention_type": {
+                    "duration": "t0,t1,t2",
+                    "intensity": "low dose,moderate dose,high dose",
+                    "select_intervention_type": "chemical intervention",
+                    "agent": "aspirin,ibuprofen,morphine"
+                }
+            }
+        },
+        "study_groups": {
+            "study_group_size": 3,
+            "group_balanced": "balanced"
+        }
+    },
+    "qc_plan": {
+        "qc_record_series": []
+    }
+}

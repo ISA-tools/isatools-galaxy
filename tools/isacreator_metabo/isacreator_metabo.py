@@ -114,11 +114,9 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
                 measurement_type='metabolite profiling',
                 technology_type='mass spectrometry')
             ms_assay_type.topology_modifiers = MSTopologyModifiers(
-                sample_fractions=set(
-                    map(lambda x: x['fraction'], assay_plan_record['assay_type']['samp_frac_series'])))
+                sample_fractions=set(map(lambda x: x['fraction'], assay_plan_record['assay_type']['samp_frac_series'])))
             injection_modes = ms_assay_type.topology_modifiers.injection_modes
-            if len(assay_plan_record['assay_type'][
-                       'inj_mod_series']) > 0:
+            if len(assay_plan_record['assay_type']['inj_mod_series']) > 0:
                 for inj_mod in assay_plan_record['assay_type']['inj_mod_series']:
                     injection_mode = MSInjectionMode(
                         injection_mode=inj_mod['inj_mod_cond']['inj_mod'],
@@ -126,8 +124,8 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
                     )
                     if inj_mod['inj_mod_cond']['inj_mod'] in ('LC', 'GC'):
                         injection_mode.chromatography_instrument = inj_mod['inj_mod_cond']['chromato']
-                        if inj_mod['inj_mod_cond']['inj_mod'] == 'LC':
-                            injection_mode.chromatography_column = inj_mod['inj_mod_cond']['chromato_col']
+                    if inj_mod['inj_mod_cond']['inj_mod'] == 'LC':
+                        injection_mode.chromatography_column = inj_mod['inj_mod_cond']['chromato_col']
                     injection_modes.add(injection_mode)
                     for acq_mod in inj_mod['inj_mod_cond']['acq_mod_series']:
                         injection_mode.acquisition_modes.add(
@@ -173,7 +171,7 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
     # pre-generation checks
     if galaxy_parameters_file:
         galaxy_parameters = json.load(galaxy_parameters_file)
-        # print(json.dumps(galaxy_parameters, indent=4))  # fo debugging only
+        print(json.dumps(galaxy_parameters, indent=4))  # fo debugging only
     else:
         raise IOError('Could not load Galaxy parameters file!')
     if target_dir:
