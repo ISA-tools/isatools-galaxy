@@ -24,7 +24,7 @@
             #set $source = $data_file.isatab_input.extra_files_path
         #end if
 
-        $__tool_directory__/run_mtblisa.py "$command" "${source}" "${output}" --json-query "{ \"$factor_name\": \"$factor_value\" }"
+        $__tool_directory__/isaslicer.py "$command" "${source}" "${output}" --json-query "{ \"$factor_name\": \"$factor_value\" }"
 
     ]]>
     </command>
