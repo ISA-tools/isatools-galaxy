@@ -46,23 +46,23 @@
 45	Ion Torrent PGM	ion torrent
 46	Ion Torrent Proton	ion torrent
 #END_SEQ_INSTR
-47	blood	animal_mat
-48	cerebrospinal fluid	animal_mat
-49	plasma	animal_mat
-50	semen	animal_mat
-51	sweat	animal_mat
-52	tears	animal_mat
-53	urine	animal_mat
+47	blood (UBERON:0000178)	animal_mat
+48	cerebrospinal fluid (UBERON:0001359)	animal_mat
+49	plasma (UBERON:0001969)	animal_mat
+50	semen (UBERON:0001968)	animal_mat
+51	sweat (UBERON:0001089)	animal_mat
+52	tear (UBERON:0001827)	animal_mat
+53	urine (UBERON:0001088)	animal_mat
 #END_ANIMAL_MAT
 54	cone	plant_mat
-55	flower	plant_mat
-56	fruit	plant_mat
-57	leaf	plant_mat
-58	nectar	plant_mat
-59	pollen	plant_mat
-60	root	plant_mat
-61	seed	plant_mat
-62	stem	plant_mat
+55	flower (PO:0009046)	plant_mat
+56	fruit (PO:0009001)	plant_mat
+57	leaf (PO:0025034)	plant_mat
+58	nectar (PO:0000000)	plant_mat
+59	pollen (PO:0025281)	plant_mat
+60	root (PO:0009005)	plant_mat
+61	seed (PO:0009010)	plant_mat
+62	stem (PO:0009047)	plant_mat
 #END_PLANT_MAT
 63	Peer reviewed (http://purl.org/spar/pso/peer-reviewed)	publication
 64	Published (http://purl.org/spar/pso/published)	publication
@@ -98,14 +98,14 @@
 94	Libre open access (http://purl.org/spar/pso/libre-open-access)	publication
 95	In press (http://purl.org/spar/pso/in-press)	publication
 #END PUBLICATION
-96	rna extraction	protocols
-97	dna extraction	protocols
-98	labeling	protocols
-99	dna library preparation	protocols
-100	dna microarray hybridization	protocols
-101	data acquisition	protocols
-102	data normalization	protocols
-103	data transformation	protocols
+96	rna extraction (OBI:)	protocols
+97	dna extraction (OBI:)	protocols
+98	labeling (OBI:)	protocols
+99	dna library preparation (OBI:)	protocols
+100	dna microarray hybridization (OBI:)	protocols
+101	data acquisition (OBI:)	protocols
+102	data normalization (OBI:)	protocols
+103	data transformation(OBI:)	protocols
 #END PROTOCOLS
 104	author	roles
 105	corresponding author	roles
@@ -416,7 +416,29 @@
 394	return-to-database/resource (DUO:0000029)	data use requirement
 395	time limit on use (DUO:0000025)	data use requirement
 #END DATA USER TERMS
-
+396	multiple testing correction method (OBI:0200089)	statistics
+397	false discovery rate correction method (OBI:0200163)	statistics
+398	Benjamini and Hochberg false discovery rate correction method (OBI:0200036)	statistics
+399	Benjamini and Yekutieli false discovery rate correction method (OBI:0200049)	statistics
+400	Holm-Bonferroni family-wise error rate correction method (OBI:0200066)	statistics
+401	Holm false discovery rate correction (STATO:000541)	statistics
+402 Hommel false discovery rate correction (STATO:000542)	statistics
+403 Student's t-test (OBI:0000739)	statistics
+404 Wilcoxon rank sum test (STATO:0000076)	statistics
+405 Kruskal-Wallis test (STATO:0000094)	statistics
+406 Pearson's correlation coefficient (STATO:0000280)	statistics
+407 Spearman's correlation coefficient (STATO:0000201)	statistics
+408 Pareto scaling (OBI:0200037)	statistics
+409	mean centering (OBI:0200029)	statistics
+410 unit-variance scaling (OBI:0200149)	statistics
+411 logarithmic transformation (OBI:0200094)	statistics
+412	PCA by singular value decomposition (OBI:0200051)	statistics
+413	PLS by nonlinear iterative partial least squares (OBI:0200107)	statistics
+414	OPLS by nonlinear iterative partial least squares ()	statistics
+415	number of cross-validation segment (STATO:0000554)	statistics
+416	number of predictive components (STATO:0000555)	statistics
+417	number of orthogonal components (STATO:0000556)	statistics
+#END STAT TERMS
 
 
 
