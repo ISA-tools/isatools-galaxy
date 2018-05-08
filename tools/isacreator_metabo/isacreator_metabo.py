@@ -6,6 +6,7 @@ import io
 import json
 import os
 import uuid
+import re
 
 from isatools import isatab
 from isatools.create.models import (
@@ -20,9 +21,11 @@ from isatools.create.models import (
     MSAcquisitionMode,
     SampleAssayPlan,
     Study,
+    Comment,
     SampleQCBatch,
     Characteristic,
-    OntologyAnnotation
+    OntologyAnnotation,
+    OntologySource
 )
 from isatools.model import Investigation, Person
 
@@ -140,10 +143,18 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
                                 injection_mode.derivatizations.add(deriva['derivatization'])
             return ms_assay_type
 
-        if sample_plan_record['sample_type']['sample_type'] == 'user defined':
+        if sample_plan_record['sample_type'] == 'user defined':
             sample_type = sample_plan_record['sample_type']['sample_type_ud']
         else:
-            sample_type = sample_plan_record['sample_type']['sample_type']
+            sample_type = sample_plan_record['sample_type']
+            if re.match('(.*?) \((.*?)\)', sample_type):
+                matches = next(iter(re.findall('(.*?) \((.*?)\)', sample_type)))
+                term, ontoid = matches[0], matches[1]
+                source_name, accession_id = ontoid.split(':')[0], \
+                                            ontoid.split(':')[1]
+                source = OntologySource(name=source_name)
+                sample_type = OntologyAnnotation(term=term, term_source=source,
+                                                 term_accession=accession_id)
         sample_assay_plan.add_sample_type(sample_type)
         sample_size = sample_plan_record['sample_size']
         sample_assay_plan.group_size = sample_size
@@ -157,7 +168,7 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
             else:
                 raise NotImplementedError('Only MS and NMR assays supported')
             sample_assay_plan.add_assay_type(assay_type)
-            sample_assay_plan.add_assay_plan_record(sample_type,assay_type)
+            sample_assay_plan.add_assay_plan_record(sample_type, assay_type)
         return sample_assay_plan
 
     def _inject_qcqa_plan(sample_assay_plan, qcqa_record):
@@ -194,6 +205,7 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
         print('No sample plan defined')
     if len(sample_assay_plan.assay_plan) == 0:
         print('No assay plan defined')
+
     isa_object_factory = IsaModelObjectFactory(sample_assay_plan, treatment_sequence)
     if len(sample_assay_plan.sample_plan) == 0:
         s = Study()
@@ -210,12 +222,22 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
     s.filename = 's_study.txt'
     s.title = study_info['study_title']
     s.identifier = 'ISA-{}'.format(uuid.uuid4().hex[:8])
+    s.comments = [
+        Comment(name='Consent Information (ICO:0000011)',
+                value=study_info['study_consent']),
+        Comment(name='Data Use Requirement (DUO:0000017)',
+                value=study_info['study_use_condition'])
+
+    ]
     i = Investigation()
     i.contacts = [c]
     i.description = ""
     i.title = "Investigation"
     i.identifier = s.identifier
     i.studies = [s]
+    i.ontology_source_references = s.ontology_source_references
+    i.ontology_source_references.append(OntologySource(name='ICO'))
+    i.ontology_source_references.append(OntologySource(name='DUO'))
 
     # generate empty data file stubs
     for assay in s.assays:

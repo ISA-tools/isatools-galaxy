@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# point to a Galaxy source somewhere
+# point to a Galaxy source somewhere. Use this instead of planemo as the isa_cvterms.loc can't be picked up so easily
 GALAXY_ROOT=$1
 
 cp galaxy/config/tool_data_table_conf.xml $GALAXY_ROOT/config/tool_data_table_conf.xml
