@@ -14,14 +14,34 @@
                             "inj_mod_series": [
                                 {
                                     "inj_mod_cond": {
-                                        "instrument": "AB SCIEX API 4000",
-                                        "inj_mod": "FIA",
+                                        "chromato": "Agilent 6890 GC",
+                                        "inj_mod": "GC",
+                                        "derivatization_series": [
+                                            {
+                                                "derivatization": "acetylation (MSIO:0000112)"
+                                            }
+                                        ],
                                         "acq_mod_series": [
                                             {
                                                 "technical_replicates": 1,
                                                 "acq_mod": "negative"
                                             }
-                                        ]
+                                        ],
+                                        "instrument": "Agilent 5973N MSD"
+                                    }
+                                },
+                                {
+                                    "inj_mod_cond": {
+                                        "chromato": "Agilent 1100 Series HPLC System",
+                                        "inj_mod": "LC",
+                                        "acq_mod_series": [
+                                            {
+                                                "technical_replicates": 1,
+                                                "acq_mod": "negative"
+                                            }
+                                        ],
+                                        "chromato_col": "none reported",
+                                        "instrument": "AB SCIEX API 4000"
                                     }
                                 }
                             ],

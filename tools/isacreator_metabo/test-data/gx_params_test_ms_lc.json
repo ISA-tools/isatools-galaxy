@@ -31,18 +31,18 @@
                         }
                     }
                 ],
-                "sample_type": {
-                    "sample_type": "plasma"
-                }
+                "sample_type": "blood (UBERON:0000178)"
             }
         ]
     },
     "study_overview": {
-        "study_description": "Textual description",
+        "study_consent": "no restriction (DUO:0000004)",
+        "study_use_condition": "collaboration required (DUO:0000020)",
+        "study_description": "Description",
         "study_pi_last_name": "Last name",
-        "study_pi_affiliation": "University Institut",
+        "study_pi_affiliation": "UniversitXXt Institut",
         "study_pi_first_name": "First name",
-        "study_title": "Study title",
+        "study_title": "Title",
         "study_pi_email": "email__at__address.com"
     },
     "treatment_plan": {
