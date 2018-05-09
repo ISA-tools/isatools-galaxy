@@ -139,8 +139,23 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
                             )
                         )
                         if inj_mod['inj_mod_cond']['inj_mod'] == 'GC':
-                            for deriva in inj_mod['inj_mod_cond']['derivatization_series']:
-                                injection_mode.derivatizations.add(deriva['derivatization'])
+                            for deriva in inj_mod['inj_mod_cond'][
+                                    'derivatization_series']:
+                                derivatization = deriva['derivatization']
+                                if re.match('(.*?) \((.*?)\)', derivatization):
+                                    matches = next(iter(
+                                        re.findall('(.*?) \((.*?)\)',
+                                                   derivatization)))
+                                    term, ontoid = matches[0], matches[1]
+                                    source_name, accession_id = \
+                                    ontoid.split(':')[0], \
+                                    ontoid.split(':')[1]
+                                    source = OntologySource(name=source_name)
+                                    derivatization = OntologyAnnotation(
+                                        term=term, term_source=source,
+                                        term_accession=accession_id)
+                                injection_mode.derivatizations.add(
+                                    derivatization)
             return ms_assay_type
 
         if sample_plan_record['sample_type'] == 'user defined':
