@@ -1,0 +1,68 @@
+{
+    "sampling_and_assay_plans": {
+        "sample_record_series": [
+            {
+                "sample_size": 15,
+                "assay_record_series": [],
+                "sample_type": "blood (UBERON:0000178)"
+            }
+        ]
+    },
+    "study_overview": {
+        "study_consent": "no restriction (DUO:0000004)",
+        "study_use_condition": "collaboration required (DUO:0000020)",
+        "study_description": "e.g. The study of... by means of metabolite profiling using ...",
+        "study_pi_last_name": "e.g. Sklodowska Curie",
+        "study_pi_affiliation": "e.g. Radium Institute, Paris",
+        "study_pi_first_name": "e.g. Marie",
+        "study_title": "e.g. Metabolomics study of the effect of ... on ...",
+        "study_pi_email": "e.g. marie.sklodowska-curie__at__gmail.com"
+    },
+    "treatment_plan": {
+        "study_type_cond": {
+            "study_type": "intervention",
+            "one_or_more": {
+                "single_or_multiple": "single",
+                "intervention_type": {
+                    "duration": "t0,t1,t2",
+                    "intensity": "low dose,moderate dose,high dose",
+                    "select_intervention_type": "chemical intervention",
+                    "agent": "aspirin,ibuprofen,morphine"
+                }
+            }
+        },
+        "study_groups": {
+            "study_group_size": 3,
+            "group_balanced": "balanced"
+        }
+    },
+    "qc_plan": {
+        "qc_record_series": [
+            {
+                "qc_type_conditional": {
+                    "qc_type": "interval series",
+                    "injection_freq": 5,
+                    "qc_material_type": "sample preparation blank (MSIO:0000025)"
+                }
+            },
+            {
+                "qc_type_conditional": {
+                    "qc_type": "pre-run dilution series",
+                    "start_val": 1,
+                    "step": 5,
+                    "stop_val": 10,
+                    "qc_material_type": "solvent blank (MSIO:0000026)"
+                }
+            },
+            {
+                "qc_type_conditional": {
+                    "qc_type": "post-run dilution series",
+                    "start_val": 1,
+                    "step": 5,
+                    "stop_val": 10,
+                    "qc_material_type": "study reference (MSIO:0000027)"
+                }
+            }
+        ]
+    }
+}

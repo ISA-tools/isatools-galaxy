@@ -445,40 +445,41 @@
             <repeat name="qc_record_series"
                     title="Quality Control / Quality Assurance Plan">
                 <conditional name="qc_type_conditional">
-                    <param name="qc_type" type="select" label="study qc types">
-                        <options from_data_table="isa_cvterms">
-                            <column name="value" index="1"/>
-                            <filter type="static_value" column="2" value="QC terms"/>
-                        </options>
+                    <param name="qc_type" type="select" label="QC type">
+                        <option value="interval series" selected="True">interval series</option>
+                        <option value="pre-run dilution series">dilution series (pre-run batch)</option>
+                        <option value="post-run dilution series">dilution series (post-run batch)</option>
                     </param>
-                    <when value="long term reference (MSIO:0000019)">
-                        <param name="nb_injection" type="integer" label="number of injections" value="0"/>
-                        <param name="injection_freq" type="integer" label="injection frequency" value="0"/>
+                    <when value="interval series">
+                        <param name="qc_material_type" type="select" label="study qc types">
+                            <options from_data_table="isa_cvterms">
+                                <column name="value" index="1"/>
+                                <filter type="static_value" column="2" value="QC terms"/>
+                            </options>
+                        </param>
+                        <param name="injection_freq" type="integer" label="injection frequency" value="10"/>
                     </when>
-                    <when value="study reference (MSIO:0000027)">
-                        <param name="nb_injection" type="integer" label="number of injections" value="0"/>
-                        <param name="injection_freq" type="integer" label="injection frequency" value="0"/>
+                    <when value="pre-run dilution series">
+                        <param name="qc_material_type" type="select" label="Material type">
+                            <options from_data_table="isa_cvterms">
+                                <column name="value" index="1"/>
+                                <filter type="static_value" column="2" value="QC terms"/>
+                            </options>
+                        </param>
+                        <param name="start_val" type="integer" label="Start of interval" value="1"/>
+                        <param name="stop_val" type="integer" label="End of interval" value="10"/>
+                        <param name="step" type="integer" label="Spacing between values" value="5"/>
                     </when>
-                    <when value="reference compound (MSIO:0000023)">
-                        <param name="nb_injection" type="integer" label="number of injections" value="0"/>
-                        <param name="injection_freq" type="integer" label="injection frequency" value="0"/>
-                    </when>
-                    <when value="reference compound mix (MSIO:0000024)">
-                        <param name="nb_injection" type="integer" label="number of injections" value="0"/>
-                        <param name="injection_freq" type="integer" label="injection frequency" value="0"/>
-                    </when>
-                    <when value="sample preparation blank (MSIO:0000025)">
-                        <param name="nb_injection" type="integer" label="number of injections" value="0"/>
-                        <param name="injection_freq" type="integer" label="injection frequency" value="0"/>
-                    </when>
-                    <when value="solvent blank (MSIO:0000026)">
-                        <param name="nb_injection" type="integer" label="number of injections" value="0"/>
-                        <param name="injection_freq" type="integer" label="injection frequency" value="0"/>
-                    </when>
-                    <when value="dilution series reference (MSIO:0000016)">
-                        <param name="nb_injection" type="integer" label="number of injections" value="0"/>
-                        <param name="injection_freq" type="integer" label="injection frequency" value="0"/>
-                        <param name="nb_dil_step" type="integer" label="number of dilution steps" value="0"/>
+                    <when value="post-run dilution series">
+                        <param name="qc_material_type" type="select" label="Material type">
+                            <options from_data_table="isa_cvterms">
+                                <column name="value" index="1"/>
+                                <filter type="static_value" column="2" value="QC terms"/>
+                            </options>
+                        </param>
+                        <param name="start_val" type="integer" label="Start of interval" value="1"/>
+                        <param name="stop_val" type="integer" label="End of interval" value="10"/>
+                        <param name="step" type="integer" label="Spacing between values" value="5"/>
                     </when>
                 </conditional>
             </repeat>

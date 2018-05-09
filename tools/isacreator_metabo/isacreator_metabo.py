@@ -187,17 +187,26 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
         return sample_assay_plan
 
     def _inject_qcqa_plan(sample_assay_plan, qcqa_record):
-        if 'interval series' == qcqa_record['qc_type_conditional']['qc_type']:
+        if qcqa_record['qc_type'] == 'interval series':
+            material_type = qcqa_record['qc_material_type']
+            if re.match('(.*?) \((.*?)\)', material_type):
+                matches = next(iter(re.findall('(.*?) \((.*?)\)', material_type)))
+                term, ontoid = matches[0], matches[1]
+                source_name, accession_id = ontoid.split(':')[0], \
+                                            ontoid.split(':')[1]
+                source = OntologySource(name=source_name)
+                material_type = OntologyAnnotation(term=term, term_source=source,
+                                                 term_accession=accession_id)
             sample_assay_plan.add_sample_qc_plan_record(
-                material_type=qcqa_record['qc_type_conditional']['qc_material_type'],
-                injection_interval=qcqa_record['qc_type_conditional']['injection_freq'])
-        elif 'dilution series' in qcqa_record['qc_type_conditional']['qc_type']:
+                material_type=material_type,
+                injection_interval=qcqa_record['injection_freq'])
+        else:
             raise NotImplementedError('Dilution series QCs not yet supported!')
 
     # pre-generation checks
     if galaxy_parameters_file:
         galaxy_parameters = json.load(galaxy_parameters_file)
-        # print(json.dumps(galaxy_parameters, indent=4))  # fo debugging only
+        print(json.dumps(galaxy_parameters, indent=4))  # fo debugging only
     else:
         raise IOError('Could not load Galaxy parameters file!')
     if target_dir:
@@ -211,7 +220,7 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
     for sample_plan_record in galaxy_parameters['sampling_and_assay_plans']['sample_record_series']:
         _ = _create_sample_plan(sample_assay_plan, sample_plan_record)
     for qcqa_record in galaxy_parameters['qc_plan']['qc_record_series']:
-        _ = _inject_qcqa_plan(sample_assay_plan, qcqa_record)
+        _ = _inject_qcqa_plan(sample_assay_plan, qcqa_record['qc_type_conditional'])
     sample_assay_plan.group_size = galaxy_parameters['treatment_plan']['study_groups']['study_group_size']
 
     study_info = galaxy_parameters['study_overview']
