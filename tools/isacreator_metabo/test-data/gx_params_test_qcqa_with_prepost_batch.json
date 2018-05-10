@@ -48,18 +48,14 @@
             {
                 "qc_type_conditional": {
                     "qc_type": "pre-run dilution series",
-                    "start_val": 1,
-                    "step": 5,
-                    "stop_val": 10,
+                    "values": "1,3,5,10",
                     "qc_material_type": "solvent blank (MSIO:0000026)"
                 }
             },
             {
                 "qc_type_conditional": {
                     "qc_type": "post-run dilution series",
-                    "start_val": 1,
-                    "step": 5,
-                    "stop_val": 10,
+                    "values": "10,5,3,1",
                     "qc_material_type": "study reference (MSIO:0000027)"
                 }
             }

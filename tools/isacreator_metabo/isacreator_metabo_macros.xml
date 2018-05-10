@@ -466,9 +466,8 @@
                                 <filter type="static_value" column="2" value="QC terms"/>
                             </options>
                         </param>
-                        <param name="start_val" type="integer" label="Start of interval" value="1"/>
-                        <param name="stop_val" type="integer" label="End of interval" value="10"/>
-                        <param name="step" type="integer" label="Spacing between values" value="5"/>
+                        <param name="quantity_type" type="text" label="Quantity type" value="Amount in ml"/>
+                        <param name="values" type="text" label="Values (comma-separated)" value="1,3,5,10"/>
                     </when>
                     <when value="post-run dilution series">
                         <param name="qc_material_type" type="select" label="Material type">
@@ -477,9 +476,7 @@
                                 <filter type="static_value" column="2" value="QC terms"/>
                             </options>
                         </param>
-                        <param name="start_val" type="integer" label="Start of interval" value="1"/>
-                        <param name="stop_val" type="integer" label="End of interval" value="10"/>
-                        <param name="step" type="integer" label="Spacing between values" value="5"/>
+                        <param name="values" type="text" label="Quantity (comma-separated)" value="10,5,3,1"/>
                     </when>
                 </conditional>
             </repeat>

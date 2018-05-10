@@ -187,7 +187,8 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
         return sample_assay_plan
 
     def _inject_qcqa_plan(sample_assay_plan, qcqa_record):
-        if qcqa_record['qc_type'] == 'interval series':
+        qc_type = qcqa_record['qc_type']
+        if qc_type == 'interval series':
             material_type = qcqa_record['qc_material_type']
             if re.match('(.*?) \((.*?)\)', material_type):
                 matches = next(iter(re.findall('(.*?) \((.*?)\)', material_type)))
@@ -200,13 +201,28 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
             sample_assay_plan.add_sample_qc_plan_record(
                 material_type=material_type,
                 injection_interval=qcqa_record['injection_freq'])
+        elif 'dilution series' in qc_type:
+            values = [int(x) for x in qcqa_record['values'].split(',')]
+            material_type = qcqa_record['qc_material_type']
+            batch = SampleQCBatch(material=material_type)
+            for value in values:
+                batch.characteristic_values.append(
+                    Characteristic(category=OntologyAnnotation(
+                        term='quantity'), value=value)
+                )
+            if 'pre-run' in qc_type:
+                sample_assay_plan.pre_run_batch = batch
+            elif 'post-run' in qc_type:
+                sample_assay_plan.post_run_batch = batch
         else:
-            raise NotImplementedError('Dilution series QCs not yet supported!')
+            raise NotImplementedError('QC type not recognized!')
+
+        return sample_assay_plan
 
     # pre-generation checks
     if galaxy_parameters_file:
         galaxy_parameters = json.load(galaxy_parameters_file)
-        print(json.dumps(galaxy_parameters, indent=4))  # fo debugging only
+        # print(json.dumps(galaxy_parameters, indent=4))  # fo debugging only
     else:
         raise IOError('Could not load Galaxy parameters file!')
     if target_dir:
