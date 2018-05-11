@@ -204,6 +204,14 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
         elif 'dilution series' in qc_type:
             values = [int(x) for x in qcqa_record['values'].split(',')]
             material_type = qcqa_record['qc_material_type']
+            if re.match('(.*?) \((.*?)\)', material_type):
+                matches = next(iter(re.findall('(.*?) \((.*?)\)', material_type)))
+                term, ontoid = matches[0], matches[1]
+                source_name, accession_id = ontoid.split(':')[0], \
+                                            ontoid.split(':')[1]
+                source = OntologySource(name=source_name)
+                material_type = OntologyAnnotation(term=term, term_source=source,
+                                                 term_accession=accession_id)
             batch = SampleQCBatch(material=material_type)
             for value in values:
                 batch.characteristic_values.append(
