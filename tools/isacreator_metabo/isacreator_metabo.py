@@ -196,7 +196,6 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
                                                  term_accession=accession_id)
         sample_assay_plan.add_sample_type(sample_type)
         sample_size = sample_plan_record['sample_size']
-        sample_assay_plan.group_size = sample_size
         sample_assay_plan.add_sample_plan_record(sample_type, sample_size)
         for assay_plan_record in sample_plan_record['assay_record_series']:
             tt = assay_plan_record['assay_type']['assay_type']
@@ -254,7 +253,7 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
     # pre-generation checks
     if galaxy_parameters_file:
         galaxy_parameters = json.load(galaxy_parameters_file)
-        print(json.dumps(galaxy_parameters, indent=4))  # fo debugging only
+        print(json.dumps(galaxy_parameters, indent=4))  # for debugging only
     else:
         raise IOError('Could not load Galaxy parameters file!')
     if target_dir:
@@ -265,11 +264,25 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
 
     treatment_sequence = _create_treatment_sequence(galaxy_parameters)
     sample_assay_plan = SampleAssayPlan()
-    for sample_plan_record in galaxy_parameters['sampling_and_assay_plans']['sample_record_series']:
+    for sample_plan_record in galaxy_parameters['sampling_and_assay_plans'][
+            'sample_record_series']:
         _ = _create_sample_plan(sample_assay_plan, sample_plan_record)
     for qcqa_record in galaxy_parameters['qc_plan']['qc_record_series']:
         _ = _inject_qcqa_plan(sample_assay_plan, qcqa_record['qc_type_conditional'])
-    sample_assay_plan.group_size = galaxy_parameters['treatment_plan']['study_groups']['study_group_size']
+    try:
+        sample_assay_plan.group_size = \
+        galaxy_parameters['treatment_plan']['study_type_cond']['one_or_more'][
+            'study_group_size']
+    except ValueError:
+        try:
+            sample_assay_plan.group_size = \
+            galaxy_parameters['treatment_plan']['study_type_cond'][
+                'balanced_or_unbalanced']['one_or_more']['group_size']
+        except ValueError:
+            sample_assay_plan.group_size = \
+            galaxy_parameters['treatment_plan']['study_type_cond'][
+                'balanced_or_unbalanced']['one_or_more']['factor_value_groups'][
+                0]['group_size']
 
     study_info = galaxy_parameters['study_overview']
 

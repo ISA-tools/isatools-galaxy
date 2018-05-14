@@ -52,25 +52,54 @@
                     <option value="observation">observation</option>
                 </param>
                 <when value="intervention_fractional">
-                    <conditional name="one_or_more">
-                        <param name="single_or_multiple" type="select" label="single or repeated treatments">
-                            <option value="single" selected="True">single</option>
-                            <option value="multiple">multiple</option>
-                        </param>
-                        <when value="single">
-                            <param name="select_intervention_type" type="select" label="Select an intervention type">
-                                <option value="chemical intervention" selected="True">chemical intervention</option>
-                                <option value="dietary intervention">dietary intervention</option>
-                                <option value="behavioural intervention">behavioral intervention</option>
-                                <option value="biological intervention">biological intervention</option>
-                                <option value="surgical intervention">surgical intervention</option>
-                            </param>
-                            <param name="study_factors" type="text" label="Study factors" value="agent, intensity, duration"/>
-                            <repeat name="factor_value_groups" title="Study group">
-                                <param name="factor_values" type="text" label="Factor values" value="aspirin, low dose, t0"/>
-                            </repeat>
+                    <conditional name="balanced_or_unbalanced">
+                        <param name="single_or_multiple" type="boolean" label="balanced study groups" checked="true"/>
+                        <when value="true">
+                            <conditional name="one_or_more">
+                                <param name="single_or_multiple" type="select" label="single or repeated treatments">
+                                    <option value="single" selected="True">single</option>
+                                    <option value="multiple">multiple</option>
+                                </param>
+                                <when value="single">
+                                    <param name="select_intervention_type" type="select" label="Select an intervention type">
+                                        <option value="chemical intervention" selected="True">chemical intervention</option>
+                                        <option value="dietary intervention">dietary intervention</option>
+                                        <option value="behavioural intervention">behavioral intervention</option>
+                                        <option value="biological intervention">biological intervention</option>
+                                        <option value="surgical intervention">surgical intervention</option>
+                                    </param>
+                                    <param name="study_factors" type="text" label="Study factors" value="agent, intensity, duration"/>
+                                    <repeat name="factor_value_groups" title="Study group">
+                                        <param name="factor_values" type="text" label="Factor values" value="aspirin, low dose, t0"/>
+                                    </repeat>
+                                    <param name="group_size" type="text" label="study group size" value="3"/>
+                                </when>
+                                <when value="multiple"/>
+                            </conditional>
                         </when>
-                        <when value="multiple"/>
+                        <when value="false">
+                            <conditional name="one_or_more">
+                                <param name="single_or_multiple" type="select" label="single or repeated treatments">
+                                    <option value="single" selected="True">single</option>
+                                    <option value="multiple">multiple</option>
+                                </param>
+                                <when value="single">
+                                    <param name="select_intervention_type" type="select" label="Select an intervention type">
+                                        <option value="chemical intervention" selected="True">chemical intervention</option>
+                                        <option value="dietary intervention">dietary intervention</option>
+                                        <option value="behavioural intervention">behavioral intervention</option>
+                                        <option value="biological intervention">biological intervention</option>
+                                        <option value="surgical intervention">surgical intervention</option>
+                                    </param>
+                                    <param name="study_factors" type="text" label="Study factors" value="agent, intensity, duration"/>
+                                    <repeat name="factor_value_groups" title="Study group">
+                                        <param name="factor_values" type="text" label="Factor values" value="aspirin, low dose, t0"/>
+                                        <param name="group_size" type="text" label="study group size" value="3"/>
+                                    </repeat>
+                                </when>
+                                <when value="multiple"/>
+                            </conditional>
+                        </when>
                     </conditional>
                 </when>
                 <when value="intervention">
@@ -114,13 +143,13 @@
                                     <param name="duration" type="text" value="t0,t1,t2"/>
                                 </when>
                             </conditional>
+                            <param name="study_group_size" type="integer"  label="balanced study group size" value="3" help="Full factorial designs only supports balanced study groups in this tool. "/>
                         </when>
                         <when value="multiple">
-                            <repeat name="multiple_intervention"
-                                    title="Repeated Intervention">
+                            <repeat name="multiple_intervention" title="Repeated Intervention">
                                 <conditional name="intervention_type">
                                     <param name="select_intervention_type" type="select" label="Select an intervention type">
-                                        <option value="chemical intervention" selected="True">chemical ntervention </option>
+                                        <option value="chemical intervention" selected="True">chemical intervention </option>
                                         <option value="dietary intervention">dietary intervention</option>
                                         <option value="behavioural intervention"> behavioral intervention</option>
                                         <option value="biological intervention">biological intervention</option>
@@ -153,33 +182,12 @@
                                     </when>
                                 </conditional>
                             </repeat>
+                            <param name="study_group_size" type="integer"  label="balanced study group size" value="3" help="Full factorial designs only supports balanced study groups in this tool. "/>
                         </when>
                     </conditional>
 
                 </when>
                 <when value="observation"/>
-            </conditional>
-            <!-- INPUT FOR SETTING CHARACTERISTICS OF STUDY GROUPS -->
-            <conditional name="study_groups">
-                <param name="group_balanced" type="select" label="study design balance">
-                    <option value="balanced" selected="True">balanced</option>
-                    <option value="unbalanced">unbalanced</option>
-                </param>
-                <when value="balanced">
-                    <param name="study_group_size" type="integer"  label="study group size" value="3"/>
-                </when>
-                <when value="unbalanced">
-                    <param name="study_group" type="select">
-                        <options>
-                            <!-- <filter type="add_value" ref="${group_balanced}" /> -->
-                            <!-- <filter type="param_value" separator="," ref="agent"/>-->
-                            <!--<filter type="multiple_splitter" column="4" separator="," key="agent"/>-->
-                        </options>
-                    </param>
-                    <repeat name="group_sizes" title="set group sizes">
-
-                    </repeat>
-                </when>
             </conditional>
         </section>
     </xml>
