@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """Commandline interface for running ISA API create mode (metabo flavoured)"""
 import click
-import datetime
-import io
 import json
 import os
 import uuid
@@ -11,6 +9,9 @@ import re
 from isatools import isatab
 from isatools.create.models import (
     TreatmentSequence,
+    Treatment,
+    StudyFactor,
+    FactorValue,
     INTERVENTIONS,
     BASE_FACTORS,
     TreatmentFactory,
@@ -34,7 +35,7 @@ def _create_treatment_sequence(galaxy_parameters):
     treatment_plan = galaxy_parameters['treatment_plan']
     study_type = treatment_plan['study_type_cond']['study_type']
 
-    if study_type != 'intervention':
+    if 'intervention' not in study_type:
         raise NotImplementedError('Only supports Intervention studies')
     single_or_multiple = treatment_plan[
         'study_type_cond']['one_or_more']['single_or_multiple']
@@ -42,43 +43,66 @@ def _create_treatment_sequence(galaxy_parameters):
         raise NotImplementedError(
             'Multiple treatments not yet implemented. Please select Single')
 
-    intervention_type = treatment_plan['study_type_cond']['one_or_more'][
-        'intervention_type']['select_intervention_type']
-    if intervention_type == 'chemical intervention':
-        interventions = INTERVENTIONS['CHEMICAL']
-    elif intervention_type == 'dietary intervention':
-        interventions = INTERVENTIONS['DIET']
-    elif intervention_type == 'behavioural intervention':
-        interventions = INTERVENTIONS['BEHAVIOURAL']
-    elif intervention_type == 'biological intervention':
-        interventions = INTERVENTIONS['BIOLOGICAL']
-    elif intervention_type == 'surgical intervention':
-        interventions = INTERVENTIONS['SURGICAL']
-    elif intervention_type == 'radiological intervention':  # not in tool yet
-        interventions = INTERVENTIONS['RADIOLOGICAL']
-    else:  # default to chemical
-        interventions = INTERVENTIONS['CHEMICAL']
-    treatment_factory = TreatmentFactory(
-        intervention_type=interventions, factors=BASE_FACTORS)
+    if study_type == 'intervention':
+        intervention_type = treatment_plan['study_type_cond']['one_or_more'][
+            'intervention_type']['select_intervention_type']
+        if intervention_type == 'chemical intervention':
+            interventions = INTERVENTIONS['CHEMICAL']
+        elif intervention_type == 'dietary intervention':
+            interventions = INTERVENTIONS['DIET']
+        elif intervention_type == 'behavioural intervention':
+            interventions = INTERVENTIONS['BEHAVIOURAL']
+        elif intervention_type == 'biological intervention':
+            interventions = INTERVENTIONS['BIOLOGICAL']
+        elif intervention_type == 'surgical intervention':
+            interventions = INTERVENTIONS['SURGICAL']
+        elif intervention_type == 'radiological intervention':  # not in tool yet
+            interventions = INTERVENTIONS['RADIOLOGICAL']
+        else:  # default to chemical
+            interventions = INTERVENTIONS['CHEMICAL']
+        treatment_factory = TreatmentFactory(
+            intervention_type=interventions, factors=BASE_FACTORS)
 
-    # Treatment Sequence
-    agent_levels = treatment_plan['study_type_cond']['one_or_more'][
-        'intervention_type']['agent'].split(',')
-    for agent_level in agent_levels:
-        treatment_factory.add_factor_value(BASE_FACTORS[0], agent_level.strip())
-    dose_levels = treatment_plan['study_type_cond']['one_or_more'][
-        'intervention_type']['intensity'].split(',')
-    for dose_level in dose_levels:
-        treatment_factory.add_factor_value(BASE_FACTORS[1], dose_level.strip())
-    duration_of_exposure_levels = treatment_plan[
-        'study_type_cond']['one_or_more']['intervention_type'][
-        'duration'].split(',')
-    for duration_of_exposure_level in duration_of_exposure_levels:
-        treatment_factory.add_factor_value(BASE_FACTORS[2],
-                                           duration_of_exposure_level.strip())
-    treatment_sequence = TreatmentSequence(
-        ranked_treatments=treatment_factory.compute_full_factorial_design())
-    return treatment_sequence
+        # Treatment Sequence
+        agent_levels = treatment_plan['study_type_cond']['one_or_more'][
+            'intervention_type']['agent'].split(',')
+        for agent_level in agent_levels:
+            treatment_factory.add_factor_value(BASE_FACTORS[0], agent_level.strip())
+        dose_levels = treatment_plan['study_type_cond']['one_or_more'][
+            'intervention_type']['intensity'].split(',')
+        for dose_level in dose_levels:
+            treatment_factory.add_factor_value(BASE_FACTORS[1], dose_level.strip())
+        duration_of_exposure_levels = treatment_plan[
+            'study_type_cond']['one_or_more']['intervention_type'][
+            'duration'].split(',')
+        for duration_of_exposure_level in duration_of_exposure_levels:
+            treatment_factory.add_factor_value(BASE_FACTORS[2],
+                                               duration_of_exposure_level.strip())
+        treatment_sequence = TreatmentSequence(
+            ranked_treatments=treatment_factory.compute_full_factorial_design())
+        return treatment_sequence
+
+    elif study_type == 'intervention_fractional':
+        intervention_type = treatment_plan['study_type_cond']['one_or_more'][
+            'select_intervention_type']
+        treatments = set()
+        study_factors = [StudyFactor(name=x.strip()) for x in
+                            treatment_plan['study_type_cond']['one_or_more'][
+                                'study_factors'].split(',')]
+        for group in treatment_plan['study_type_cond']['one_or_more'][
+                'factor_value_groups']:
+            factor_values = ()
+            for x, y in zip(study_factors, [x.strip() for x in
+                             group['factor_values'].split(',')]):
+                factor_value = FactorValue(factor_name=x, value=y)
+                factor_values = factor_values + (factor_value,)
+            treatment = Treatment(treatment_type=intervention_type,
+                                  factor_values=factor_values)
+            treatments.add(treatment)
+        treatment_sequence = TreatmentSequence(ranked_treatments=treatments)
+        return treatment_sequence
+
+
 
 
 @click.command()
@@ -230,7 +254,7 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
     # pre-generation checks
     if galaxy_parameters_file:
         galaxy_parameters = json.load(galaxy_parameters_file)
-        # print(json.dumps(galaxy_parameters, indent=4))  # fo debugging only
+        print(json.dumps(galaxy_parameters, indent=4))  # fo debugging only
     else:
         raise IOError('Could not load Galaxy parameters file!')
     if target_dir:
@@ -283,7 +307,10 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
     i.title = "Investigation"
     i.identifier = s.identifier
     i.studies = [s]
-    i.ontology_source_references = s.ontology_source_references
+    try:
+        i.ontology_source_references = s.ontology_source_references
+    except AttributeError:
+        pass
     i.ontology_source_references.append(OntologySource(name='ICO'))
     i.ontology_source_references.append(OntologySource(name='DUO'))
 
