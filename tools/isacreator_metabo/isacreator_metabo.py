@@ -37,8 +37,12 @@ def _create_treatment_sequence(galaxy_parameters):
 
     if 'intervention' not in study_type:
         raise NotImplementedError('Only supports Intervention studies')
-    single_or_multiple = treatment_plan[
-        'study_type_cond']['one_or_more']['single_or_multiple']
+    try:
+        single_or_multiple = treatment_plan[
+            'study_type_cond']['balanced_or_unbalanced']['single_or_multiple']
+    except KeyError:
+        single_or_multiple = treatment_plan[
+            'study_type_cond']['one_or_more']['single_or_multiple']
     if single_or_multiple == 'multiple':
         raise NotImplementedError(
             'Multiple treatments not yet implemented. Please select Single')
@@ -83,14 +87,17 @@ def _create_treatment_sequence(galaxy_parameters):
         return treatment_sequence
 
     elif study_type == 'intervention_fractional':
-        intervention_type = treatment_plan['study_type_cond']['one_or_more'][
-            'select_intervention_type']
+        intervention_type = \
+            treatment_plan['study_type_cond']['balanced_or_unbalanced'][
+                'one_or_more']['select_intervention_type']
         treatments = set()
         study_factors = [StudyFactor(name=x.strip()) for x in
-                            treatment_plan['study_type_cond']['one_or_more'][
-                                'study_factors'].split(',')]
-        for group in treatment_plan['study_type_cond']['one_or_more'][
-                'factor_value_groups']:
+                         treatment_plan['study_type_cond'][
+                             'balanced_or_unbalanced']['one_or_more'][
+                             'study_factors'].split(',')]
+        for group in \
+        treatment_plan['study_type_cond']['balanced_or_unbalanced'][
+                'one_or_more']['factor_value_groups']:
             factor_values = ()
             for x, y in zip(study_factors, [x.strip() for x in
                              group['factor_values'].split(',')]):
@@ -271,18 +278,18 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
         _ = _inject_qcqa_plan(sample_assay_plan, qcqa_record['qc_type_conditional'])
     try:
         sample_assay_plan.group_size = \
-        galaxy_parameters['treatment_plan']['study_type_cond']['one_or_more'][
-            'study_group_size']
-    except ValueError:
+            int(galaxy_parameters['treatment_plan']['study_type_cond'][
+                'one_or_more']['study_group_size'])
+    except KeyError:
         try:
             sample_assay_plan.group_size = \
-            galaxy_parameters['treatment_plan']['study_type_cond'][
-                'balanced_or_unbalanced']['one_or_more']['group_size']
-        except ValueError:
+                int(galaxy_parameters['treatment_plan']['study_type_cond'][
+                    'balanced_or_unbalanced']['one_or_more']['group_size'])
+        except KeyError:
             sample_assay_plan.group_size = \
-            galaxy_parameters['treatment_plan']['study_type_cond'][
-                'balanced_or_unbalanced']['one_or_more']['factor_value_groups'][
-                0]['group_size']
+                int(galaxy_parameters['treatment_plan']['study_type_cond'][
+                    'balanced_or_unbalanced']['one_or_more'][
+                    'factor_value_groups'][0]['group_size'])
 
     study_info = galaxy_parameters['study_overview']
 
