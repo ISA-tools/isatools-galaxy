@@ -61,6 +61,7 @@
                                     <option value="multiple">multiple</option>
                                 </param>
                                 <when value="single">
+                                    <param name="group_size" type="text" label="study group size" value="3"/>
                                     <param name="select_intervention_type" type="select" label="Select an intervention type">
                                         <option value="chemical intervention" selected="True">chemical intervention</option>
                                         <option value="dietary intervention">dietary intervention</option>
@@ -72,9 +73,23 @@
                                     <repeat name="factor_value_groups" title="Study group">
                                         <param name="factor_values" type="text" label="Factor values" value="aspirin, low dose, t0"/>
                                     </repeat>
-                                    <param name="group_size" type="text" label="study group size" value="3"/>
                                 </when>
-                                <when value="multiple"/>
+                                <when value="multiple">
+                                    <param name="group_size" type="text" label="study group size" value="3"/>
+                                    <repeat name="multiple_intervention" title="Repeated Intervention">
+                                        <param name="select_intervention_type" type="select" label="Select an intervention type">
+                                            <option value="chemical intervention" selected="True">chemical intervention</option>
+                                            <option value="dietary intervention">dietary intervention</option>
+                                            <option value="behavioural intervention">behavioral intervention</option>
+                                            <option value="biological intervention">biological intervention</option>
+                                            <option value="surgical intervention">surgical intervention</option>
+                                        </param>
+                                        <param name="study_factors" type="text" label="Study factors" value="agent, intensity, duration"/>
+                                        <repeat name="factor_value_groups" title="Study group">
+                                            <param name="factor_values" type="text" label="Factor values" value="aspirin, low dose, t0"/>
+                                        </repeat>
+                                     </repeat>
+                                </when>
                             </conditional>
                         </when>
                         <when value="false">
@@ -97,7 +112,22 @@
                                         <param name="group_size" type="text" label="study group size" value="3"/>
                                     </repeat>
                                 </when>
-                                <when value="multiple"/>
+                                <when value="multiple">
+                                    <repeat name="multiple_intervention" title="Repeated Intervention">
+                                        <param name="select_intervention_type" type="select" label="Select an intervention type">
+                                            <option value="chemical intervention" selected="True">chemical intervention</option>
+                                            <option value="dietary intervention">dietary intervention</option>
+                                            <option value="behavioural intervention">behavioral intervention</option>
+                                            <option value="biological intervention">biological intervention</option>
+                                            <option value="surgical intervention">surgical intervention</option>
+                                        </param>
+                                        <param name="study_factors" type="text" label="Study factors" value="agent, intensity, duration"/>
+                                        <repeat name="factor_value_groups" title="Study group">
+                                            <param name="factor_values" type="text" label="Factor values" value="aspirin, low dose, t0"/>
+                                            <param name="group_size" type="text" label="study group size" value="3"/>
+                                        </repeat>
+                                    </repeat>
+                                </when>
                             </conditional>
                         </when>
                     </conditional>
