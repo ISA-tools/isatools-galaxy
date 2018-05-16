@@ -7,27 +7,7 @@ import uuid
 import re
 
 from isatools import isatab
-from isatools.create.models import (
-    TreatmentSequence,
-    Treatment,
-    StudyFactor,
-    FactorValue,
-    INTERVENTIONS,
-    BASE_FACTORS,
-    TreatmentFactory,
-    IsaModelObjectFactory,
-    AssayType,
-    MSTopologyModifiers,
-    MSInjectionMode,
-    MSAcquisitionMode,
-    SampleAssayPlan,
-    Study,
-    Comment,
-    SampleQCBatch,
-    Characteristic,
-    OntologyAnnotation,
-    OntologySource
-)
+from isatools.create.models import *
 from isatools.model import Investigation, Person
 
 
@@ -298,7 +278,9 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
     if len(sample_assay_plan.assay_plan) == 0:
         print('No assay plan defined')
 
-    isa_object_factory = IsaModelObjectFactory(sample_assay_plan, treatment_sequence)
+    study_design = StudyDesign()
+    study_design.add_single_sequence_plan(treatment_sequence, sample_assay_plan)
+    isa_object_factory = IsaModelObjectFactory(study_design)
     if len(sample_assay_plan.sample_plan) == 0:
         s = Study()
     else:
