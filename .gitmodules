@@ -1,0 +1,3 @@
+[submodule "bash-testthat"]
+	path = bash-testthat
+	url = https://github.com/pkrog/bash-testthat

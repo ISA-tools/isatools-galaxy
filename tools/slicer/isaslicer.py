@@ -1083,7 +1083,6 @@ def main(args):
 
 if __name__ == '__main__':
     try:
-        print(sys.argv[1:])
         main(sys.argv[1:])
         sys.exit(0)
     except Exception as e:
