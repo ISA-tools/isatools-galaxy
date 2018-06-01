@@ -8,6 +8,28 @@ SCRIPT_PATH=$(dirname $BASH_SOURCE)
 ISASLICER=$SCRIPT_PATH/../tools/slicer/isaslicer.py
 RESDIR=$SCRIPT_PATH/res
 
+# Check data list {{{1
+################################################################
+
+check_data_list() {
+
+	local file="$1"
+	local nb_data_files_expected=$2
+
+	python3 <<EOF
+# @@@BEGIN_PYTHON@@@
+import json
+import sys
+with open('$output_file') as f:
+    data_list = json.load(f)
+    for elem in data_list:
+	    if len(elem['data_files']) != $nb_data_files_expected:
+		    print('Found only %d element(s), instead of %d, for sample %s.' % (len(elem['data_files']), $nb_data_files_expected, elem['sample']), file = sys.stderr)
+		    sys.exit(1)
+# @@@END_PYTHON@@@
+EOF
+}
+
 # Test isaslicer all data files {{{1
 ################################################################
 
@@ -24,7 +46,8 @@ test_isaslicer_all_data_files() {
 	# TODO Take output and read the JSON
 	expect_non_empty_file "$output_file"
 
-	# TODO Check that JSON contains specific fields and several files in data_files fields for each sample. (Write a special script for that or implement some JSON parsing inside bash-testthat?)
+	# Check number of data files for each sample
+	expect_success check_data_list "$output_file" 4
 }
 
 # Main {{{1
