@@ -20,7 +20,7 @@ check_data_list() {
 # @@@BEGIN_PYTHON@@@
 import json
 import sys
-with open('$output_file') as f:
+with open('$file') as f:
     data_list = json.load(f)
     for elem in data_list:
 	    if len(elem['data_files']) != $nb_data_files_expected:
@@ -36,11 +36,11 @@ EOF
 test_isaslicer_all_data_files() {
 
 	# Get list of data files
-	factor_name=Gender
-	factor_value=Female
-	study=MTBLS1-isatab
-	study_path=$(realpath "$RESDIR/$study")
-	output_file=$SCRIPT_PATH/$study-data-files.json
+	local factor_name=Gender
+	local factor_value=Female
+	local study=MTBLS1-isatab
+	local study_path=$(realpath "$RESDIR/$study")
+	local output_file=$SCRIPT_PATH/$study-data-files.json
 	$ISASLICER 'isa-tab-get-data-list' "$study_path" "$output_file" --json-query "{ \"$factor_name\": \"$factor_value\" }"
 
 	# TODO Take output and read the JSON
