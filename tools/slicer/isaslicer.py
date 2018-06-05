@@ -327,7 +327,6 @@ def get_data_files_command(options):
             json_struct = {}
             for fv_item in galaxy_json['factor_value_series']:
                 json_struct[fv_item['factor_name']] = fv_item['factor_value']
-            print(json_struct)
             data_files = MTBLS.get_data_files(options.study_id, json_struct)
     else:
         logger.debug("No query was specified")
