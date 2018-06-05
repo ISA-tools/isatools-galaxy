@@ -11,7 +11,7 @@ install:
  - pip install --upgrade pip setuptools
  - pip install planemo==$PLANEMO_RELEASE
  - git clone -b release_17.09_plus_isa_k8s_resource_limts https://github.com/ISA-tools/galaxy
- - echo "isa-rwval==0.10.1" >> ${TRAVIS_BUILD_DIR}/galaxy/requirements.txt
+ - sed -i 's/^isa-rwval==0.10.0$/isa-rwval==0.10.1/' ${TRAVIS_BUILD_DIR}/galaxy/requirements.txt
 
 script:
  - planemo lint ${TRAVIS_BUILD_DIR}/tools/slicer/

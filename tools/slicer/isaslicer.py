@@ -617,7 +617,7 @@ def slice_data_files(dir, factor_selection=None):
                             'Metabolite Assignment File']
                 for node_label in data_node_labels:
                     if node_label in table_headers:
-                        data_files = sample_rows[node_label]
+                        data_files.extend(list(sample_rows[node_label]))
 
                 result['data_files'] = [i for i in list(data_files) if
                                         str(i) != 'nan']
@@ -1093,7 +1093,6 @@ def main(args):
 
 if __name__ == '__main__':
     try:
-        print(sys.argv[1:])
         main(sys.argv[1:])
         sys.exit(0)
     except Exception as e:
