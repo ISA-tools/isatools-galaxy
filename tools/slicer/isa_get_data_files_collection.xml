@@ -17,9 +17,12 @@
     <command><![CDATA[
         $__tool_directory__/isaslicer.py isa-tab-get-data-collection
         "${isatab_input.extra_files_path}" "./"
-        --json-query "{ \"$factor_name\": \"$factor_value\" }"
+        --galaxy_parameters_file="$inputs"
 ]]>
     </command>
+    <configfiles>
+        <inputs name="inputs" />
+    </configfiles>
     <inputs>
 	    <param format="isa-tab" name="isatab_input" type="data" label="ISA-Tab" help="An ISA-Tab datatype history item"/>
         <repeat name="factor_value_series" title="Factor selection criteria" default="1">

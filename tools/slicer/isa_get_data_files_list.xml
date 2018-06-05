@@ -24,10 +24,13 @@
             #set $source = $data_file.isatab_input.extra_files_path
         #end if
 
-        $__tool_directory__/isaslicer.py "$command" "${source}" "${output}" --json-query "{ \"$factor_name\": \"$factor_value\" }"
+        $__tool_directory__/isaslicer.py "$command" "${source}" "${output}" --galaxy_parameters_file="$inputs"
 
     ]]>
     </command>
+    <configfiles>
+        <inputs name="inputs" />
+    </configfiles>
     <inputs>
 	    <conditional name="data_file">
             <param name="input" type="select" label="Choose your ISA-Tab input source">
