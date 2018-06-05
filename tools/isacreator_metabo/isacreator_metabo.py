@@ -67,29 +67,31 @@ def _create_treatment_sequence(galaxy_parameters):
         return treatment_sequence
 
     elif study_type == 'intervention_fractional':
-        intervention_type = \
-            treatment_plan['study_type_cond']['balanced_or_unbalanced'][
-                'one_or_more']['select_intervention_type']
-        treatments = set()
-        study_factors = [StudyFactor(name=x.strip()) for x in
-                         treatment_plan['study_type_cond'][
-                             'balanced_or_unbalanced']['one_or_more'][
-                             'study_factors'].split(',')]
-        for group in \
-        treatment_plan['study_type_cond']['balanced_or_unbalanced'][
-                'one_or_more']['factor_value_groups']:
-            factor_values = ()
-            for x, y in zip(study_factors, [x.strip() for x in
-                             group['factor_values'].split(',')]):
-                factor_value = FactorValue(factor_name=x, value=y)
-                factor_values = factor_values + (factor_value,)
-            treatment = Treatment(treatment_type=intervention_type,
-                                  factor_values=factor_values)
-            treatments.add(treatment)
-        treatment_sequence = TreatmentSequence(ranked_treatments=treatments)
-        return treatment_sequence
-
-
+        if treatment_plan['study_type_cond']['balanced_or_unbalanced'][
+                'balanced']:
+            intervention_type = \
+                treatment_plan['study_type_cond']['balanced_or_unbalanced'][
+                    'one_or_more']['select_intervention_type']
+            treatments = set()
+            study_factors = [StudyFactor(name=x.strip()) for x in
+                             treatment_plan['study_type_cond'][
+                                 'balanced_or_unbalanced']['one_or_more'][
+                                 'study_factors'].split(',')]
+            for group in \
+                treatment_plan['study_type_cond']['balanced_or_unbalanced'][
+                    'one_or_more']['factor_value_groups']:
+                factor_values = ()
+                for x, y in zip(study_factors, [x.strip() for x in
+                                 group['factor_values'].split(',')]):
+                    factor_value = FactorValue(factor_name=x, value=y)
+                    factor_values = factor_values + (factor_value,)
+                treatment = Treatment(treatment_type=intervention_type,
+                                      factor_values=factor_values)
+                treatments.add(treatment)
+            treatment_sequence = TreatmentSequence(ranked_treatments=treatments)
+            return treatment_sequence
+        else:
+            raise NotImplementedError('Unbalanced not yet supported')
 
 
 @click.command()

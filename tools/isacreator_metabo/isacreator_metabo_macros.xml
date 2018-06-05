@@ -53,7 +53,7 @@
                 </param>
                 <when value="intervention_fractional">
                     <conditional name="balanced_or_unbalanced">
-                        <param name="single_or_multiple" type="boolean" label="balanced study groups" checked="true"/>
+                        <param name="balanced" type="boolean" label="balanced study groups" checked="true"/>
                         <when value="true">
                             <conditional name="one_or_more">
                                 <param name="single_or_multiple" type="select" label="single or repeated treatments">
