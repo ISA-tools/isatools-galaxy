@@ -182,6 +182,9 @@ def make_parser():
     subparser.add_argument(
         '--json-query',
         help="Factor query in JSON (e.g., '{\"Gender\":\"Male\"}'")
+    subparser.add_argument(
+        '--galaxy_parameters_file',
+        help="Path to JSON file containing input Galaxy JSON")
 
     subparser = subparsers.add_parser('zip-get-data-collection', aliases=['zipgdc'],
                                       help="Get data files collection")
@@ -483,9 +486,18 @@ def isatab_get_data_files_collection_command(options):
     input_path = next(iter(options.input_path))
     if options.json_query is not None:
         json_struct = json.loads(options.json_query)
-        factor_selection = json_struct
+    elif options.galaxy_parameters_file:
+        logger.debug("Using input Galaxy JSON parameters from:\n%s",
+                     options.galaxy_parameters_file)
+        with open(options.galaxy_parameters_file) as json_fp:
+            galaxy_json = json.load(json_fp)
+            json_struct = {}
+            for fv_item in galaxy_json['factor_value_series']:
+                json_struct[fv_item['factor_name']] = fv_item['factor_value']
     else:
-        factor_selection = None
+        logger.debug("No query was specified")
+        json_struct = None
+    factor_selection = json_struct
     result = slice_data_files(input_path, factor_selection=factor_selection)
     data_files = result
     logger.debug("Result data files list: %s", data_files)
