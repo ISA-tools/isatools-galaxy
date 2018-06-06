@@ -8,7 +8,20 @@ GALAXY=$HOME/dev/galaxy
 ISATOOLS=$HOME/dev/isatools-galaxy
 ```
 
-## Installing manually
+## Install ISA API (isatools Python module)
+
+Clone ISA API:
+```bash
+git clone -b isa_hackathon git://github.com/ISA-tools/isa-api.git
+```
+
+Install it on your computer:
+```bash
+cd isa-api
+pip3 install --user -e .
+```
+
+## Installing the tool manually
 
 ### Install the tool XML file
 
