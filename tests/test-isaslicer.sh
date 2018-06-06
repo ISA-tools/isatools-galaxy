@@ -41,13 +41,13 @@ test_isaslicer_all_data_files() {
 	local study=MTBLS1-isatab
 	local study_path=$(realpath "$RESDIR/$study")
 	local output_file=$SCRIPT_PATH/$study-data-files.json
-	$ISASLICER 'isa-tab-get-data-list' "$study_path" "$output_file" --json-query "{ \"$factor_name\": \"$factor_value\" }"
+	expect_success $ISASLICER 'isa-tab-get-data-list' "$study_path" "$output_file" --json-query "{ \"$factor_name\": \"$factor_value\" }" || return 1
 
 	# TODO Take output and read the JSON
-	expect_non_empty_file "$output_file"
+	expect_non_empty_file "$output_file" || return 1
 
 	# Check number of data files for each sample
-	expect_success check_data_list "$output_file" 4
+	expect_success check_data_list "$output_file" 4 || return 1
 }
 
 # Main {{{1
