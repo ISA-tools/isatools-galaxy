@@ -11,9 +11,11 @@ VENV=$PROG_PATH/isavenv
 # Main {{{1
 ################################################################
 
-virtualenv -q -p python3.5 $VENV
+virtualenv -q -p python3.6 $VENV
 source $VENV/bin/activate
-pip install isatools==0.9.5 click==6.7
+pip3 install click==6.7
+git clone -b isa_hackathon git://github.com/ISA-tools/isa-api.git $VENV/isapi
+pip3 install -e $VENV/isapi
 make test
 deactivate
 rm -rf $venv
