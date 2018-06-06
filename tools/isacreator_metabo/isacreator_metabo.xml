@@ -16,7 +16,7 @@
 
     <command>
         <![CDATA[
-        pip install -e git+https://github.com/ISA-tools/isa-api@feature/add_study_design#egg=isatools &&
+        pip install -e git+https://github.com/ISA-tools/isa-api@develop#egg=isatools &&
         mkdir study_dir &&
         mkdir -p '${output.files_path}' &&
         $__tool_directory__/isacreator_metabo.py
