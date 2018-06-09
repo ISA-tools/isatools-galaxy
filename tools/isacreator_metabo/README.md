@@ -27,7 +27,7 @@ pip3 install --user -e .
 
 ```bash
 cd $GALAXY/tools
-ln -s $ISATOOLS/tools/isacreator_metabo
+ln -s $ISATOOLS
 ```
 
 ### Edit the tool conf
@@ -53,6 +53,7 @@ cp $GALAXY/config/tool_data_table_conf.xml.sample $GALAXY/config/tool_data_table
 
 Edit the file `$GALAXY/config/tool_data_table_conf.xml` and add the following lines:
 ```xml
+	<!-- ISA creator CV terms -->
     <table name="isa_cvterms" comment_char="#">
         <columns>dbkey, name, value</columns>
         <file path="tool-data/isa_cvterms.loc" />
