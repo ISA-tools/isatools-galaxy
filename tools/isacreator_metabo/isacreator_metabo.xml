@@ -7,6 +7,10 @@
 
     <requirements>
         <requirement type="package" version="6.7">click</requirement>
+
+        <!-- ISA tools 0.9.5 is not sufficient to run this tool. For the time being, you need
+        	 to install manually the branch isa_hackathon of https://github.com/ISA-tools/isa-api
+		-->
         <!--<requirement type="package" version="0.9.5">isatools</requirement>-->
     </requirements>
 
