@@ -5,28 +5,10 @@
             <param name="study_description" area="True" size="5x25" type="text" label="provide a textual description for the study" value="e.g. The study of... by means of metabolite profiling using ..."/>
             <param name="study_pi_first_name" type="text" label="PI first name" value="e.g. Marie"/>
             <param name="study_pi_last_name" type="text" label="PI last name" value="e.g. Sklodowska Curie"/>
-            <param name="study_pi_email" type="text" label="PI email address" value="e.g. marie.sklodowska-curie@gmail.com"/>
+            <param name="study_pi_email" type="text" label="PI email address" value="e.g. marie.sklodowska-curie@gmail.com">
+                <validator type="regex" message="Must look like a valid email adddress">^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$</validator>
+            </param>
             <param name="study_pi_affiliation" type="text" label="PI affiliation" value="e.g. Radium Institute, Paris"/>
-            <!-- <repeat name="protocol_record_series" title="Study Protocols">
-                 <param name="protocol_name" type="text" label="Protocol name"></param>
-                 <param name="protocol_type" type="select" label="Protocol type">
-                     <option value="none selected" selected="True">none selected</option>
-                     <option value="specimen_collection">sample collection</option>
-                     <option value="sample_preparation">sample preparation</option>
-                     <option value="metabolite extraction">metabolite extraction</option>
-                     <option value="derivatization">derivatization</option>
-                     <option value="chromatography" >chromatography</option>
-                     <option value="data_acquisition">data acquisition</option>
-                     <option value="data normalization">data normalization</option>
-                     <option value="data transformation">data transformation</option>
-                     <option value="differential expression analysis">differential expression analysis</option>
-                     <option value="enrichment analysis">enrichment analysis</option>
-                     <option value="enrichment analysis">enrichment analysis</option>
-                     <option>other</option>
-                 </param>
-                 <param name="protocol_desc" area="True" size="5x25" type="text" label="Protocol Description"></param>
-                 <param name="protocol_uri" type="text" label="Protocol URI"></param>
-             </repeat> -->
             <param name="study_consent" type="select" label="Consent Information (ICO:0000011)">
                 <options from_data_table="isa_cvterms">
                     <column name="value" index="1"/>
@@ -109,7 +91,9 @@
                                     <param name="study_factors" type="text" label="Study factors" value="agent, intensity, duration"/>
                                     <repeat name="factor_value_groups" title="Study group">
                                         <param name="factor_values" type="text" label="Factor values" value="aspirin, low dose, t0"/>
-                                        <param name="group_size" type="text" label="study group size" value="3"/>
+                                        <param name="group_size" type="text" label="study group size" value="3">
+                                            <validator type="in_range" message="Group size must be more than 0 and less than 9999" min="0" exclude_min="true" max="9999"/>
+                                        </param>
                                     </repeat>
                                 </when>
                                 <when value="multiple">
@@ -124,7 +108,9 @@
                                         <param name="study_factors" type="text" label="Study factors" value="agent, intensity, duration"/>
                                         <repeat name="factor_value_groups" title="Study group">
                                             <param name="factor_values" type="text" label="Factor values" value="aspirin, low dose, t0"/>
-                                            <param name="group_size" type="text" label="study group size" value="3"/>
+                                            <param name="group_size" type="text" label="study group size" value="3">
+                                                 <validator type="in_range" message="Group size must be more than 0 and less than 9999" min="0" exclude_min="true" max="9999"/>
+                                            </param>
                                         </repeat>
                                     </repeat>
                                 </when>
@@ -173,7 +159,9 @@
                                     <param name="duration" type="text" value="t0,t1,t2"/>
                                 </when>
                             </conditional>
-                            <param name="study_group_size" type="integer"  label="balanced study group size" value="3" help="Full factorial designs only supports balanced study groups in this tool. "/>
+                            <param name="study_group_size" type="integer"  label="balanced study group size" value="3" help="Full factorial designs only supports balanced study groups in this tool. ">
+                                <validator type="in_range" message="Group size must be more than 0 and less than 9999" min="0" exclude_min="true" max="9999"/>
+                            </param>
                         </when>
                         <when value="multiple">
                             <repeat name="multiple_intervention" title="Repeated Intervention">
@@ -212,7 +200,9 @@
                                     </when>
                                 </conditional>
                             </repeat>
-                            <param name="study_group_size" type="integer"  label="balanced study group size" value="3" help="Full factorial designs only supports balanced study groups in this tool. "/>
+                            <param name="study_group_size" type="integer"  label="balanced study group size" value="3" help="Full factorial designs only supports balanced study groups in this tool.">
+                                <validator type="in_range" message="Group size must be more than 0 and less than 9999" min="0" exclude_min="true" max="9999"/>
+                            </param>
                         </when>
                     </conditional>
 
@@ -272,7 +262,9 @@
                                                 <option value="positive"/>
                                                 <option value="positive/negative"/>
                                             </param>
-                                            <param name="technical_replicates" type="integer" label="number of technical repeats" value="1"/>
+                                            <param name="technical_replicates" type="integer" label="number of technical repeats" value="1">
+                                                <validator type="in_range" message="Technical repeats must be more than 0 and less than 9999" min="0" exclude_min="true" max="9999"/>
+                                            </param>
                                         </repeat>
                                     </when>
                                     <when value="FIA">
@@ -290,7 +282,9 @@
                                                 <option value="positive"/>
                                                 <option value="positive/negative"/>
                                             </param>
-                                            <param name="technical_replicates" type="integer" label="number of technical repeats" value="1"/>
+                                            <param name="technical_replicates" type="integer" label="number of technical repeats" value="1">
+                                                <validator type="in_range" message="Technical repeats must be more than 0 and less than 9999" min="0" exclude_min="true" max="9999"/>
+                                            </param>
                                         </repeat>
                                     </when>
                                     <when value="LC">
@@ -322,7 +316,9 @@
                                                 <option value="positive"/>
                                                 <option value="positive/negative"/>
                                             </param>
-                                            <param name="technical_replicates" type="integer" label="number of technical repeats" value="1"/>
+                                            <param name="technical_replicates" type="integer" label="number of technical repeats" value="1">
+                                                <validator type="in_range" message="Technical repeats must be more than 0 and less than 9999" min="0" exclude_min="true" max="9999"/>
+                                            </param>
                                         </repeat>
                                     </when>
                                     <when value="GC">
@@ -348,7 +344,9 @@
                                                 <option value="positive"/>
                                                 <option value="positive/negative"/>
                                             </param>
-                                            <param name="technical_replicates" type="integer" label="number of technical repeats" value="1"/>
+                                            <param name="technical_replicates" type="integer" label="number of technical repeats" value="1">
+                                                <validator type="in_range" message="Technical repeats must be more than 0 and less than 9999" min="0" exclude_min="true" max="9999"/>
+                                            </param>
                                         </repeat>
                                         <repeat name="derivatization_series" title="derivatizations">
                                             <param name="derivatization" type="select" label="derivatization">
@@ -391,7 +389,9 @@
                                         <option value="none reported">none reported</option>
                                     </param>
                                     <param name="magnet" type="text" label="nmr magnet power" value="600 Mhz"/>
-                                    <param name="technical_replicates" type="integer" label="number of technical repeats" value="1"/>
+                                    <param name="technical_replicates" type="integer" label="number of technical repeats" value="1">
+                                        <validator type="in_range" message="Technical repeats must be more than 0 and less than 9999" min="0" exclude_min="true" max="9999"/>
+                                    </param>
                                 </when>
                                 <when value="1D 13C NMR">
                                     <param name="nmr_instrument" type="select" min="1" label="nmr instrument">
@@ -411,7 +411,9 @@
                                         <option value="none reported">none reported</option>
                                     </param>
                                     <param name="magnet" type="text" label="nmr magnet power" value="600 Mhz"/>
-                                    <param name="technical_replicates" type="integer" label="number of technical repeats" value="1"/>
+                                    <param name="technical_replicates" type="integer" label="number of technical repeats" value="1">
+                                        <validator type="in_range" message="Technical repeats must be more than 0 and less than 9999" min="0" exclude_min="true" max="9999"/>
+                                    </param>
                                 </when>
                                 <when value="2D 1H-1H NMR">
                                     <param name="nmr_instrument" type="select" min="1" label="nmr instrument">
@@ -431,7 +433,9 @@
                                         <option value="none reported">none reported</option>
                                     </param>
                                     <param name="magnet" type="text" label="nmr magnet power" value="600 Mhz"/>
-                                    <param name="technical_replicates" type="integer" label="number of technical repeats" value="1"/>
+                                    <param name="technical_replicates" type="integer" label="number of technical repeats" value="1">
+                                        <validator type="in_range" message="Technical repeats must be more than 0 and less than 9999" min="0" exclude_min="true" max="9999"/>
+                                    </param>
                                 </when>
                                 <when value="2D 13C-13C NMR">
                                     <param name="nmr_instrument" type="select" min="1" label="nmr instrument">
@@ -451,7 +455,9 @@
                                         <option value="none reported">none reported</option>
                                     </param>
                                     <param name="magnet" type="text" label="nmr magnet power" value="600 Mhz"/>
-                                    <param name="technical_replicates" type="integer" label="number of technical repeats" value="1"/>
+                                    <param name="technical_replicates" type="integer" label="number of technical repeats" value="1">
+                                        <validator type="in_range" message="Technical repeats must be more than 0 and less than 9999" min="0" exclude_min="true" max="9999"/>
+                                    </param>
                                 </when>
                                 <when value="2D 1H-13C NMR">
                                     <param name="nmr_instrument" type="select" min="1" label="nmr instrument">
@@ -471,30 +477,12 @@
                                         <option value="none reported">none reported</option>
                                     </param>
                                     <param name="magnet" type="text" label="nmr magnet power" value="600 Mhz"/>
-                                    <param name="technical_replicates" type="integer" label="number of technical repeats" value="1"/>
+                                    <param name="technical_replicates" type="integer" label="number of technical repeats" value="1">
+                                        <validator type="in_range" message="Technical repeats must be more than 0 and less than 9999" min="0" exclude_min="true" max="9999"/>
+                                    </param>
                                 </when>
                             </conditional>
                         </when>
-                        <!--
-                            <when value="DNA sequencing">
-                                <param name="seq_instrument" type="text"></param>
-                                <param name="single_or_paired" type="select" label="select library type" argument="library">
-                                    <option value="single end"/>
-                                    <option value="paired end"/>
-                                </param>
-                                <param name="technical_replicates" type="integer" label="number of technical repeats" argument="tech_rep" value="1"></param>
-                            </when>
-
-                            <when value="DNA microarray">
-                                <param name="array_design" type="select" label="select array design name" argument="arraydes">
-                                    <option value="Affymetrix 1"/>
-                                    <option value="Affymetrix 2"/>
-                                    <option value="Illumina A"/>
-                                    <option value="Illumina B"/>
-                                </param>
-                                <param name="technical_replicates" type="integer" label="number of technical repeats" argument="tech_rep" value="1"></param>
-                            </when>
-                        -->
                     </conditional>
                 </repeat>
             </repeat>
