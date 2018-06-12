@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<tool id="isaslicer" name="ISA Slicer" version="1.0" force_history_refresh="True">
+    <description>Query and get a slice of data files from an ISA study</description>
+    <requirements>
+        <requirement type="package" version="6.7">click</requirement>
+        <requirement type="package" version="0.9.5">isatools</requirement>
+    </requirements>
+    <stdio>
+        <exit_code range="1:" level="fatal"/>
+    </stdio>
+    <command><![CDATA[
+
+        #if $data_file.input == "mtbls_id"
+            #set $command = "query-mtbls"
+            #set $source = $data_file.mtbls_id
+        #end if
+
+        #if $data_file.input == "isatab_input"
+            #set $command = "query-isa-tab"
+            #set $source = $data_file.isatab_input.extra_files_path
+        #end if
+
+        $__tool_directory__/isaslicer.py "$command" "${source}" "${output}" --galaxy_parameters_file="$inputs"
+
+    ]]>
+    </command>
+    <configfiles>
+        <inputs name="inputs" />
+    </configfiles>
+    <inputs>
+	    <conditional name="input_type">
+            <param name="input" type="select" label="Choose your ISA-Tab input source">
+                <option value="mtbls_id" selected="true">Metabolights study ID</option>
+                <option value="isatab_input">ISA-Tab datatype history item</option>
+            </param>
+            <when value="mtbls_id">
+                <param name="mtbls_id" type="text" label="MetaboLights Study Identifier" help="MTBLS ID available at MetaboLights, e.g. MTBLS1.">
+                    <validator type="regex" message="ID must look like a valid MTBLS identifier">^MTBLS[0-9]*$</validator>
+                </param>
+            </when>
+            <when value="isatab_input">
+                <param format="isa-tab" name="isatab_input" type="data" label="ISA-Tab"  help="An ISA-Tab datatype history item"/>
+                <param name="collection_output" type="boolean" checked="false" label="Output new dataset collection"/>
+            </when>
+        </conditional>
+        <section name="query" title="Query Builder" expanded="true">
+            <param name="measurement_type" type="text" label="Measurement Type." help="e.g. metabolite profiling. To select specific assays, please ensure both measurement and technology types are provided."/>
+            <param name="technology_type" type="text" label="Technology Type." help="e.g. mass spectrometry. Leave both measurement and technology types blank if you want to query across all assays."/>
+            <param name="sample_type" type="text" label="Sample Material Type." help="e.g. blood. Leave blank if you want to query across all sample types."/>
+            <repeat name="factor_value_series" title="Factor selection criteria" default="0">
+                <param name="factor_name" type="text" label="Factor name to filter on." help="Factor name relevant to the specified MetaboLights study. e.g. genotype.">
+                    <validator type="empty_field" message="Factor name must not be empty"/>
+                </param>
+                <param name="factor_value" type="text" label="Factor value to filter on." help="Factor value relevant to the specified MetaboLights study. e.g. cyp79.">
+                    <validator type="empty_field" message="Factor value must not be empty"/>
+                </param>
+            </repeat>
+        </section>
+    </inputs>
+    <outputs>
+        <data format="json" name="output" label="Study sliced data files list"/>
+        <collection type="list" label="Factor-sliced data file collection" name="raw_files">
+            <filter>input_type['collection_output'] == 'true'</filter>
+            <discover_datasets pattern="(?P&lt;designation&gt;.+)\.[a-zA-Z0-9]+$"/>
+        </collection>
+    </outputs>
+
+    <tests>
+        <test></test>
+    </tests>
+
+    <help>
+<!-- @@@BEGIN_RST@@@ -->
+==========
+ISA Slicer
+==========
+
+This tool returns a list of data files sliced on a user-supplied query, and
+optionally returns a dataset collection of the data files (if available in
+the input collection).
+
+-----
+Input
+-----
+
+ISA-Tab input source
+====================
+Choose an input source, either direct from Metabolights or from an ISA-Tab
+history item that has already been downloaded or created in Galaxy.
+
+MetaboLights Study Identifier
+=============================
+If the input source is Metabolights, then provide the MTBLS identifier
+available at MetaboLights, e.g. MTBLS1.
+
+ISA-Tab datatype history item
+=============================
+If the input source is an ISA-Tab history item, select from existing data
+history items. ISA-Tab items can be created by using the Metabolights
+downloader or the ISA-Tab metadata creation tools.
+
+Output new dataset collection
+=============================
+Whether or not to output a dataset collection containing the data files
+corresponding to the query result.
+
+
+Measurement and technology types
+================================
+Measurement and technology types of the assay to filter the data files. You
+must provide both fields to select specific assays. Leave both fields blank
+if you wish to query over all assay types.
+
+You can get the relevant assay types by inspecting the study's ISA dataset
+preview metadata.
+
+Sample material type
+====================
+Material type of the samples relating to the data files of interest. This field
+corresponds to the ISA-Tab `Material Type` column. Leave this field blank if
+you wish to select data files across all samples.
+
+You can get the relevant sample materials by inspecting the study's ISA
+dataset preview metadata.
+
+Factor selection criteria
+=========================
+Factor selection criteria is supplied as factor name-value pairs relevant to
+the specified ISA study. Leave the factor criteria empty to select all data
+files.
+
+You can get the relevant factor names and values by inspecting the study's ISA
+data set preview metadata.
+
+------
+Output
+------
+
+List of data files as JSON
+==========================
+
+A list of data files, related sample name, and query used as a JSON
+list. e.g.
+
+::
+
+    [
+        {
+            "query_used": {
+                "replicate": "Exp2"
+            },
+            "data_files": [
+                "MSpos-Ex2-Col0-48h-Ag-1_1-A,2_01_9827.mzData"
+            ],
+            "sample": "Ex2-Col0-48h-Ag-1"
+        },
+        {
+            "query_used": {
+                "replicate": "Exp2"
+            },
+            "data_files": [
+                "MSpos-Ex2-Col0-48h-Ag-2_1-A,3_01_9829.mzData"
+            ],
+            "sample": "Ex2-Col0-48h-Ag-2"
+        },
+        {
+            "query_used": {
+                "replicate": "Exp2"
+            },
+            "data_files": [
+                "MSpos-Ex2-Col0-48h-Ag-3_1-A,4_01_9831.mzData"
+            ],
+            "sample": "Ex2-Col0-48h-Ag-3"
+        },
+        {
+            "query_used": {
+                "replicate": "Exp2"
+            },
+            "data_files": [
+                "MSpos-Ex2-Col0-48h-Ag-4_1-A,2_01_9833.mzData"
+            ],
+            "sample": "Ex2-Col0-48h-Ag-4"
+        },
+        {
+            "query_used": {
+                "replicate": "Exp2"
+            },
+            "data_files": [
+                "MSpos-Ex2-cyp79-48h-Ag-1_1-B,3_01_9828.mzData"
+            ],
+            "sample": "Ex2-cyp79-48h-Ag-1"
+        },
+        {
+            "query_used": {
+                "replicate": "Exp2"
+            },
+            "data_files": [
+                "MSpos-Ex2-cyp79-48h-Ag-2_1-B,4_01_9830.mzData"
+            ],
+            "sample": "Ex2-cyp79-48h-Ag-2"
+        },
+        {
+            "query_used": {
+                "replicate": "Exp2"
+            },
+            "data_files": [
+                "MSpos-Ex2-cyp79-48h-Ag-3_1-B,3_01_9832.mzData"
+            ],
+            "sample": "Ex2-cyp79-48h-Ag-3"
+        },
+        {
+            "query_used": {
+                "replicate": "Exp2"
+            },
+            "data_files": [
+                "MSpos-Ex2-cyp79-48h-Ag-4_1-B,4_01_9834.mzData"
+            ],
+            "sample": "Ex2-cyp79-48h-Ag-4"
+        }
+    ]
+
+Collection of data files
+========================
+If the relevant option was selected, the tool will additionally output a
+collection of data files corresponding to the query result.
+
+<!-- @@@END_RST@@@ -->
+    </help>
+
+    <citations>
+        <citation type="doi">10.1093/nar/gks1004</citation>
+        <citation type="doi">10.5281/zenodo.163640</citation>
+        <citation type="doi">10.1038/ng.1054</citation>
+    </citations>
+
+</tool>
