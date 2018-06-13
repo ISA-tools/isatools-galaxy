@@ -1,0 +1,50 @@
+<tool id="isacreate_metabo" name="ISAcreate Metabolomics" version="@VERSION@">
+    <description>Create ISA templates based on study design information.</description>
+    <macros>
+        <import>macros.xml</import>
+    </macros>
+    <expand macro="requirements"/>
+    <expand macro="stdio"/>
+    <command>
+        <![CDATA[
+        mkdir study_dir &&
+        mkdir -p '${output.files_path}' &&
+        $__tool_directory__/isacreator_metabo.py
+        --galaxy_parameters_file='$inputs'
+        --target_dir='study_dir/' &&
+        cp study_dir/* '${output.files_path}'
+        ]]>
+    </command>
+    <expand macro="configfiles"/>
+    <inputs>
+        <expand macro="study_metadata"/>
+        <expand macro="treatment_plan"/>
+        <expand macro="sample_assay_plan_metabo"/>
+        <expand macro="qc_plan"/>
+    </inputs>
+    <outputs>
+        <expand macro="output_isa-tab"/>
+        <expand macro="output_collections"/>
+    </outputs>
+    <tests>
+        <test>
+            <output_collection name="isa_files" type="list" count="1"/>
+        </test>
+    </tests>
+    <help><![CDATA[
+=====================================
+ ISAcreate Metabolomics
+=====================================
+Create ISA templates based on study design information.
+
+@ISATOOLS_LOGO@
+
+@ISACREATE_HELP@
+
+@OUTPUT_HELP@
+
+@STATO_PLUG@
+]]>
+    </help>
+    <expand macro="citations"/>
+</tool>
