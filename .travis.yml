@@ -10,18 +10,18 @@ install:
  - . planemo-venv/bin/activate
  - pip install --upgrade pip setuptools
  - pip install planemo==$PLANEMO_RELEASE
- - git clone -b feature/isa_data_type_plus_enhancements https://github.com/phnmnl/galaxy
- - cp ${TRAVIS_BUILD_DIR}/tool-data/isa_cvterms.loc $GALAXY_REPO/tool-data/
+ - git clone -b feature/isa_data_type_plus_enhancements https://github.com/phnmnl/galaxy ${GALAXY_REPO}
+ - cp ${TRAVIS_BUILD_DIR}/tool-data/isa_cvterms.loc ${GALAXY_REPO}/tool-data/
 
 script:
  - planemo lint ${TRAVIS_BUILD_DIR}/tools/converters/
  - planemo lint ${TRAVIS_BUILD_DIR}/tools/isacreate/
  - planemo lint ${TRAVIS_BUILD_DIR}/tools/isaslicer/
  - planemo lint ${TRAVIS_BUILD_DIR}/tools/validators/
- - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_root=$GALAXY_REPO --tool_data_table=$GALAXY_REPO/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/converters/
- - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_root=$GALAXY_REPO --tool_data_table=$GALAXY_REPO/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/isacreate/
- - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_root=$GALAXY_REPO --tool_data_table=$GALAXY_REPO/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/isaslicer/
- - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_root=$GALAXY_REPO --tool_data_table=$GALAXY_REPO/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/validators/
+ - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_root=${GALAXY_REPO} --tool_data_table=${GALAXY_REPO}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/converters/
+ - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_root=${GALAXY_REPO} --tool_data_table=${GALAXY_REPO}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/isacreate/
+ - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_root=${GALAXY_REPO} --tool_data_table=${GALAXY_REPO}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/isaslicer/
+ - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_root=${GALAXY_REPO} --tool_data_table=${GALAXY_REPO}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/validators/
 
 
 branches:
