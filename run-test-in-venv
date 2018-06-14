@@ -11,7 +11,7 @@ VENV=$PROG_PATH/isavenv
 # Main {{{1
 ################################################################
 
-virtualenv -q -p python3.5 $VENV
+virtualenv -q -p python3 $VENV
 source $VENV/bin/activate
 pip install isatools==0.9.5 click==6.7
 make test

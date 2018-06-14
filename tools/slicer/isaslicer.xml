@@ -65,10 +65,6 @@
         </collection>
     </outputs>
 
-    <tests>
-        <test></test>
-    </tests>
-
     <help>
 <!-- @@@BEGIN_RST@@@ -->
 ==========

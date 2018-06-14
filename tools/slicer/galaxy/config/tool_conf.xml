@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<toolbox monitor="true">
-    <section id="isa" name="Slice ISA Data">
-       <tool file="isatools/isa_get_data_files_list.xml" />
-       <tool file="isatools/isa_get_data_files_collection.xml" />
-    </section>
-</toolbox>
