@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<tool id="isaslicer" name="ISA Slicer" version="1.0" force_history_refresh="True">
+<tool id="isaslicer" name="ISA Slicer" version="1.0">
     <description>Query and get a slice of data files from an ISA study</description>
     <requirements>
         <requirement type="package" version="6.7">click</requirement>

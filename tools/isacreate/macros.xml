@@ -434,7 +434,7 @@ All the study design related information is semantically marked up using terms f
 
     <xml name="sample_assay_plan_metabo">
         <section name="sample_and_assay_planning" title="Sampling and Assay Plans">
-            <repeat name="sample_plans" title="Sampling Plan" num="1">
+            <repeat name="sample_plans" title="Sampling Plan">
                 <param name="material_type" type="select" min="1" label="Sample Material Type">
                     <options from_data_table="isa_cvterms">
                         <column name="value" index="1"/>

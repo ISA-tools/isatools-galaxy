@@ -27,7 +27,9 @@
         <expand macro="output_collections"/>
     </outputs>
     <tests>
-        <test/>
+        <test>
+            <output name="output"/>
+        </test>
     </tests>
     <help><![CDATA[
 ISAcreate Genomics
