@@ -2,7 +2,7 @@ language: python
 
 before_install:
  - export GALAXY_REPO=${TRAVIS_BUILD_DIR}/galaxy
- - export PLANEMO_RELEASE=0.48.0
+ - export PLANEMO_RELEASE=0.54.0
 
 install:
  - sudo apt-get install -y python-virtualenv
@@ -18,10 +18,10 @@ script:
  - planemo lint ${TRAVIS_BUILD_DIR}/tools/isacreate/
  - planemo lint ${TRAVIS_BUILD_DIR}/tools/isaslicer/
  - planemo lint ${TRAVIS_BUILD_DIR}/tools/validators/
- - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_root=${GALAXY_REPO} --tool_data_table=${GALAXY_REPO}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/converters/
- - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_root=${GALAXY_REPO} --tool_data_table=${GALAXY_REPO}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/isacreate/
- - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_root=${GALAXY_REPO} --tool_data_table=${GALAXY_REPO}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/isaslicer/
- - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_root=${GALAXY_REPO} --tool_data_table=${GALAXY_REPO}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/validators/
+ - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/converters/
+ - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/isacreate/
+ - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/isaslicer/
+ - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/validators/
 
 
 branches:
