@@ -16,4 +16,4 @@ source $VENV/bin/activate
 pip install isatools==0.9.5 click==6.7
 make test
 deactivate
-rm -rf $venv
+rm -rf $VENV
