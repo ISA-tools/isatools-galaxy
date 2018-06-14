@@ -720,10 +720,10 @@ All the study design related information is semantically marked up using terms f
                 <repeat name="assay_plans" title="Assay Plan">
                     <conditional name="assay_type">
                         <param name="assay_type" type="select" label="Assay type">
-                            <option value="dna_microarray" selected="true">DNA microarray</option>
                             <option value="dna_sequencing">DNA sequencing</option>
+                            <option value="dna_microarray" selected="true">DNA microarray</option>
                         </param>
-                        <when value="dna_microarray">
+                        <when value="dna_sequencing">
                             <conditional name="platform">
                                 <param name="platform_selector" type="select" label="Sequencing Platform">
                                     <option value="454">454</option>
@@ -814,7 +814,7 @@ All the study design related information is semantically marked up using terms f
                                 <validator type="in_range" message="Technical replicates must be more than 0 and less than 3" min="0" exclude_min="true" max="3"/>
                             </param>
                         </when>
-                        <when value="dna_sequencing">
+                        <when value="dna_microarray">
                             <conditional name="array_platform">
                                 <param name="array_platform_selector" type="select" label="Sequencing Platform">
                                     <option value="affymetrix"/>
