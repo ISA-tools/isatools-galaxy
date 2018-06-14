@@ -2,7 +2,7 @@ language: python
 
 before_install:
  - export GALAXY_REPO=${TRAVIS_BUILD_DIR}/galaxy
- - export PLANEMO_RELEASE=0.54.0
+ - export PLANEMO_RELEASE=0.48.0
 
 install:
  - sudo apt-get install -y python-virtualenv
