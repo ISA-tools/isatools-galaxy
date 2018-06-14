@@ -7,7 +7,7 @@
     <expand macro="stdio"/>
     <command>
         <![CDATA[
-        pip install -e https://github.com/ISA-tools/isa-api@develop#egg=isatools &&
+        pip install -e git+https://github.com/ISA-tools/isa-api@develop#egg=isatools &&
         mkdir study_dir &&
         mkdir -p '${output.files_path}' &&
         $__tool_directory__/isacreate.py
