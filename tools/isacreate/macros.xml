@@ -28,10 +28,10 @@
             <param name="description" area="True" size="5x25" type="text" label="Study Description" help="e.g. The study of... by means of metabolite profiling using ..."/>
             <param name="first_name" type="text" label="Study PI First Name" help="e.g. Marie"/>
             <param name="last_name" type="text" label="Study PI Last Name" help="e.g. Sklodowska Curie"/>
-            <param name="semail" type="text" label="Study PI Email Address" help="e.g. marie.sklodowska-curie@gmail.com">
-                <validator type="regex" message="Must look like a valid email adddress">^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$</validator>
+            <param name="email" type="text" label="Study PI Email Address" help="e.g. marie.sklodowska-curie@gmail.com">
+                <validator type="regex" message="Must look like a valid email adddress">(^$|^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)</validator>
             </param>
-            <param name="study_pi_affiliation" type="text" label="Study PI Affiliation" help="e.g. Radium Institute, Paris"/>
+            <param name="affiliation" type="text" label="Study PI Affiliation" help="e.g. Radium Institute, Paris"/>
             <param name="study_consent" type="select" label="Consent Information (ICO:0000011)">
                 <options from_data_table="isa_cvterms">
                     <column name="value" index="1"/>
@@ -434,7 +434,7 @@ All the study design related information is semantically marked up using terms f
 
     <xml name="sample_assay_plan_metabo">
         <section name="sample_and_assay_planning" title="Sampling and Assay Plans">
-            <repeat name="sample_plans" title="Sampling Plan">
+            <repeat name="sample_plans" title="Sampling Plan" num="1">
                 <param name="material_type" type="select" min="1" label="Sample Material Type">
                     <options from_data_table="isa_cvterms">
                         <column name="value" index="1"/>
@@ -445,7 +445,7 @@ All the study design related information is semantically marked up using terms f
                 <param name="sample_collections" type="integer" label="Number of Sample Collections" value="1"/>
                 <repeat name="assay_plans" title="Assay Plan">
                     <conditional name="assay_type">
-                        <param name="assay_type" type="select" label="Assay type">
+                        <param name="assay_type_selector" type="select" label="Assay type">
                             <option value="ms" selected="True">mass spectrometry</option>
                             <option value="nmr">nmr spectroscopy</option>
                         </param>
@@ -457,8 +457,8 @@ All the study design related information is semantically marked up using terms f
                                 </param>
                             </repeat>
                             <repeat name="injections" title="Injection Series">
-                                <conditional name="inj_mod_cond">
-                                    <param name="inj_mod" type="select" min="1" label="Sample Introduction Method">
+                                <conditional name="injection_mode">
+                                    <param name="injection_mode_selector" type="select" min="1" label="Sample Introduction Method">
                                         <option value="DI">direct infusion</option>
                                         <option value="FIA" selected="True">flow infusion assay</option>
                                         <option value="LC">liquid chromatography</option>
@@ -473,7 +473,7 @@ All the study design related information is semantically marked up using terms f
                                             </options>
                                             <option value="none reported">none reported</option>
                                         </param>
-                                        <repeat name="Acquisition Series"  title="Acquisition Series">
+                                        <repeat name="acquisitions"  title="Acquisition Series">
                                             <param name="acquisition_mode" type="select" min="1" label="Acquisition Mode">
                                                 <option value="negative" selected="True"/>
                                                 <option value="positive"/>
@@ -493,7 +493,7 @@ All the study design related information is semantically marked up using terms f
                                             </options>
                                             <option value="none reported">none reported</option>
                                         </param>
-                                        <repeat name="Acquisition Series"  title="Acquisition Series">
+                                        <repeat name="acquisitions"  title="Acquisition Series">
                                             <param name="acquisition_mode" type="select" min="1" label="Acquisition Mode">
                                                 <option value="negative" selected="True"/>
                                                 <option value="positive"/>
@@ -527,7 +527,7 @@ All the study design related information is semantically marked up using terms f
                                             </options>
                                             <option value="none reported">none reported</option>
                                         </param>
-                                        <repeat name="Acquisition Series"  title="Acquisition Series">
+                                        <repeat name="acquisitions"  title="Acquisition Series">
                                             <param name="acquisition_mode" type="select" min="1" label="Acquisition Mode">
                                                 <option value="negative" selected="True"/>
                                                 <option value="positive"/>
@@ -555,7 +555,7 @@ All the study design related information is semantically marked up using terms f
                                             </options>
                                             <option value="none reported">none reported</option>
                                         </param>
-                                        <repeat name="Acquisition Series"  title="Acquisition Series">
+                                        <repeat name="acquisitions"  title="Acquisition Series">
                                             <param name="acquisition_mode" type="select" min="1" label="Acquisition Mode">
                                                 <option value="negative" selected="True"/>
                                                 <option value="positive"/>

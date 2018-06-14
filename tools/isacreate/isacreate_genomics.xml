@@ -27,9 +27,7 @@
         <expand macro="output_collections"/>
     </outputs>
     <tests>
-        <test>
-            <output_collection name="isa_files" type="list" count="1"/>
-        </test>
+        <test/>
     </tests>
     <help><![CDATA[
 ISAcreate Genomics

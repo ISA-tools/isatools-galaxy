@@ -7,9 +7,10 @@
     <expand macro="stdio"/>
     <command>
         <![CDATA[
+        pip install -e /Users/dj/Development/ISA/isa-api/ &&
         mkdir study_dir &&
         mkdir -p '${output.files_path}' &&
-        $__tool_directory__/isacreator_metabo.py
+        $__tool_directory__/isacreate.py
         --galaxy_parameters_file='$inputs'
         --target_dir='study_dir/' &&
         cp study_dir/* '${output.files_path}'
@@ -24,11 +25,61 @@
     </inputs>
     <outputs>
         <expand macro="output_isa-tab"/>
-        <expand macro="output_collections"/>
+        <!--<expand macro="output_collections"/>-->
     </outputs>
     <tests>
         <test>
-            <output_collection name="isa_files" type="list" count="1"/>
+            <section name="sample_and_assay_planning">
+                <repeat name="sample_plans">
+                    <param name="material_type" value="blood (UBERON:0000178)"/>
+                    <param name="sample_collections" value="1"/>
+                </repeat>
+            </section>
+            <output name="output" compare="sim_size">
+                <extra_files type="file" name="i_investigation.txt" value="i_investigation.txt" compare="re_match"/>
+                <extra_files type="file" name="s_study.txt" value="i_investigation.txt" compare="re_match"/>
+            </output>
+        </test>
+        <test>
+            <section name="sample_and_assay_planning">
+                <repeat name="sample_plans">
+                    <param name="material_type" value="blood (UBERON:0000178)"/>
+                    <param name="sample_collections" value="1"/>
+                    <repeat name="assay_plans">
+                        <conditional name="assay_type">
+                            <param name="assay_type_selector" value="ms"/>
+                            <conditional name="injection_mode">
+                                <param name="injection_mode_selector" value="DI"/>
+                                <repeat name="acquisitions">
+                                    <param name="acquisition_mode" value="negative"/>
+                                    <param name="technical_replicates" value="1"/>
+                                </repeat>
+                            </conditional>
+                        </conditional>
+                    </repeat>
+                </repeat>
+            </section>
+            <output name="output" compare="sim_size">
+                <extra_files type="file" name="i_investigation.txt" value="i_investigation.txt" compare="re_match"/>
+                <extra_files type="file" name="s_study.txt" value="s_study.txt" compare="re_match"/>
+            </output>
+        </test>
+        <test>
+            <section name="sample_and_assay_planning">
+                <repeat name="sample_plans">
+                    <param name="material_type" value="blood (UBERON:0000178)"/>
+                    <param name="sample_collections" value="1"/>
+                    <repeat name="assay_plans">
+                        <conditional name="assay_type">
+                            <param name="assay_type_selector" value="nmr"/>
+                        </conditional>
+                    </repeat>
+                </repeat>
+            </section>
+            <output name="output" compare="sim_size">
+                <extra_files type="file" name="i_investigation.txt" value="i_investigation.txt" compare="re_match"/>
+                <extra_files type="file" name="s_study.txt" value="s_study.txt" compare="re_match"/>
+            </output>
         </test>
     </tests>
     <help><![CDATA[
