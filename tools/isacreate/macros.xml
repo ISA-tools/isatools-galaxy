@@ -24,14 +24,14 @@
 
     <xml name="study_metadata">
         <section name="study_metadata" title="Study Overview Metadata">
-            <param name="title" type="text" label="Study Title" help="e.g. Metabolomics study of the effect of ... on ..."/>
-            <param name="description" area="True" size="5x25" type="text" label="Study Description" help="e.g. The study of... by means of metabolite profiling using ..."/>
-            <param name="first_name" type="text" label="Study PI First Name" help="e.g. Marie"/>
-            <param name="last_name" type="text" label="Study PI Last Name" help="e.g. Sklodowska Curie"/>
-            <param name="email" type="text" label="Study PI Email Address" help="e.g. marie.sklodowska-curie@gmail.com">
+            <param name="title" type="text" label="Study Title" value="Study Title" help="e.g. Metabolomics study of the effect of ... on ..."/>
+            <param name="description" area="True" size="5x25" value="Study Description" type="text" label="Study Description" help="e.g. The study of... by means of metabolite profiling using ..."/>
+            <param name="first_name" type="text" label="Study PI First Name" value="First name"  help="e.g. Marie"/>
+            <param name="last_name" type="text" label="Study PI Last Name" value="Last Name"  help="e.g. Sklodowska Curie"/>
+            <param name="email" type="text" label="Study PI Email Address" value="email@email.com" help="e.g. marie.sklodowska-curie@gmail.com">
                 <validator type="regex" message="Must look like a valid email adddress">(^$|^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)</validator>
             </param>
-            <param name="affiliation" type="text" label="Study PI Affiliation" help="e.g. Radium Institute, Paris"/>
+            <param name="affiliation" type="text" label="Study PI Affiliation" value="Affiliation" help="e.g. Radium Institute, Paris"/>
             <param name="study_consent" type="select" label="Consent Information (ICO:0000011)">
                 <options from_data_table="isa_cvterms">
                     <column name="value" index="1"/>

@@ -319,11 +319,11 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
     i.ontology_source_references.append(OntologySource(name='DUO'))
 
     # generate empty data file stubs
-    for assay in s.assays:
-        for data_file in assay.data_files:
-            data_file_path = os.path.join(target_dir, data_file.filename)
-            with open(data_file_path, 'a'):
-                os.utime(data_file_path, None)
+    # for assay in s.assays:
+    #     for data_file in assay.data_files:
+    #         data_file_path = os.path.join(target_dir, data_file.filename)
+    #         with open(data_file_path, 'a'):
+    #             os.utime(data_file_path, None)
 
     isatab.dump(isa_obj=i, output_path=target_dir)
 
