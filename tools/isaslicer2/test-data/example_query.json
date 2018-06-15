@@ -1,0 +1,15 @@
+{
+  "measurement_type": "metabolite profiling",
+  "technology_type": "mass spectrometry",
+  "sample_material_type": "bloods",
+  "factor_selection": [
+    {
+      "factor_name": "Gender",
+      "factor_value": "Male"
+    },
+    {
+      "factor_name": "Gender",
+      "factor_value": "female"
+    }
+  ]
+}
