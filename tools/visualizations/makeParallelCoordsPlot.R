@@ -2,6 +2,8 @@
 
 library(data.table)
 library(jsonlite)
+# remove this line once r-ggparallel becomes available in conda
+install.packages("ggparallel", repos="http://cran.uk.r-project.org")
 library(ggparallel)
 library(optparse)
 
@@ -24,7 +26,7 @@ study<-NULL
 if (!is.null(opt$study)) {
   mtbls_id <- opt$study
   output_path <- opt$outputPath
-  ftp_path <- "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/derived/parallel_coordinates/"
+      ftp_path <- "ftp://ftp.ebi.ac.uk/pub/databases/metabolights/derived/parallel_coordinates/"
   json_file_path <- paste(output_path,"study_pc.json",sep="/")
   download.file(paste(ftp_path,mtbls_id,".json",sep=""),destfile = json_file_path)
   study <- fromJSON(json_file_path)
