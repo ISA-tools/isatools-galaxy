@@ -7,7 +7,7 @@
         ln -s "$maf_file" maf.zip;
         ln -s "$data_file" data.tar;
         ln -s "$isa_file" isa.zip;
-        uploadToMetaboLightsLabs.py -t "$metabolights_labs_key"
+        $__tool_directory__/uploadToMetaboLightsLabs.py -t "$metabolights_labs_key"
         #if str( $maf_file ) != None:
             -i maf.zip data.tar isa.zip
         #else:
