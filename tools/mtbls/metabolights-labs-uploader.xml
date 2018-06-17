@@ -10,6 +10,7 @@
         #if str( $input_type.input_type_selector) == "isa-tab":
             $__tool_directory__/uploadToMetaboLightsLabs.py -t "$metabolights_labs_key"
             --I $isatab_input.extra_files_path
+            --v $validation_report
         #else:
             ln -s "$maf_file" maf.zip;
             ln -s "$data_file" data.tar;
@@ -38,6 +39,7 @@
             </param>
             <when value="isa-tab">
                 <param format="isa-tab" name="isatab_input" type="data" label="ISA-Tab"  help="An ISA-Tab datatype history item" optional="false"/>
+                <param format="json" name="validation_report" type="data" label="Validation report"  help="Validation report in JSON format" optional="true"/>
             </when>
             <when value="archives">
                 <param name="isa_file" type="data" format="zip" label="Zip file containing ISA files." optional="false"/>

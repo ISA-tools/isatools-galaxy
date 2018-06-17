@@ -28,6 +28,8 @@ import requests
 import shutil
 import subprocess
 import tempfile
+import glob
+import zipfile
 
 api_token = None
 directories = []
@@ -57,19 +59,20 @@ tmpdir = ""
 def main(arguments):
     logging.basicConfig(filename=log_file, level=logging.INFO)
     usage = """
-    python uploadToMetaboLightsLabs.py -t <MetaboLights Labs API_KEY> -i [ <filesToUpload> ] -p <MetaboLights Labs Project_ID> -n -s <ENV>
+    python uploadToMetaboLightsLabs.py -t <MetaboLights Labs API_KEY> --i [ <filesToUpload> ] -p <MetaboLights Labs Project_ID> -n -s <ENV>
     or
-    uploadToMetaboLightsLabs.py -t <MetaboLights Labs API_KEY> -i [ <filesToUpload> ] -p <MetaboLights Labs Project_ID> -n -s <ENV>
+    uploadToMetaboLightsLabs.py -t <MetaboLights Labs API_KEY> --i [ <filesToUpload> ] -p <MetaboLights Labs Project_ID> -n -s <ENV>
     or
-    python uploadToMetaboLightsLabs.py -t <MetaboLights Labs API_KEY> -I <path to IsaTab folder> -p <MetaboLights Labs Project_ID> -n -s <ENV>
+    python uploadToMetaboLightsLabs.py -t <MetaboLights Labs API_KEY> --I <path to IsaTab folder> --v <path to validation report JSON> -p <MetaboLights Labs Project_ID> -n -s <ENV>
     or 
-    uploadToMetaboLightsLabs.py -t <MetaboLights Labs API_KEY> -I <path to IsaTab folder> -p <MetaboLights Labs Project_ID> -n -s <ENV>
+    uploadToMetaboLightsLabs.py -t <MetaboLights Labs API_KEY> --I <path to IsaTab folder> --v <path to validation report JSON> -p <MetaboLights Labs Project_ID> -n -s <ENV>
 Arguments:
     -t MetaboLights Labs API_KEY
 
     --i pathToFile1, pathToFile2, . . ., pathToFileN
     or
     --I pathToIsaTabfolder
+    --v pathToValidationReportJSON
 
     -p MetaboLights Labs Project ID
     -n Create new project if project doesnt exist
@@ -83,6 +86,8 @@ Arguments:
                         help="Input folder(s)/file(s)")
     parser.add_argument('--I', required=False,
                         help="Input folder containing ISA-Tab, raw, and maf files")
+    parser.add_argument('--v', required=False,
+                        help="Validation report in JSON format")
     parser.add_argument('-p', help='MetaboLights Labs Project ID')
     parser.add_argument('-n',
                         help='Create new MetaboLights Labs Project if doesnt exist',
@@ -179,7 +184,19 @@ def parseInput(args):
                     "Adding " + entity + " to the folders to be uploaded list")
     elif args.I and not args.i:
         isatab_folder = args.I
-        import glob, zipfile
+        if args.v:
+            with open(args.v) as fp:
+                validation_report = json.load(fp)
+                if validation_report['errors']:
+                    logging.info(
+                        "Validation report supplied has {num_errors} errors, cancelling upload".format(
+                            num_errors=len(validation_report['errors'])))
+                    return False
+                else:
+                    logging.info("Validation report supplied has no errors, cancelling upload")
+                    logging.info(
+                        "Validation report supplied has {num_warnings} warnings. You may wish to check and address these errors before finalizing your submission to MetaboLights".format(
+                            num_warnings=len(validation_report['warnings'])))
         global tmpdir
         tmpdir = tempfile.mkdtemp()
         if os.path.isdir(isatab_folder):
