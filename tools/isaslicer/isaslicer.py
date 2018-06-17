@@ -399,6 +399,11 @@ def get_summary_command(options):
                 options.study_id, options.json_output.name)
 
     summary = MTBLS.get_study_variable_summary(options.study_id)
+    # new_summary = []
+    # for item in summary:
+    #     new_summary.append(
+    #         {k: v for k, v in item.items() if k is not "sample_name"})
+    # summary = new_summary
     if summary is not None:
         json.dump(summary, options.json_output, indent=4)
         logger.debug("Summary dumped to JSON")
@@ -1054,7 +1059,6 @@ def get_filtered_df_on_factors_list(input_path):
 
 
 def datatype_get_summary_command(options):
-    import json
     logger.info("Getting summary for study %s. Writing to %s.",
                 options.study_id, options.output.name)
 
