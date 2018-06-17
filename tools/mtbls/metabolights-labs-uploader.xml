@@ -7,14 +7,19 @@
         <exit_code range="1:" />
     </stdio>
     <command><![CDATA[
-        ln -s "$maf_file" maf.zip;
-        ln -s "$data_file" data.tar;
-        ln -s "$isa_file" isa.zip;
-        $__tool_directory__/uploadToMetaboLightsLabs.py -t "$metabolights_labs_key"
-        #if str( $maf_file ) != None:
-            -i maf.zip data.tar isa.zip
+        #if str( $input_type.input_type_selector) == "isa-tab":
+            $__tool_directory__/uploadToMetaboLightsLabs.py -t "$metabolights_labs_key"
+            --I $isatab_input.extra_files_path
         #else:
-            -i data.tar isa.zip
+            ln -s "$maf_file" maf.zip;
+            ln -s "$data_file" data.tar;
+            ln -s "$isa_file" isa.zip;
+            $__tool_directory__/uploadToMetaboLightsLabs.py -t "$metabolights_labs_key"
+            #if str( $maf_file ) != None:
+                --i maf.zip data.tar isa.zip
+            #else:
+                --i data.tar isa.zip
+            #end if
         #end if
         #if str( $labs_project_id ) != None and str( $create_new_project ) == "no":
             -p "$labs_project_id"
@@ -26,9 +31,20 @@
 ]]></command>
     <inputs>
         <param name="metabolights_labs_key" format="txt" type="text" label="MetaboLights Labs Key" help="You should get this from the MetaboLights Labs Website or the MetaboLights website (see help below)"/>
-        <param name="maf_file" type="data" format="zip" label="Zip file containing MAF files." help="The MAF Zip file is optional" optional="true"/>
-        <param name="isa_file" type="data" format="zip" label="Zip file containing ISA files." optional="false"/>
-        <param name="data_file" type="data" format="tar" label="TAR file containing RAW data files" help="" optional="true"/>
+	    <conditional name="input_type">
+            <param name="input_type_selector" type="select" label="Choose your ISA-Tab input source">
+                <option value="isa-tab" selected="true">ISA-Tab datatype history item</option>
+                <option value="archives">Individual compressed archives</option>
+            </param>
+            <when value="isa-tab">
+                <param format="isa-tab" name="isatab_input" type="data" label="ISA-Tab"  help="An ISA-Tab datatype history item" optional="false"/>
+            </when>
+            <when value="archives">
+                <param name="isa_file" type="data" format="zip" label="Zip file containing ISA files." optional="false"/>
+                <param name="data_file" type="data" format="tar" label="TAR file containing RAW data files" help="" optional="true"/>
+                <param name="maf_file" type="data" format="zip" label="Zip file containing MAF files." help="The MAF Zip file is optional" optional="true"/>
+            </when>
+        </conditional>
         <param name="create_new_project" label="Create new project" type="select">
             <option value="yes">Yes</option>
             <option value="no" selected="true">No</option>

@@ -67,9 +67,9 @@ def main(arguments):
 Arguments:
     -t MetaboLights Labs API_KEY
 
-    -i pathToFile1, pathToFile2, . . ., pathToFileN
+    --i pathToFile1, pathToFile2, . . ., pathToFileN
     or
-    -I pathToIsaTabfolder
+    --I pathToIsaTabfolder
 
     -p MetaboLights Labs Project ID
     -n Create new project if project doesnt exist
@@ -79,9 +79,9 @@ Arguments:
                                      formatter_class=argparse.RawDescriptionHelpFormatter,
                                      usage=usage)
     parser.add_argument('-t', required=True, help='MetaboLights API Key')
-    parser.add_argument('-i', required=False, nargs='+',
+    parser.add_argument('--i', required=False, nargs='+',
                         help="Input folder(s)/file(s)")
-    parser.add_argument('-I', required=False,
+    parser.add_argument('--I', required=False,
                         help="Input folder containing ISA-Tab, raw, and maf files")
     parser.add_argument('-p', help='MetaboLights Labs Project ID')
     parser.add_argument('-n',
@@ -189,7 +189,7 @@ def parseInput(args):
                         "{}/[isa]*.txt".format(isatab_folder)):
                     zip.write(isa_file)
             files.append(isazip_path)
-            mafzip_path = os.path.join(tmpdir, "isa.zip")
+            mafzip_path = os.path.join(tmpdir, "maf.zip")
             with zipfile.ZipFile(mafzip_path, "w") as zip:
                 for maf_file in glob.glob("{}/m_*.tsv".format(isatab_folder)):
                     zip.write(maf_file)
