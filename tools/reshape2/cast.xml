@@ -1,16 +1,10 @@
 <tool id="cast" name="cast" version="@VERSION@">
     <description>expand combinations of variables:values to columnar format</description>
-    <requirements>
-        <requirement type="package" version="1.3.2">r-optparse</requirement>
-        <requirement type="package" version="1.4.3">r-reshape2</requirement>
-    </requirements>
-    <stdio>
-        <exit_code range="1:" />
-    </stdio>
     <macros>
         <import>macros.xml</import>
     </macros>
     <expand macro="requirements"/>
+    <expand macro="error_handling"/>
     <command detect_errors="exit_code"><![CDATA[
         $__tool_directory__/cast.R -i '$input' -o '$output'
     ]]></command>
