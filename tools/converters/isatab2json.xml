@@ -20,8 +20,8 @@
     </outputs>
     <tests>
         <test>
-            <param name="isatab_input" value="BII-S-7/"/>
-            <output name="output" file="test-data/bii_s_7.json" compare="sim_size"/>
+            <param name="isatab_input" value="MTBLS1.zip" ftype="isa-tab"/>
+            <output name="output" file="MTBLS1.json" compare="sim_size"/>
         </test>
     </tests>
 

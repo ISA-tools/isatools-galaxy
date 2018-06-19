@@ -1,6 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<toolbox monitor="true">
-    <section id="isa" name="Create ISA Data">
-       <tool file="isatools/isacreator_metabo.xml" />
-    </section>
-</toolbox>

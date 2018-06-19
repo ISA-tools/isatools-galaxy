@@ -5,7 +5,7 @@
 ################################################################
 
 SCRIPT_PATH=$(dirname $BASH_SOURCE)
-ISASLICER=$SCRIPT_PATH/../tools/slicer/isaslicer.py
+ISASLICER=$SCRIPT_PATH/../tools/isaslicer/isaslicer.py
 RESDIR=$SCRIPT_PATH/res
 
 # Check data list {{{1

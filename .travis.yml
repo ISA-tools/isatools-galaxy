@@ -2,7 +2,7 @@ language: python
 
 before_install:
  - export GALAXY_REPO=${TRAVIS_BUILD_DIR}/galaxy
- - export PLANEMO_RELEASE=0.40.0
+ - export PLANEMO_RELEASE=0.54.0
 
 install:
  - sudo apt-get install -y python-virtualenv
@@ -10,15 +10,18 @@ install:
  - . planemo-venv/bin/activate
  - pip install --upgrade pip setuptools
  - pip install planemo==$PLANEMO_RELEASE
- - git clone -b release_17.09_plus_isa_k8s_resource_limts https://github.com/ISA-tools/galaxy
- - sed -i 's/^isa-rwval==0.10.0$/isa-rwval==0.10.1/' ${TRAVIS_BUILD_DIR}/galaxy/requirements.txt
+ - git clone -b feature/isa_data_type_plus_enhancements https://github.com/phnmnl/galaxy ${GALAXY_REPO}
+ - cp ${TRAVIS_BUILD_DIR}/tool-data/isa_cvterms.loc ${GALAXY_REPO}/tool-data/
 
 script:
- - planemo lint ${TRAVIS_BUILD_DIR}/tools/slicer/
- - planemo lint ${TRAVIS_BUILD_DIR}/tools/isacreator_metabo/
  - planemo lint ${TRAVIS_BUILD_DIR}/tools/converters/
+ - planemo lint ${TRAVIS_BUILD_DIR}/tools/isacreate/
+ - planemo lint ${TRAVIS_BUILD_DIR}/tools/isaslicer/
  - planemo lint ${TRAVIS_BUILD_DIR}/tools/validators/
- - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_root $GALAXY_REPO --no_cache_galaxy ${TRAVIS_BUILD_DIR}/tools/validators/
+ - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/converters/
+ - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/isacreate/
+ - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/isaslicer/
+ - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/validators/
 
 
 branches:

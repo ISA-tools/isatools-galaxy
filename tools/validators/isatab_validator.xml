@@ -25,8 +25,8 @@
 
     <tests>
         <test>
-            <param name="isatab_input" value="BII-S-7/"/>
-            <output name="output" file="bii_s_7_validation_report.json" compare="sim_size"/>
+            <param name="isatab_input" value="BII-S-7.zip" ftype="isa-tab"/>
+            <output name="json_output" file="bii_s_7_validation_report.json" compare="sim_size"/>
         </test>
     </tests>
 
