@@ -1,18 +1,19 @@
 <tool id="cast" name="cast" version="@VERSION@">
     <description>expand combinations of variables:values to columnar format</description>
+    <requirements>
+        <requirement type="package" version="1.3.2">r-optparse</requirement>
+        <requirement type="package" version="1.4.3">r-reshape2</requirement>
+    </requirements>
+    <stdio>
+        <exit_code range="1:" />
+    </stdio>
     <macros>
         <import>macros.xml</import>
     </macros>
-    <expand macro="requirements"></expand>
+    <expand macro="requirements"/>
     <command detect_errors="exit_code"><![CDATA[
-cat '$script' &&
-Rscript '$script'
+        $__tool_directory__/cast.R -i '$input' -o '$output'
     ]]></command>
-    <configfiles>
-        <configfile name="script"><![CDATA[
-$__tool_directory__/cast.R -i $input -o $output
-        ]]></configfile>
-    </configfiles>
     <inputs>
         <param name="input" type="data" format="tabular" label="Input should be molten data"/>
     </inputs>
@@ -30,17 +31,6 @@ This tool will apply the dcast function of the reshape2 R package. The input dat
 The cast function expands each unique variable:value combination on a single line to columnar format. Documantation on the reshape2 package can be found here: https://cran.r-project.org/web/packages/reshape2/reshape2.pdf
     ]]></help>
     <citations>
-        <citation type="bibtex">
-@Article{,
-    title = {Reshaping Data with the {reshape} Package},
-    author = {Hadley Wickham},
-    journal = {Journal of Statistical Software},
-    year = {2007},
-    volume = {21},
-    number = {12},
-    pages = {1--20},
-    url = {http://www.jstatsoft.org/v21/i12/},
-  }
-        </citation>
+        <citation type="doi">10.18637/jss.v021.i12</citation>
     </citations>
 </tool>

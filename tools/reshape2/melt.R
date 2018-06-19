@@ -3,7 +3,6 @@
 library(reshape2)
 library(optparse)
 
-# parse parameters
 option_list = list(
   make_option(c("-i", "--input"), type="character", default=NULL, help="A path to a file to melt"),
   make_option(c("-o", "--output"), type="character", default=file.path(getwd(), "output.tabular"), help="A path to an output")
