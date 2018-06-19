@@ -34,7 +34,7 @@ if (!is.null(opt$study)) {
   study <- fromJSON(opt$isaFactorsJSON)
 }
 
-colnames(study)[! colnames(study) %in% c("name", "files", "mafFile", "id", "metabolites")]->factors_no_name
+colnames(study)[! colnames(study) %in% c("sample_name", "name", "files", "mafFile", "id", "metabolites")]->factors_no_name
 
 if(is.null(factors_no_name)) {
   stop(paste("The MetaboLights study provided seems to have no factors, please contact the MetaboLights database referencing study ",mtbls_id,".",sep=""))
