@@ -3,7 +3,7 @@
         <requirement type="package" version="1.10.4">r-data.table</requirement>
         <requirement type="package" version="1.5">r-jsonlite</requirement>
         <requirement type="package" version="1.4.4">r-optparse</requirement>
-        <!--<requirement type="package" version="0.2.0">r-ggparallel</requirement>-->
+        <requirement type="package" version="0.2.0">r-ggparallel</requirement>
     </requirements>
     <stdio>
         <exit_code range="1:" />

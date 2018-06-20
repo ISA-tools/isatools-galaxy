@@ -2,8 +2,6 @@
 
 library(data.table)
 library(jsonlite)
-# remove this line once r-ggparallel becomes available in conda
-install.packages("ggparallel", repos="http://cran.uk.r-project.org")
 library(ggparallel)
 library(optparse)
 
