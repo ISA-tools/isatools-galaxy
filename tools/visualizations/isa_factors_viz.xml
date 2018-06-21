@@ -1,4 +1,4 @@
-<tool id="isa_factors_viz" name="isa_factors_viz" version="0.4">
+<tool id="isa_factors_viz" name="isa_factors_viz" version="0.5">
     <description>Produce a visualization of study factors and groups from an ISA study.</description>
     <requirements>
         <requirement type="package" version="1.10.4">r-data.table</requirement>
