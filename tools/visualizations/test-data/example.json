@@ -1,0 +1,354 @@
+[
+  {
+    "Replicate": "Replicate 2",
+    "Time point": 14.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "Low dose",
+    "Organism": "Homo sapiens",
+    "sample_name": "L14.R2"
+  },
+  {
+    "Replicate": "",
+    "Time point": "",
+    "Organism part": "pure substance",
+    "Dose": "",
+    "Organism": "reference compound",
+    "sample_name": "Pool.6"
+  },
+  {
+    "Replicate": "Replicate 3",
+    "Time point": 1.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "Control",
+    "Organism": "Homo sapiens",
+    "sample_name": "C01.R3"
+  },
+  {
+    "Replicate": "Replicate 1",
+    "Time point": 14.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "Control",
+    "Organism": "Homo sapiens",
+    "sample_name": "C14.R1"
+  },
+  {
+    "Replicate": "",
+    "Time point": "",
+    "Organism part": "pure substance",
+    "Dose": "",
+    "Organism": "reference compound",
+    "sample_name": "Blank.2"
+  },
+  {
+    "Replicate": "Replicate 2",
+    "Time point": 3.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "Low dose",
+    "Organism": "Homo sapiens",
+    "sample_name": "L03.R2"
+  },
+  {
+    "Replicate": "",
+    "Time point": "",
+    "Organism part": "pure substance",
+    "Dose": "",
+    "Organism": "reference compound",
+    "sample_name": "Blank.6"
+  },
+  {
+    "Replicate": "Replicate 1",
+    "Time point": 3.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "High dose",
+    "Organism": "Homo sapiens",
+    "sample_name": "H03.R1"
+  },
+  {
+    "Replicate": "Replicate 1",
+    "Time point": 14.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "High dose",
+    "Organism": "Homo sapiens",
+    "sample_name": "H14.R1"
+  },
+  {
+    "Replicate": "Replicate 3",
+    "Time point": 1.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "High dose",
+    "Organism": "Homo sapiens",
+    "sample_name": "H01.R3"
+  },
+  {
+    "Replicate": "Replicate 2",
+    "Time point": 1.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "Control",
+    "Organism": "Homo sapiens",
+    "sample_name": "C01.R2"
+  },
+  {
+    "Replicate": "Replicate 1",
+    "Time point": 3.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "Control",
+    "Organism": "Homo sapiens",
+    "sample_name": "C03.R1"
+  },
+  {
+    "Replicate": "",
+    "Time point": "",
+    "Organism part": "pure substance",
+    "Dose": "",
+    "Organism": "reference compound",
+    "sample_name": "Blank.10"
+  },
+  {
+    "Replicate": "",
+    "Time point": "",
+    "Organism part": "pure substance",
+    "Dose": "",
+    "Organism": "reference compound",
+    "sample_name": "Pool.3"
+  },
+  {
+    "Replicate": "Replicate 3",
+    "Time point": 14.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "High dose",
+    "Organism": "Homo sapiens",
+    "sample_name": "H14.R3"
+  },
+  {
+    "Replicate": "Replicate 1",
+    "Time point": 1.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "Control",
+    "Organism": "Homo sapiens",
+    "sample_name": "C01.R1"
+  },
+  {
+    "Replicate": "Replicate 3",
+    "Time point": 3.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "Control",
+    "Organism": "Homo sapiens",
+    "sample_name": "C03.R3"
+  },
+  {
+    "Replicate": "Replicate 3",
+    "Time point": 3.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "High dose",
+    "Organism": "Homo sapiens",
+    "sample_name": "H03.R3"
+  },
+  {
+    "Replicate": "Replicate 2",
+    "Time point": 1.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "Low dose",
+    "Organism": "Homo sapiens",
+    "sample_name": "L01.R2"
+  },
+  {
+    "Replicate": "",
+    "Time point": "",
+    "Organism part": "pure substance",
+    "Dose": "",
+    "Organism": "reference compound",
+    "sample_name": "Pool.1"
+  },
+  {
+    "Replicate": "",
+    "Time point": "",
+    "Organism part": "pure substance",
+    "Dose": "",
+    "Organism": "reference compound",
+    "sample_name": "Pool.2"
+  },
+  {
+    "Replicate": "",
+    "Time point": "",
+    "Organism part": "pure substance",
+    "Dose": "",
+    "Organism": "reference compound",
+    "sample_name": "Blank.11"
+  },
+  {
+    "Replicate": "Replicate 2",
+    "Time point": 3.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "High dose",
+    "Organism": "Homo sapiens",
+    "sample_name": "H03.R2"
+  },
+  {
+    "Replicate": "",
+    "Time point": "",
+    "Organism part": "pure substance",
+    "Dose": "",
+    "Organism": "reference compound",
+    "sample_name": "Blank.7"
+  },
+  {
+    "Replicate": "Replicate 3",
+    "Time point": 14.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "Control",
+    "Organism": "Homo sapiens",
+    "sample_name": "C14.R3"
+  },
+  {
+    "Replicate": "Replicate 1",
+    "Time point": 3.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "Low dose",
+    "Organism": "Homo sapiens",
+    "sample_name": "L03.R1"
+  },
+  {
+    "Replicate": "",
+    "Time point": "",
+    "Organism part": "pure substance",
+    "Dose": "",
+    "Organism": "reference compound",
+    "sample_name": "Blank.8"
+  },
+  {
+    "Replicate": "",
+    "Time point": "",
+    "Organism part": "pure substance",
+    "Dose": "",
+    "Organism": "reference compound",
+    "sample_name": "Blank.5"
+  },
+  {
+    "Replicate": "Replicate 2",
+    "Time point": 1.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "High dose",
+    "Organism": "Homo sapiens",
+    "sample_name": "H01.R2"
+  },
+  {
+    "Replicate": "",
+    "Time point": "",
+    "Organism part": "pure substance",
+    "Dose": "",
+    "Organism": "reference compound",
+    "sample_name": "Blank.3"
+  },
+  {
+    "Replicate": "Replicate 3",
+    "Time point": 1.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "Low dose",
+    "Organism": "Homo sapiens",
+    "sample_name": "L01.R3"
+  },
+  {
+    "Replicate": "",
+    "Time point": "",
+    "Organism part": "pure substance",
+    "Dose": "",
+    "Organism": "reference compound",
+    "sample_name": "Blank.1"
+  },
+  {
+    "Replicate": "",
+    "Time point": "",
+    "Organism part": "pure substance",
+    "Dose": "",
+    "Organism": "reference compound",
+    "sample_name": "Blank.4"
+  },
+  {
+    "Replicate": "Replicate 2",
+    "Time point": 14.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "High dose",
+    "Organism": "Homo sapiens",
+    "sample_name": "H14.R2"
+  },
+  {
+    "Replicate": "Replicate 2",
+    "Time point": 3.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "Control",
+    "Organism": "Homo sapiens",
+    "sample_name": "C03.R2"
+  },
+  {
+    "Replicate": "Replicate 1",
+    "Time point": 14.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "Low dose",
+    "Organism": "Homo sapiens",
+    "sample_name": "L14.R1"
+  },
+  {
+    "Replicate": "Replicate 1",
+    "Time point": 1.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "High dose",
+    "Organism": "Homo sapiens",
+    "sample_name": "H01.R1"
+  },
+  {
+    "Replicate": "Replicate 3",
+    "Time point": 3.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "Low dose",
+    "Organism": "Homo sapiens",
+    "sample_name": "L03.R3"
+  },
+  {
+    "Replicate": "Replicate 3",
+    "Time point": 14.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "Low dose",
+    "Organism": "Homo sapiens",
+    "sample_name": "L14.R3"
+  },
+  {
+    "Replicate": "Replicate 2",
+    "Time point": 14.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "Control",
+    "Organism": "Homo sapiens",
+    "sample_name": "C14.R2"
+  },
+  {
+    "Replicate": "",
+    "Time point": "",
+    "Organism part": "pure substance",
+    "Dose": "",
+    "Organism": "reference compound",
+    "sample_name": "Pool.5"
+  },
+  {
+    "Replicate": "",
+    "Time point": "",
+    "Organism part": "pure substance",
+    "Dose": "",
+    "Organism": "reference compound",
+    "sample_name": "Pool.4"
+  },
+  {
+    "Replicate": "",
+    "Time point": "",
+    "Organism part": "pure substance",
+    "Dose": "",
+    "Organism": "reference compound",
+    "sample_name": "Blank.9"
+  },
+  {
+    "Replicate": "Replicate 1",
+    "Time point": 1.0,
+    "Organism part": "renal proximal tubule",
+    "Dose": "Low dose",
+    "Organism": "Homo sapiens",
+    "sample_name": "L01.R1"
+  }
+]
