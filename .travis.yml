@@ -15,13 +15,13 @@ install:
 
 script:
  - planemo lint ${TRAVIS_BUILD_DIR}/tools/converters/
- - planemo lint ${TRAVIS_BUILD_DIR}/tools/isacreate/
+ - planemo lint ${TRAVIS_BUILD_DIR}/tools/isacreate/isacreate_metabo.xml
  - planemo lint ${TRAVIS_BUILD_DIR}/tools/isaslicer/
  - planemo lint ${TRAVIS_BUILD_DIR}/tools/validators/
- - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/converters/
- - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/isacreate/
- - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/isaslicer/
- - planemo test --conda_auto_init --conda_auto_install --conda_dependency_resolution --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/validators/
+ - planemo test --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/converters/
+ - planemo test --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/isacreate/isacreate_metabo.xml
+ - planemo test --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/isaslicer/
+ - planemo test --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/validators/
 
 
 branches:
