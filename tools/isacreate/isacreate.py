@@ -242,7 +242,7 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
     # pre-generation checks
     if galaxy_parameters_file:
         galaxy_parameters = json.load(galaxy_parameters_file)
-        print(json.dumps(galaxy_parameters, indent=4))  # for debugging only
+        # print(json.dumps(galaxy_parameters, indent=4))  # for debugging only
     else:
         raise IOError('Could not load Galaxy parameters file!')
     if target_dir:
