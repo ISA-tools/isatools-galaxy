@@ -5,7 +5,10 @@
         <requirement type="package" version="0.9.5">isatools</requirement>
     </requirements>
     <command><![CDATA[
-        $__tool_directory__/mw2isatab.py "$mw_study_id" "$output.extra_files_path"
+        mkdir study_dir &&
+        mkdir -p '${output.files_path}' &&
+        $__tool_directory__/mw2isatab.py "$mw_study_id" study_dir && \
+        cp study_dir/mw_study_id/* $output.extra_files_path/
 ]]>
     </command>
     <inputs>
