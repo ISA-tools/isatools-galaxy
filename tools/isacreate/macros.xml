@@ -242,6 +242,12 @@
     <xml name="qc_plan">
         <section name="qc_planning" title="Quality Control / Quality Assurance Plan">
             <repeat name="qc_plans" title="Quality Control / Quality Assurance Plan">
+                <param name="material_type" type="select" label="Material Type">
+                    <options from_data_table="isa_cvterms">
+                        <column name="value" index="1"/>
+                        <filter type="static_value" column="2" value="QC terms"/>
+                    </options>
+                </param>
                 <conditional name="qc_type">
                     <param name="qc_type_selector" type="select" label="QC Type">
                         <option value="interval_series" selected="True">interval series</option>
@@ -249,33 +255,15 @@
                         <option value="post_dilution_series">dilution series (post-run batch)</option>
                     </param>
                     <when value="interval_series">
-                        <param name="material_type" type="select" label="Material Type">
-                            <options from_data_table="isa_cvterms">
-                                <column name="value" index="1"/>
-                                <filter type="static_value" column="2" value="QC terms"/>
-                            </options>
-                        </param>
                         <param name="injection_frequency" type="integer" label="Injection Frequency" value="10">
                             <validator type="in_range" min="1" exclude_min="true" message="Injection frequency must be more than 1."/>
                         </param>
                     </when>
                     <when value="pre_dilution_series">
-                        <param name="material_type" type="select" label="Material Type">
-                            <options from_data_table="isa_cvterms">
-                                <column name="value" index="1"/>
-                                <filter type="static_value" column="2" value="QC Terms"/>
-                            </options>
-                        </param>
                         <param name="quantity_type" type="text" label="Quantity Type" value="Amount in ml"/>
                         <param name="values" type="text" label="Values (comma-separated)" value="1,3,5,10"/>
                     </when>
                     <when value="post_dilution_series">
-                        <param name="material_type" type="select" label="Material Type">
-                            <options from_data_table="isa_cvterms">
-                                <column name="value" index="1"/>
-                                <filter type="static_value" column="2" value="QC Terms"/>
-                            </options>
-                        </param>
                         <param name="quantity_type" type="text" label="Quantity Type" value="Amount in ml"/>
                         <param name="values" type="text" label="Quantity (comma-separated)" value="10,5,3,1"/>
                     </when>
