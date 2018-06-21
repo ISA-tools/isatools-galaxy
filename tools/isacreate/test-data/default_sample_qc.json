@@ -35,13 +35,13 @@
         ]
     },
     "study_metadata": {
-        "first_name": "",
-        "last_name": "",
-        "description": "",
+        "first_name": "First name",
+        "last_name": "Last Name",
+        "description": "Study Description",
         "study_use_condition": "collaboration required (DUO:0000020)",
-        "title": "",
-        "affiliation": "",
-        "email": "",
+        "title": "Study Title",
+        "affiliation": "Affiliation",
+        "email": "email__at__email.com",
         "study_consent": "no restriction (DUO:0000004)"
     }
 }
