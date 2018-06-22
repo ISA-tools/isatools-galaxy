@@ -109,7 +109,6 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
             nmr_assay_type = AssayType(
                 measurement_type='metabolite profiling',
                 technology_type='nmr spectroscopy')
-            from isatools.create.models import NMRTopologyModifiers
             nmr_top_mods = NMRTopologyModifiers()
             nmr_top_mods.technical_replicates = assay_plan_record[
                 'assay_type']['acquisition_mode']['technical_replicates']
@@ -131,7 +130,7 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
                 measurement_type='metabolite profiling',
                 technology_type='mass spectrometry')
             ms_assay_type.topology_modifiers = MSTopologyModifiers(
-                sample_fractions=set(map(lambda x: x['fraction'], assay_plan_record['assay_type']['sample_fractions'])))
+                sample_fractions=set(map(lambda x: x['sample_fraction'], assay_plan_record['assay_type']['sample_fractions'])))
             injection_modes = ms_assay_type.topology_modifiers.injection_modes
             if len(assay_plan_record['assay_type']['injections']) > 0:
                 for inj_mod in assay_plan_record['assay_type']['injections']:
@@ -200,9 +199,9 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
         return sample_assay_plan
 
     def _inject_qcqa_plan(sample_assay_plan, qcqa_record):
-        qc_type = qcqa_record['qc_type']
-        if qc_type == 'interval series':
-            material_type = qcqa_record['qc_material_type']
+        qc_type = qcqa_record['qc_type']['qc_type_selector']
+        if qc_type == 'interval_series':
+            material_type = qcqa_record['material_type']
             if re.match('(.*?) \((.*?)\)', material_type):
                 matches = next(iter(re.findall('(.*?) \((.*?)\)', material_type)))
                 term, ontoid = matches[0], matches[1]
@@ -213,10 +212,10 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
                                                  term_accession=accession_id)
             sample_assay_plan.add_sample_qc_plan_record(
                 material_type=material_type,
-                injection_interval=qcqa_record['injection_freq'])
-        elif 'dilution series' in qc_type:
-            values = [int(x) for x in qcqa_record['values'].split(',')]
-            material_type = qcqa_record['qc_material_type']
+                injection_interval=qcqa_record['qc_type']['injection_frequency'])
+        elif 'dilution_series' in qc_type:
+            values = [int(x) for x in qcqa_record['qc_type']['values'].split(',')]
+            material_type = qcqa_record['material_type']
             if re.match('(.*?) \((.*?)\)', material_type):
                 matches = next(iter(re.findall('(.*?) \((.*?)\)', material_type)))
                 term, ontoid = matches[0], matches[1]
@@ -231,9 +230,9 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
                     Characteristic(category=OntologyAnnotation(
                         term='quantity'), value=value)
                 )
-            if 'pre-run' in qc_type:
+            if 'pre' in qc_type:
                 sample_assay_plan.pre_run_batch = batch
-            elif 'post-run' in qc_type:
+            elif 'post' in qc_type:
                 sample_assay_plan.post_run_batch = batch
         else:
             raise NotImplementedError('QC type not recognized!')
@@ -243,7 +242,7 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
     # pre-generation checks
     if galaxy_parameters_file:
         galaxy_parameters = json.load(galaxy_parameters_file)
-        print(json.dumps(galaxy_parameters, indent=4))  # for debugging only
+        # print(json.dumps(galaxy_parameters, indent=4))  # for debugging only
     else:
         raise IOError('Could not load Galaxy parameters file!')
     if target_dir:
@@ -258,7 +257,7 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
             'sample_plans']:
         _ = _create_sample_plan(sample_assay_plan, sample_plan_record)
     for qcqa_record in galaxy_parameters['qc_planning']['qc_plans']:
-        _ = _inject_qcqa_plan(sample_assay_plan, qcqa_record['qc_type'])
+        _ = _inject_qcqa_plan(sample_assay_plan, qcqa_record)
     try:
         sample_assay_plan.group_size = \
             int(galaxy_parameters['treatment_plan']['study_type'][

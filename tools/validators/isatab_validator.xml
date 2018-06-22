@@ -1,7 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<tool id="isatab_validator" name="isatab_validator" version="1.0">
-    <description>Produce a validation report on an ISA-Tab ZIP archive
-    </description>
+<tool id="isatab_validator" name="isatab_validator" version="1.1">
+    <description>Produce a validation report on an ISA-Tab</description>
 
     <requirements>
         <requirement type="package" version="0.9.5">isatools</requirement>
@@ -37,17 +36,16 @@
 ISA-Tab validator
 =================
 
-This tool validates an ISA-Tab set of files, contained in an ISA-Tab
-archive (zip).
+This tool validates an ISA-Tab set of files.
 
 -----
 Input
 -----
 
-Zip file containing ISA files
-=============================
-The input zip file must contain the i_*.txt, s_*.txt and a_*.txt files
-expected in an *ISA-Tab* archive.
+ISA-Tab history item containing ISA files
+=========================================
+The input must contain the i_*.txt, s_*.txt and a_*.txt files expected in an
+*ISA-Tab*.
 
 For details on the ISA-Tab format, please see
 http://isa-specs.readthedocs.io/en/latest/isatab.html
@@ -89,6 +87,10 @@ intends to provide extra contextual information on the error.
 
 The current set of validation rules that have been implemented are
 listed in this Google sheet: https://goo.gl/FRHKrQ
+
+Validation report in HTML format
+================================
+HTML-rendering of the JSON report from above.
 
 <!-- @@@END_RST@@@ -->
     </help>

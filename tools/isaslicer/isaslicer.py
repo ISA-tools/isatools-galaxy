@@ -18,7 +18,7 @@ from isatools.model import OntologyAnnotation
 
 logger = None
 
-#    run_mtblisa.py <command> <study_id> [ command-specific options ]
+#    isaslicer.py <command> <study_id> [ command-specific options ]
 
 
 def make_parser():

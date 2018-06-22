@@ -193,7 +193,7 @@ def parseInput(args):
                             num_errors=len(validation_report['errors'])))
                     return False
                 else:
-                    logging.info("Validation report supplied has no errors, cancelling upload")
+                    logging.info("Validation report supplied has no errors")
                     logging.info(
                         "Validation report supplied has {num_warnings} warnings. You may wish to check and address these errors before finalizing your submission to MetaboLights".format(
                             num_warnings=len(validation_report['warnings'])))
