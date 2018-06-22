@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<tool id="isaslicer" name="ISA Slicer" version="2.0">
+<tool id="isaslicer" name="ISAslicer2" version="2.0">
     <description>Query and get a slice of data files from an ISA study</description>
     <requirements>
-        <!--<requirement type="package" version="0.9.5">isatools</requirement>-->
+        <requirement type="package" version="0.9.5">isatools</requirement>
     </requirements>
     <stdio>
         <exit_code range="1:" level="fatal"/>
@@ -19,7 +19,7 @@
             #set $source = $input.isatab_input.extra_files_path
         #end if
 
-        $__tool_directory__/isaslicer.py "$command" --source_dir="${source}" --galaxy_parameters_file="$inputs"
+        $__tool_directory__/isaslicer2.py "$command" --source_dir="${source}" --galaxy_parameters_file="$inputs"
 
     ]]>
     </command>
