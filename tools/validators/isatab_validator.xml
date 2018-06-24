@@ -3,7 +3,7 @@
     <description>Produce a validation report on an ISA-Tab</description>
 
     <requirements>
-        <requirement type="package" version="0.9.5">isatools</requirement>
+        <requirement type="package" version="0.10.0">isatools</requirement>
     </requirements>
 
     <stdio>
