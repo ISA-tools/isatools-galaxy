@@ -166,5 +166,6 @@ def query_isatab(command, source_dir, galaxy_parameters_file, output):
     #     logger.info(
     #       "Finished writing data files to {}".format(os.path.dirname(output)))
 
+
 if __name__ == '__main__':
     query_isatab()
