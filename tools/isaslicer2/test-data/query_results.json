@@ -1,0 +1,28 @@
+{
+  "results": [
+    {
+      "sample_name": "03_RIN_51"
+    },
+    {
+      "sample_name": "02_RIN_51"
+    },
+    {
+      "sample_name": "01_RIN_51"
+    }
+  ],
+  "query": {
+    "sample_material_type": "",
+    "factor_selection": [
+      {
+        "factor_name": "Cultivars",
+        "factor_value": "RIN"
+      },
+      {
+        "factor_name": "Sample Time",
+        "factor_value": "51"
+      }
+    ],
+    "measurement_type": "metabolite profiling",
+    "technology_type": ""
+  }
+}

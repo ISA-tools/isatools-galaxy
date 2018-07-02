@@ -45,13 +45,13 @@
             </when>
             <when value="isa-tab">
                 <param format="isa-tab" name="isatab_input" type="data" label="ISA-Tab"  help="An ISA-Tab datatype history item"/>
-                <param name="collection_output" type="boolean" checked="false" label="Output new dataset collection"/>
+                <!--<param name="collection_output" type="boolean" checked="false" label="Output new dataset collection"/>-->
             </when>
         </conditional>
         <section name="query" title="Query Builder" expanded="true">
             <param name="measurement_type" type="text" label="Measurement Type." help="e.g. metabolite profiling. To select specific assays, please ensure both measurement and technology types are provided."/>
             <param name="technology_type" type="text" label="Technology Type." help="e.g. mass spectrometry. Leave both measurement and technology types blank if you want to query across all assays."/>
-            <!--<param name="sample_material_type" type="text" label="Sample Material Type." help="e.g. blood. Leave blank if you want to query across all sample types."/>-->
+            <param name="sample_material_type" type="text" label="Sample Material Type." help="e.g. blood. Leave blank if you want to query across all sample types."/>
             <repeat name="factor_selection" title="Factor selection criteria" default="0">
                 <param name="factor_name" type="text" label="Factor name to filter on." help="Factor name relevant to the specified MetaboLights study. e.g. genotype.">
                     <validator type="empty_field" message="Factor name must not be empty"/>
@@ -71,8 +71,18 @@
     </outputs>
 
     <tests>
-        <param name="mtbls_id" value="MTBLS1"/>
-        <output_collection name="raw_files" type="list" count="1"/>
+        <test>
+            <param name="input_selector" value="isa-tab"/>
+            <param name="isatab_input" value="MTBLS36.zip" ftype="isa-tab"/>
+            <section name="query">
+                <param name="measurement_type" value="metabolite profiling"/>
+                <repeat name="factor_selection">
+                    <param name="factor_name" value="Cultivars"/>
+                    <param name="factor_value" value="RIN"/>
+                </repeat>
+            </section>
+            <output name="output" file="query_results.json" compare="sim_size"/>
+        </test>
     </tests>
 
     <help>
@@ -105,11 +115,6 @@ If the input source is an ISA-Tab history item, select from existing data
 history items. ISA-Tab items can be created by using the Metabolights
 downloader or the ISA-Tab metadata creation tools.
 
-Output new dataset collection
-=============================
-Whether or not to output a dataset collection containing the data files
-corresponding to the query result.
-
 Measurement and technology types
 ================================
 Measurement and technology types of the assay to filter the data files. You
@@ -122,11 +127,12 @@ preview metadata.
 Sample material type
 ====================
 Material type of the samples relating to the data files of interest. This field
-corresponds to the ISA-Tab `Material Type` column. Leave this field blank if
-you wish to select data files across all samples.
+corresponds to the ISA-Tab `Material Type` or `Characteristic[Material Type]`
+column. Leave this field blank if you wish to select data files across all
+samples.
 
 You can get the relevant sample materials by inspecting the study's ISA
-dataset preview metadata.
+dataset preview metadata or the raw ISA-Tab table files.
 
 Factor selection criteria
 =========================
@@ -223,11 +229,6 @@ list. e.g.
             "sample": "Ex2-cyp79-48h-Ag-4"
         }
     ]
-
-Collection of data files
-========================
-If the relevant option was selected, the tool will additionally output a
-collection of data files corresponding to the query result.
 
 <!-- @@@END_RST@@@ -->
     </help>
