@@ -2,7 +2,7 @@
 <tool id="mw2isatab" name="mw2isatab" version="1.1">
     <description>A tool to obtain an ISA document from NIH Metabolomics Workbench</description>
     <requirements>
-        <requirement type="package" version="0.9.5">isatools</requirement>
+        <requirement type="package" version="0.10.0">isatools</requirement>
     </requirements>
     <command><![CDATA[
         mkdir study_dir &&
