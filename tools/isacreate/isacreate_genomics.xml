@@ -28,7 +28,33 @@
     </outputs>
     <tests>
         <test>
-            <output name="output"/>
+            <section name="sample_and_assay_planning">
+                <repeat name="sample_plans">
+                    <param name="material_type" value="blood (UBERON:0000178)"/>
+                    <param name="sample_collections" value="1"/>
+                </repeat>
+            </section>
+            <output name="output" compare="sim_size">
+                <extra_files type="file" name="i_investigation.txt" value="i_investigation.txt" compare="re_match"/>
+                <extra_files type="file" name="s_study.txt" value="i_investigation.txt" compare="re_match"/>
+            </output>
+        </test>
+        <test>
+            <section name="sample_and_assay_planning">
+                <repeat name="sample_plans">
+                    <param name="material_type" value="blood (UBERON:0000178)"/>
+                    <param name="sample_collections" value="1"/>
+                    <repeat name="assay_plans">
+                        <conditional name="assay_type">
+                            <param name="assay_type_selector" value="dna_sequencing"/>
+                        </conditional>
+                    </repeat>
+                </repeat>
+            </section>
+            <output name="output" compare="sim_size">
+                <extra_files type="file" name="i_investigation.txt" value="i_investigation.txt" compare="re_match"/>
+                <extra_files type="file" name="s_study.txt" value="s_study.txt" compare="re_match"/>
+            </output>
         </test>
     </tests>
     <help><![CDATA[
