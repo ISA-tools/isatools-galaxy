@@ -2,8 +2,9 @@
 """Commandline interface for running ISA API create mode (metabo flavoured)"""
 import click
 import os
-import uuid
-import re
+from isatools import mtbls
+import tempfile
+import shutil
 
 from isatools import isatab
 from isatools.create.models import *
@@ -13,18 +14,20 @@ from isatools.model import Investigation, Person
 @click.command()
 @click.argument('command')
 @click.option('--source_dir', help='Input path to read', nargs=1,
-              type=click.Path(exists=True), default='./')
+              type=click.Path(exists=True), default=None)
 @click.option('--galaxy_parameters_file',
               help='Path to JSON file containing input Galaxy JSON',
               type=click.File())
-def query_isatab(command, source_dir, galaxy_parameters_file):
+@click.option('--output',
+              help='Path to output file to write to',
+              type=click.File(mode='w'))
+def query_isatab(command, source_dir, galaxy_parameters_file, output):
 
     debug = True
 
     if galaxy_parameters_file:
         galaxy_parameters = json.load(galaxy_parameters_file)
-        if debug:
-            print(json.dumps(galaxy_parameters, indent=4))  # for debugging only
+        print(json.dumps(galaxy_parameters, indent=4))
     else:
         raise IOError('Could not load Galaxy parameters file!')
     if source_dir:
@@ -35,7 +38,14 @@ def query_isatab(command, source_dir, galaxy_parameters_file):
     if debug:
         print(json.dumps(query, indent=4))  # for debugging only
 
-    investigation = isatab.load(source_dir)
+    if source_dir:
+        investigation = isatab.load(source_dir)
+    else:
+        tmp = tempfile.mkdtemp()
+        _ = mtbls.get(galaxy_parameters['input']['mtbls_id'], tmp)
+        investigation = isatab.load(tmp)
+
+        shutil.rmtree(tmp)
     matching_assays = []
     mt = query.get('measurement_type').strip()
     tt = query.get('technology_type').strip()
@@ -66,6 +76,17 @@ def query_isatab(command, source_dir, galaxy_parameters_file):
     print('Total samples: %s' % len(investigation.studies[0].samples))
     print('Matching samples: %s' % len(matching_samples))
 
+    results = []
+    for sample in matching_samples:
+        if isinstance(sample, Sample):
+            results.append({
+                'sample_name': sample.name
+            })
+    results_json = {
+        'query': query,
+        'results': results
+    }
+    json.dump(results_json, output)
 
 if __name__ == '__main__':
     query_isatab()
