@@ -46,6 +46,8 @@ def query_isatab(command, source_dir, galaxy_parameters_file, output):
         investigation = isatab.load(tmp)
 
         shutil.rmtree(tmp)
+
+    # filter assays by mt/tt
     matching_assays = []
     mt = query.get('measurement_type').strip()
     tt = query.get('technology_type').strip()
@@ -54,11 +56,11 @@ def query_isatab(command, source_dir, galaxy_parameters_file, output):
             matching_assays.extend(
                 [x for x in study.assays if x.measurement_type.term == mt
                  and x.technology_type.term == tt])
-    elif query.get('measurement_type') and not query.get('technology_type'):
+    elif mt and not tt:
         for study in investigation.studies:
             matching_assays.extend(
                 [x for x in study.assays if x.measurement_type.term == mt])
-    elif not query.get('measurement_type') and query.get('technology_type'):
+    elif not mt and tt:
         for study in investigation.studies:
             matching_assays.extend(
                 [x for x in study.assays if x.technology_type.term == tt])
@@ -66,18 +68,51 @@ def query_isatab(command, source_dir, galaxy_parameters_file, output):
         for study in investigation.studies:
             matching_assays.extend(study.assays)
     matching_samples = []
-    material_type = query.get('sample_material_type')
     for assay in matching_assays:
-        if material_type:
-            matching_samples.extend([x for x in assay.samples if x.material_type == material_type])
+        matching_samples.extend(assay.samples)
+
+    # filter samples by material type
+    # material_type = query.get('sample_material_type')
+    # for assay in matching_assays:
+    #     if material_type:
+    #         matching_samples.extend(
+    #             [x for x in assay.samples if x.material_type == material_type])
+    #     else:
+    #         matching_samples.extend(assay.samples)
+
+    #filter samples by fv
+    factor_selection = {x.get('factor_name'): x.get('factor_value') for x in
+                        query.get('factor_selection', [])}
+    fv_samples = set()
+    first_pass = True
+    samples_to_remove = set()
+    for f, v in factor_selection.items():
+        if first_pass:
+            for sample in matching_samples:
+                for fv in [x for x in sample.factor_values if
+                           x.factor_name.name == f]:
+                    if isinstance(fv.value, OntologyAnnotation):
+                        if fv.value.term == v:
+                            fv_samples.add(sample)
+                    elif fv.value == v:
+                        fv_samples.add(sample)
+            first_pass = False
         else:
-            matching_samples.extend(assay.samples)
+            for sample in fv_samples:
+                for fv in [x for x in sample.factor_values if
+                           x.factor_name.name == f]:
+                    if isinstance(fv.value, OntologyAnnotation):
+                        if fv.value.term != v:
+                            samples_to_remove.add(sample)
+                    elif fv.value != v:
+                        samples_to_remove.add(sample)
+    final_samples = fv_samples.difference(samples_to_remove)
 
     print('Total samples: %s' % len(investigation.studies[0].samples))
-    print('Matching samples: %s' % len(matching_samples))
+    print('Matching samples: %s' % len(final_samples))
 
     results = []
-    for sample in matching_samples:
+    for sample in final_samples:
         if isinstance(sample, Sample):
             results.append({
                 'sample_name': sample.name

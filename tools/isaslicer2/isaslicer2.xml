@@ -51,7 +51,7 @@
         <section name="query" title="Query Builder" expanded="true">
             <param name="measurement_type" type="text" label="Measurement Type." help="e.g. metabolite profiling. To select specific assays, please ensure both measurement and technology types are provided."/>
             <param name="technology_type" type="text" label="Technology Type." help="e.g. mass spectrometry. Leave both measurement and technology types blank if you want to query across all assays."/>
-            <param name="sample_material_type" type="text" label="Sample Material Type." help="e.g. blood. Leave blank if you want to query across all sample types."/>
+            <!--<param name="sample_material_type" type="text" label="Sample Material Type." help="e.g. blood. Leave blank if you want to query across all sample types."/>-->
             <repeat name="factor_selection" title="Factor selection criteria" default="0">
                 <param name="factor_name" type="text" label="Factor name to filter on." help="Factor name relevant to the specified MetaboLights study. e.g. genotype.">
                     <validator type="empty_field" message="Factor name must not be empty"/>
