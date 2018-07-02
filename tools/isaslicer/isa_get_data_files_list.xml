@@ -3,7 +3,7 @@
     <description>Get a list of ISA study data files filtered on factor values</description>
     <requirements>
         <requirement type="package" version="6.7">click</requirement>
-        <requirement type="package" version="0.9.5">isatools</requirement>
+        <requirement type="package" version="0.10.0">isatools</requirement>
     </requirements>
 
     <stdio>

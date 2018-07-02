@@ -15,13 +15,21 @@ install:
 
 script:
  - planemo lint ${TRAVIS_BUILD_DIR}/tools/converters/
- - planemo lint ${TRAVIS_BUILD_DIR}/tools/isacreate/isacreate_metabo.xml
+ - planemo lint ${TRAVIS_BUILD_DIR}/tools/isacreate/
  - planemo lint ${TRAVIS_BUILD_DIR}/tools/isaslicer/
+ - planemo lint ${TRAVIS_BUILD_DIR}/tools/isaslicer2/
+ - planemo lint ${TRAVIS_BUILD_DIR}/tools/mtbls/
+ - planemo lint ${TRAVIS_BUILD_DIR}/tools/other/
  - planemo lint ${TRAVIS_BUILD_DIR}/tools/validators/
+ - planemo lint ${TRAVIS_BUILD_DIR}/tools/visualizations/
  - planemo test --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/converters/
- - planemo test --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/isacreate/isacreate_metabo.xml
+ - planemo test --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/isacreate/
  - planemo test --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/isaslicer/
+ - planemo test --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/isaslicer2/
+ - planemo test --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/mtbls/
+ - planemo test --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/other/
  - planemo test --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/validators/
+ - planemo test --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/visualizations/
 
 
 branches:
