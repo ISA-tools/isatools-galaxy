@@ -226,18 +226,18 @@ def make_parser():
     subparser.add_argument('--source_dir', nargs=1, type=str,
                            help="Input ISA-Tab zip path")
     subparser.add_argument(
-        '--galaxy_parameters_file',
+        '--galaxy_parameters_file', type=argparse.FileType(mode='r'),
         help="Path to JSON file containing input Galaxy JSON")
-    subparser.add_argument('--output', nargs=1, type=str,
+    subparser.add_argument('--output', nargs=1, type=argparse.FileType(mode='w'),
                            help="Input ISA-Tab zip path")
 
     return parser
 
 
 def query_isatab(options):
-    source_dir = options.source_dir
+    source_dir = options.source_dir[0] if options.source_dir else ""
     galaxy_parameters_file = options.galaxy_parameters_file
-    output = options.output
+    output = options.output[0]
 
     debug = True
     if galaxy_parameters_file:
@@ -257,8 +257,6 @@ def query_isatab(options):
         tmp = tempfile.mkdtemp()
         _ = MTBLS.get(galaxy_parameters['input']['mtbls_id'], tmp)
         investigation = isatab.load(tmp)
-        shutil.rmtree(tmp)
-
     # filter assays by mt/tt
     matching_assays = []
     mt = query.get('measurement_type').strip()
@@ -282,7 +280,8 @@ def query_isatab(options):
     assay_samples = []
     for assay in matching_assays:
         assay_samples.extend(assay.samples)
-
+    if debug:
+        print(len(assay_samples))
     # filter samples by material type.
     # Only works if Characteristic[Material Type] or Material Type is present
     material_samples = set()
@@ -298,7 +297,8 @@ def query_isatab(options):
                         material_samples.add(sample)
     else:
         material_samples = assay_samples
-
+    if debug:
+        print(len(material_samples))
     #filter samples by fv
     factor_selection = {x.get('factor_name'): x.get('factor_value') for x in
                         query.get('factor_selection', [])}
@@ -328,23 +328,22 @@ def query_isatab(options):
                             samples_to_remove.add(sample)
         final_samples = fv_samples.difference(samples_to_remove)
     else:
-        final_samples = fv_samples
-
+        final_samples = material_samples
+    if debug:
+        print(len(final_samples))
     results = []
-    all_data_files = []
-    for study in investigation.studies:
-        for assay in study.assays:
-            all_data_files.extend(assay.data_files)
-        for sample in final_samples:
-            if isinstance(sample, Sample):
-                results.append({
-                    'sample_name': sample.name,
-                    'data_files': [x for x in all_data_files if
-                                   x.generated_from == sample]
-                })
+    for sample in final_samples:
+        results.append({
+            'sample_name': sample.name,
+            'data_files': []
+        })
     for result in results:
         sample_name = result['sample_name']
-        for table_file in glob.iglob(os.path.join(source_dir, 'a_*')):
+        if source_dir:
+            table_files = glob.iglob(os.path.join(source_dir, 'a_*'))
+        else:
+            table_files = glob.iglob(os.path.join(tmp, 'a_*'))
+        for table_file in table_files:
             with open(table_file) as fp:
                 df = isatab.load_table(fp)
                 data_files = []
@@ -364,7 +363,7 @@ def query_isatab(options):
                     if node_label in table_headers:
                         data_files.extend(list(sample_rows[node_label]))
                 result['data_files'] = [i for i in list(data_files) if
-                                        str(i) != 'nan']
+                                        str(i) not in  ('nan', '')]
     results_json = {
         'query': query,
         'results': results
