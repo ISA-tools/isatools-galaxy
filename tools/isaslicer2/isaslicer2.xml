@@ -20,7 +20,7 @@
             #set $source = $input.isatab_input.extra_files_path
         #end if
 
-        $__tool_directory__/isaslicer2.py "$command"
+        $__tool_directory__/../isaslicer/isaslicer.py isaslicer2-slice
         #if $source
             --source_dir="${source}"
         #end if
