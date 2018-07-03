@@ -325,8 +325,8 @@ def create_from_galaxy_parameters(galaxy_parameters_file, target_dir):
     #             os.utime(data_file_path, None)
 
     def sanitize_filename(filename):
-        filename = re.sub('[^\w\s-]', '_', filename).strip().lower()
-        filename = re.sub('[-\s]+', '-', filename)
+        filename = str(filename).strip().replace(' ', '_')
+        filename = re.sub(r'(?u)[^-\w.]', '', filename)
         return filename
 
     i.filename = sanitize_filename(i.filename)
