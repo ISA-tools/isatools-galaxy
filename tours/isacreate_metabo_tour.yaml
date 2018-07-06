@@ -17,20 +17,19 @@ steps:
       backdrop: true
 
     - title: "Create Study Description"
-      element: '#title_isa > a > span'
       content: "We start by invoking the <i><b>Create ISA in Galaxy</b></i>
       tool from the tools list"
+      element: 'a[href$="/tool_runner?tool_id=isacreate_metabo"]'
       position: "right"
-      preclick:
-          - '.isacreate_metabo span:nth-child(2)'
       postclick:
-          - "div.portlet-body div:nth-child(2) div.portlet-header div.portlet-title span"
+          - 'a[href$="/tool_runner?tool_id=isacreate_metabo"]'
 
     - title: "Provide General Study Information"
-      element: "#uid-7 > div.portlet-header > div.portlet-title > span"
-      content: "The <b>Study Description</b> section is here to allow you to
-      report basic metadata about the study."
+      content: "The <b>Study Overview Metadata</b> section is here to allow you
+      to report basic metadata about the study."
       position: "right"
+      postclick:
+        -  'div.portlet-body div:nth-child(2) div:nth-child(1) div.portlet-header div.portlet-title span'
 
     - title: "Provide General Study Information: title"
       element: 'div[tour_id="study_metadata|title"] input'
@@ -108,11 +107,11 @@ steps:
         - 'div[tour_id="study_metadata|study_use_condition"]  div[class="icon-dropdown fa fa-caret-down"]'
 
     - title: "Define the plan of treatments"
-      element: "div.portlet-body div:nth-child(3) div.portlet-header div.portlet-title span"
+      element: 'div.portlet-body div:nth-child(2) div:nth-child(2) div.portlet-header div.portlet-title span'
       intro: "The <b>Treatment Plan</b> section is meant to explicitly declare the study independent variables (predictors variables) and their range of values."
       placement: "right"
       postclick:
-        - "div.portlet-body div:nth-child(3) div.portlet-header div.portlet-title span"
+        - 'div.portlet-body div:nth-child(2) div:nth-child(2) div.portlet-header div.portlet-title span'
 
     - title: "Define the plan of treatments: design type"
       element: 'div[tour_id="treatment_plan|study_type|study_type_selector"]  div[class="icon-dropdown fa fa-caret-down"]'
@@ -127,7 +126,7 @@ steps:
       placement: "right"
       preclick:
         - 'div[tour_id="treatment_plan|study_type|multiple_interventions|multiple_interventions_selector"]  div[class="icon-dropdown fa fa-caret-down"]'
-#
+
     - title: "Define the plan of treatments: nature of intervention"
       element: 'div[tour_id="treatment_plan|study_type|multiple_interventions|intervention_type|intervention_type_selector"]  div[class="icon-dropdown fa fa-caret-down"]'
       intro: "Select the nature of intervention/perturbation from the list, the values are organized based on the type of stress agent considered."
@@ -167,158 +166,147 @@ steps:
       postclick:
         - 'div[tour_id="treatment_plan|study_type|multiple_interventions|group_size"] input'
 
-    - title: "Define the plan of assay modalities and data acquisitions"
-      element: "div.portlet-body div:nth-child(3) div.portlet-header div.portlet-title span"
-      intro: "Indicate if all study groups have the same number of experimental units or not."
+    - title: "Define the sample collection and assay plans"
+      element: 'div.portlet-body div:nth-child(2) div:nth-child(3) div.portlet-header div.portlet-title span'
+      intro: "Expand the sample and assay planning section."
       placement: "right"
       postclick:
-        - "div.portlet-body div:nth-child(3) div.portlet-header div.portlet-title span"
+        - 'div.portlet-body div:nth-child(2) div:nth-child(3) div.portlet-header div.portlet-title span'
 
     - title: "Define the sample collection and assay plans"
-      element: "div.portlet-body div:nth-child(3) div.form-add-repeat span"
+      element: "div.portlet-body div div.section-row div.ui-form-field div div.form-repeat-add div.button span"
       intro: "Press the <i>insert Sampling plan</i> button to reveal the required fields, select the values and specify the parameters matching your experimental set up. Repeat for each of the biological specimen types collected over the course of the study"
       placement: "right"
       postclick:
-        - "div.portlet-body div:nth-child(3) div.form-add-repeat span"
+        - "div.portlet-body div div.section-row div.ui-form-field div div.form-repeat-add div.button span"
 
-#    - title: "Define the sample collection and assay plans: sample type"
-#      element: "#field-uid-84 > div.icon-dropdown.fa.fa-caret-down"
-#      intro: "Select from relevant entry from the list of controlled terms provided to describe the type of biological specimen. These are values most frequently used but one may provide user defined values when the core terms provide insufficient coverage."
-#      placement: "right"
-#      preclick:
-#        - "#field-uid-84 > div.icon-dropdown.fa.fa-caret-down"
-#
-#    - title: "Define the sample collection and assay plans: number of specimens per sample type"
-#      element: "#field-uid-86"
-#      intro: "This field has default value of 1, indicating that one sample of the type defined above would be collected over the course of the study for each of the study subjects. In case of longitudinal studies, repeated sampling is performed therefore modify the value to match the total number collected for that sample type."
-#      placement: "right"
-#      postclick:
-#        - "#field-uid-86"
-#
-#    - title: "Define the sample collection and assay plans"
-#      element: "#uid-89 > div > span"
-#      intro: "Press the <i>insert Assay Plan</i> button to reveal the required fields, select the values and specify the parameters matching your experimental set up. Repeat for each of the data acquisition types defined by the study."
-#      placement: "right"
-#      postclick:
-#        - "#uid-89 > div > span"
-#
-#    - title: "Define the sample collection and assay plans"
-#      element: "#field-uid-94 > div.icon-dropdown.fa.fa-caret-down"
-#      intro: "Select either 'mass spectrometry' or 'nmr spectroscopy' from the dropdown list thus setting the technology type for the data acquisition. IMPORTANT: Repeat as many times as necessary in order to define which techniques will be used to characterise any of the sample/specimens collected over the course of the study"
-#      placement: "right"
-#      postclick:
-#        - "#field-uid-94 > div.icon-dropdown.fa.fa-caret-down"
-#
-#
-#    - title: "Define the sample collection and assay plans"
-#      element: "#uid-97 > div > span"
-#      intro: "Press the <i>insert sample fractions</i> button to reveal the required fields, and select the suitable <i>elements</i> available from the dropdown list. This is specific to Mass spectrometry and allows to report on the type of fraction being considered."
-#      placement: "right"
-#      postclick:
-#        - "#uid-97 > div > span"
-#
-#    - title: "Define the sample collection and assay plans"
-#      element: "#field-uid-141 > div.icon-dropdown.fa.fa-caret-down"
-#      intro: "choose between polar or non-polar fraction"
-#      placement: "right"
-#      preclick:
-#        - "#field-uid-141 > div.icon-dropdown.fa.fa-caret-down"
-#
+    - title: "Define the sample collection and assay plans: sample type"
+      element: 'div[tour_id="sample_and_assay_planning|sample_plans_0|material_type"] div[class="icon-dropdown fa fa-caret-down"]'
+      intro: "Select from relevant entry from the list of controlled terms provided to describe the type of biological specimen. These are values most frequently used but one may provide user defined values when the core terms provide insufficient coverage."
+      placement: "right"
+      preclick:
+        - 'div[tour_id="sample_and_assay_planning|sample_plans_0|material_type"] div[class="icon-dropdown fa fa-caret-down"]'
+
+    - title: "Define the sample collection and assay plans: number of specimens per sample type"
+      element: 'div[tour_id="sample_and_assay_planning|sample_plans_0|sample_collections"] input'
+      intro: "This field has default value of 1, indicating that one sample of the type defined above would be collected over the course of the study for each of the study subjects. In case of longitudinal studies, repeated sampling is performed therefore modify the value to match the total number collected for that sample type."
+      placement: "right"
+      postclick:
+        - 'div[tour_id="sample_and_assay_planning|sample_plans_0|sample_collections"] input'
+
+    - title: "Define the sample collection and assay plans"
+      element: 'div.ui-portlet-repeat div.portlet-content div.portlet-body div:nth-child(3) div.ui-form-field  div.form-repeat-add div.button span'
+      intro: "Press the <i>insert Assay Plan</i> button to reveal the required fields, select the values and specify the parameters matching your experimental set up. Repeat for each of the data acquisition types defined by the study."
+      placement: "right"
+      postclick:
+        - 'div.ui-portlet-repeat div.portlet-content div.portlet-body div:nth-child(3) div.ui-form-field div.form-repeat-add div.button span'
+
+    - title: "Define the sample collection and assay plans"
+      element: 'div[tour_id="sample_and_assay_planning|sample_plans_0|assay_plans_0|assay_type|assay_type_selector"] div[class="icon-dropdown fa fa-caret-down"]'
+      intro: "Select either 'mass spectrometry' or 'nmr spectroscopy' from the dropdown list thus setting the technology type for the data acquisition. IMPORTANT: Repeat as many times as necessary in order to define which techniques will be used to characterise any of the sample/specimens collected over the course of the study"
+      placement: "right"
+      postclick:
+        - 'div[tour_id="sample_and_assay_planning|sample_plans_0|assay_plans_0|assay_type|assay_type_selector"] div[class="icon-dropdown fa fa-caret-down"]'
+
+    - title: "Define the sample collection and assay plans"
+      element: 'div.ui-portlet-repeat div.portlet-content div.portlet-body div:nth-child(3) div.ui-form-field div:nth-child(1) div.portlet-body div:nth-child(2) div:nth-of-type(1) div.button span'
+      intro: "Press the <i>insert sample fractions</i> and <i>insert injection series</i> buttons to reveal the required fields, and select the suitable <i>elements</i> available from the dropdown list. This is specific to Mass Spectrometry and allows to report on the type of fraction and data acquisition conditions being considered."
+      placement: "right"
+      postclick:
+        - 'div.ui-portlet-repeat div.portlet-content div.portlet-body div:nth-child(3) div.ui-form-field div:nth-child(1) div.portlet-body div:nth-child(2) div:nth-of-type(1) div.button span'
+
+    - title: "Define the sample collection and assay plans"
+      element: 'div[tour_id="sample_and_assay_planning|sample_plans_0|assay_plans_0|assay_type|sample_fractions_0|sample_fraction"] div[class="icon-dropdown fa fa-caret-down"]'
+      intro: "choose between polar or non-polar fraction"
+      placement: "right"
+      preclick:
+        - 'div[tour_id="sample_and_assay_planning|sample_plans_0|assay_plans_0|assay_type|sample_fractions_0|sample_fraction"] div[class="icon-dropdown fa fa-caret-down"]'
+
 #    - title: "Define the sample collection and assay plans"
 #      element: "#uid-99 > div > span"
 #      intro: "Press the <i>insert injection series</i> button to reveal the required fields, and select to relevant settings describing the data acquisition conditions. The values varies depending on the techniques used. The controlled terms are curated values vetted by EMBL-EBI Metabolights"
 #      placement: "right"
 #      postclick:
 #        - "#uid-99 > div > span"
-#
-#    - title: "Define the sample collection and assay plans: sample introduction method"
-#      element: "#field-uid-147 > div.icon-dropdown.fa.fa-caret-down"
-#      intro: "Use this field to select the type of sample introduction used in the mass spectrometer. Depending on the values selected, the requirements will be adjusted according. For instance selecting LC or GC will require supplying information about chromatography components"
-#      placement: "right"
-#      preclick:
-#        - "#field-uid-147 > div.icon-dropdown.fa.fa-caret-down"
-#
-#    - title: "Define the sample collection and assay plans: MS instrument"
-#      element: "#field-uid-153 > div.icon-dropdown.fa.fa-caret-down"
-#      intro: "Use this field to select the type of MS instrument used in this data acquisition. The default value is set to </i>'not reported'. All the values in the dropdown list are curated values obtained from EMBL-EBI Metabolights</i>"
-#      placement: "right"
-#      postclick:
-#        - "#field-uid-153 > div.icon-dropdown.fa.fa-caret-down"
-#
-#    - title: "Define the sample collection and assay plans"
-#      element: "#uid-156 > div > span"
-#      intro: "Once all the hardware descriptions have been reported, it is time to specify how many actual acquisitions were run and in which acquisition modes. Press the <i>insert acquisition series</i> button to reveal the required fields"
-#      placement: "right"
-#      postclick:
-#        - "#uid-156 > div > span"
-#
-#    - title: "Define the sample collection and assay plans"
-#      element: "#field-uid-177 > div.icon-dropdown.fa.fa-caret-down"
-#      intro: "Use to dropdown list to indicate a positive or negative acquisition type"
-#      placement: "right"
-#      preclick:
-#        - "#field-uid-177 > div.icon-dropdown.fa.fa-caret-down"
-#
-#    - title: "Define the sample collection and assay plans"
-#      element: "#field-uid-179 > input"
-#      intro: "Specify how many technical repeats for this acquisition conditions were performed"
-#      placement: "right"
-#      textinsert: |
-#        "2"
-#      postclick:
-#        - "#field-uid-179 > input"
-#
-#    - title: "Define the quality control plans"
-#      element: "#uid-50 > div.portlet-header > div.portlet-title > span"
-#      intro: "This section is meant to allow reporting the type and frequency of measurements made on known material for quality assurance and quality control purpose. The controlled terms are vetted by the Metabolomics Standardization Initiative (MSI) and available from the MSI Application Ontology."
-#      placement: "right"
-#      postclick:
-#        - "#uid-50 > div.portlet-header > div.portlet-title > span"
-#
-#    - title: "Define the quality control plans"
-#      element: "#uid-77 > div.portlet-header > div.portlet-title > span"
-#      intro: "Press the <i>Insert  Quality Control / Quality Assurance Plan</i> button to reveal the required fields to report quality control elements."
-#      placement: "right"
-#      postclick:
-#        - "#uid-77 > div.portlet-header > div.portlet-title > span"
-#
-#    - title: "Define the qc collection"
-#      element: "#uid-81 > div > span"
-#      intro: " Press the <i>insert acquisition series</i> button to reveal the required fields"
-#      placement: "right"
-#      postclick:
-#        - "#uid-81 > div > span"
-#
-#    - title: "Define the quality control plans"
-#      element: "#field-uid-149 > div.icon-dropdown.fa.fa-caret-down"
-#      intro: "This section is meant to allow reporting the type and frequency of measurements made on known material for quality assurance and quality control purpose."
-#      placement: "right"
-#      preclick:
-#        - "#field-uid-149 > div.icon-dropdown.fa.fa-caret-down"
-#
-#    - title: "Define the quality control plans"
-#      element: "#field-uid-151 > input"
-#      intro: "Following the selection of the QC type, indicate the number of consecutive injections of that type according to the QC plan."
-#      placement: "right"
-#      postclick:
-#        - "#field-uid-151 > input"
-#
-#    - title: "Define the quality control plans"
-#      element: "#field-uid-153 > input"
-#      intro: "Following the selection of the QC type, indicate the frequency of injections of that type according to the QC plan, as in '1 qc run every 10 sample runs'."
-#      placement: "right"
-#      textinsert: |
-#        "5"
-#      postclick:
-#        - "#field-uid-153 > input"
-#
-#    - title: "running the metadata creator"
-#      element: "#execute"
-#      intro: "hit the button to launch the job"
-#      position: "right"
-#      postclick:
-#        - "#execute"
-#
-#
+
+    - title: "Define the sample collection and assay plans: sample introduction method"
+      element: 'div[tour_id="sample_and_assay_planning|sample_plans_0|assay_plans_0|assay_type|injections_0|injection_mode|injection_mode_selector"] div[class="icon-dropdown fa fa-caret-down"]'
+      intro: "Use this field to select the type of sample introduction used in the mass spectrometer. Depending on the values selected, the requirements will be adjusted according. For instance selecting LC or GC will require supplying information about chromatography components"
+      placement: "right"
+      preclick:
+        - 'div[tour_id="sample_and_assay_planning|sample_plans_0|assay_plans_0|assay_type|injections_0|injection_mode|injection_mode_selector"] div[class="icon-dropdown fa fa-caret-down"]'
+
+    - title: "Define the sample collection and assay plans: MS instrument"
+      element: 'div[tour_id="sample_and_assay_planning|sample_plans_0|assay_plans_0|assay_type|injections_0|injection_mode|instrument"] div[class="icon-dropdown fa fa-caret-down"]'
+      intro: "Use this field to select the type of MS instrument used in this data acquisition. The default value is set to </i>'not reported'. All the values in the dropdown list are curated values obtained from EMBL-EBI Metabolights</i>"
+      placement: "right"
+      postclick:
+        - 'div[tour_id="sample_and_assay_planning|sample_plans_0|assay_plans_0|assay_type|injections_0|injection_mode|instrument"] div[class="icon-dropdown fa fa-caret-down"]'
+
+    - title: "Define the sample collection and assay plans"
+      element: 'div.ui-portlet-repeat div.portlet-content div.portlet-body div:nth-child(3) div.ui-form-field div:nth-child(1) div.portlet-body div:nth-child(2) div[id$="section-1"] div.button span'
+      intro: "Once all the hardware descriptions have been reported, it is time to specify how many actual acquisitions were run and in which acquisition modes. Press the <i>insert acquisition series</i> button to reveal the required fields"
+      placement: "right"
+      postclick:
+        - 'div.ui-portlet-repeat div.portlet-content div.portlet-body div:nth-child(3) div.ui-form-field div:nth-child(1) div.portlet-body div:nth-child(2) div[id$="section-1"] div.button span'
+
+    - title: "Define the sample collection and assay plans"
+      element: 'div[tour_id="sample_and_assay_planning|sample_plans_0|assay_plans_0|assay_type|injections_0|injection_mode|acquisitions_0|acquisition_mode"] div[class="icon-dropdown fa fa-caret-down"]'
+      intro: "Use to dropdown list to indicate a positive or negative acquisition type"
+      placement: "right"
+      preclick:
+        - 'div[tour_id="sample_and_assay_planning|sample_plans_0|assay_plans_0|assay_type|injections_0|injection_mode|acquisitions_0|acquisition_mode"] div[class="icon-dropdown fa fa-caret-down"]'
+
+    - title: "Define the sample collection and assay plans"
+      element: 'div[tour_id="sample_and_assay_planning|sample_plans_0|assay_plans_0|assay_type|injections_0|injection_mode|acquisitions_0|technical_replicates"] input'
+      intro: "Specify how many technical repeats for this acquisition conditions were performed"
+      placement: "right"
+      textinsert: "2"
+      postclick:
+        - 'div[tour_id="sample_and_assay_planning|sample_plans_0|assay_plans_0|assay_type|injections_0|injection_mode|acquisitions_0|technical_replicates"] input'
+
+    - title: "Define the quality control plans"
+      element: 'div.portlet-body div:nth-child(2) div:nth-child(4) div.portlet-header div.portlet-title span'
+      intro: "This section is meant to allow reporting the type and frequency of measurements made on known material for quality assurance and quality control purpose. The controlled terms are vetted by the Metabolomics Standardization Initiative (MSI) and available from the MSI Application Ontology."
+      placement: "right"
+      postclick:
+        - 'div.portlet-body div:nth-child(2) div:nth-child(4) div.portlet-header div.portlet-title span'
+
+    - title: "Define the quality control plans"
+      element: "div.portlet-body div:nth-child(2) div:nth-child(4) div.form-repeat-add div.button span"
+      intro: "Press the <i>Insert  Quality Control / Quality Assurance Plan</i> button to reveal the required fields to report quality control elements."
+      placement: "right"
+      postclick:
+        - "div.portlet-body div:nth-child(2) div:nth-child(4) div.form-repeat-add div.button span"
+
+    - title: "Define the quality control plans"
+      element: 'div[tour_id="qc_planning|qc_plans_0|material_type"] div[class="icon-dropdown fa fa-caret-down"]'
+      intro: "This section is meant to allow reporting the type and frequency of measurements made on known material for quality assurance and quality control purpose. Select a QC Material Type here."
+      placement: "right"
+      postclick:
+        - 'div[tour_id="qc_planning|qc_plans_0|material_type"] div[class="icon-dropdown fa fa-caret-down"]'
+
+    - title: "Define the quality control plans"
+      element: 'div[tour_id="qc_planning|qc_plans_0|qc_type|qc_type_selector"] div[class="icon-dropdown fa fa-caret-down"]'
+      intro: "Select the QC Type. This indicates whether this QC plan injects QC runs at intervals, or specifies a QC batch before or after the main batch."
+      placement: "right"
+      preclick:
+        - 'div[tour_id="qc_planning|qc_plans_0|qc_type|qc_type_selector"] div[class="icon-dropdown fa fa-caret-down"]'
+
+    - title: "Define the quality control plans"
+      element: 'div[tour_id="qc_planning|qc_plans_1|qc_type|injection_frequency"] input'
+      intro: "Following the selection of the QC Type, indicate the frequency of injections of that type according to the QC plan, as in '1 qc run every 10 sample runs'."
+      placement: "right"
+      textinsert: "5"
+      postclick:
+        - element: 'div[tour_id="qc_planning|qc_plans_1|qc_type|injection_frequency"] input'
+
+    - title: "running the metadata creator"
+      element: "#execute"
+      intro: "hit the button to launch the job"
+      position: "right"
+      postclick:
+        - "#execute"
+
     - title: "Enjoy Galaxy in PhenoMenal"
       intro: "Thanks for taking this tour! Happy research with Galaxy and PhenoMenal!"
