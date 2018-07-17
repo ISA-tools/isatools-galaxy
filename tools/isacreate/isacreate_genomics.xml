@@ -1,9 +1,10 @@
-<tool id="isacreate_genomics" name="ISAcreate Genomics" version="@VERSION@">
+<tool id="isacreate_genomics" name="isacreate_genomics" version="@VERSION@">
     <description>Create ISA templates based on study design information.</description>
     <macros>
         <import>macros.xml</import>
     </macros>
     <expand macro="requirements"/>
+    <code file="isa_cvterms.py"/>
     <expand macro="stdio"/>
     <command>
         <![CDATA[
