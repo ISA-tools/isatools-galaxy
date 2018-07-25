@@ -159,7 +159,13 @@ def requestUploadConfiguration():
         logging.error(e)
         print "Request failed! Refer to the log file for more details"
         sys.exit(1)
-    return json.loads(response.text)['content']
+    try:
+        response_json = json.loads(response.text)['content']
+    except ValueError as e:
+        logging.error(e)
+        print('Could not decode response from server!')
+        sys.exit(1)
+    return response_json
 
 
 def parseInput(args):
