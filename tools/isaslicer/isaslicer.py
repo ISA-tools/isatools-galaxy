@@ -242,6 +242,7 @@ def query_isatab(options):
     debug = True
     if galaxy_parameters_file:
         galaxy_parameters = json.load(galaxy_parameters_file)
+        print('Galaxy parameters:')
         print(json.dumps(galaxy_parameters, indent=4))
     else:
         raise IOError('Could not load Galaxy parameters file!')
@@ -250,6 +251,7 @@ def query_isatab(options):
             raise IOError('Source path does not exist!')
     query = galaxy_parameters['query']
     if debug:
+        print('Query is:')
         print(json.dumps(query, indent=4))  # for debugging only
     if source_dir:
         investigation = isatab.load(source_dir)
@@ -281,56 +283,92 @@ def query_isatab(options):
     for assay in matching_assays:
         assay_samples.extend(assay.samples)
     if debug:
-        print(len(assay_samples))
-    # filter samples by material type.
-    # Only works if Characteristic[Material Type] or Material Type is present
-    material_samples = set()
-    material_type = query.get('sample_material_type')
-    if material_type:
-        for sample in assay_samples:
-            for c in sample.characteristics:
-                if c.category.term == 'Material Type':
-                    if isinstance(c.value, OntologyAnnotation):
-                        if c.value.term == material_type:
-                            material_samples.add(sample)
-                    elif c.value == material_type:
-                        material_samples.add(sample)
-    else:
-        material_samples = assay_samples
-    if debug:
-        print(len(material_samples))
-    #filter samples by fv
-    factor_selection = {x.get('factor_name'): x.get('factor_value') for x in
-                        query.get('factor_selection', [])}
+        print('Total samples: {}'.format(len(assay_samples)))
+
+    # filter samples by fv
+    factor_selection = {
+        x.get('factor_name').strip(): x.get('factor_value').strip() for x in
+        query.get('factor_selection', [])}
+
     fv_samples = set()
     if factor_selection:
-        first_pass = True
         samples_to_remove = set()
         for f, v in factor_selection.items():
-            if first_pass:
-                for sample in material_samples:
-                    for fv in [x for x in sample.factor_values if
-                               x.factor_name.name == f]:
-                        if isinstance(fv.value, OntologyAnnotation):
-                            if fv.value.term == v:
-                                fv_samples.add(sample)
-                        elif fv.value == v:
+            for sample in assay_samples:
+                for fv in [x for x in sample.factor_values if
+                           x.factor_name.name == f]:
+                    if isinstance(fv.value, OntologyAnnotation):
+                        if fv.value.term == v:
                             fv_samples.add(sample)
+                    elif fv.value == v:
+                        fv_samples.add(sample)
+        for f, v in factor_selection.items():
+            for sample in fv_samples:
+                for fv in [x for x in sample.factor_values if
+                           x.factor_name.name == f]:
+                    if isinstance(fv.value, OntologyAnnotation):
+                        if fv.value.term != v:
+                            samples_to_remove.add(sample)
+                    elif fv.value != v:
+                        samples_to_remove.add(sample)
+        final_fv_samples = fv_samples.difference(samples_to_remove)
+    else:
+        final_fv_samples = assay_samples
+
+    # filter samples by characteristic
+    characteristics_selection = {
+        x.get('characteristic_name').strip():
+            x.get('characteristic_value').strip() for x in
+            query.get('characteristics_selection', [])}
+    print(final_fv_samples)
+    cv_samples = set()
+    if characteristics_selection:
+        first_pass = True
+        samples_to_remove = set()
+        for c, v in characteristics_selection.items():
+            if first_pass:
+                for sample in final_fv_samples:
+                    for cv in [x for x in sample.characteristics if
+                               x.category.term == c]:
+                        if isinstance(cv.value, OntologyAnnotation):
+                            if cv.value.term == v:
+                                cv_samples.add(sample)
+                        elif cv.value == v:
+                            cv_samples.add(sample)
+                    for source in sample.derives_from:
+                        for cv in [x for x in source.characteristics if
+                                   x.category.term == c]:
+                            if isinstance(cv.value, OntologyAnnotation):
+                                if cv.value.term == v:
+                                    cv_samples.add(sample)
+                            elif cv.value == v:
+                                cv_samples.add(sample)
                 first_pass = False
             else:
-                for sample in fv_samples:
-                    for fv in [x for x in sample.factor_values if
-                               x.factor_name.name == f]:
-                        if isinstance(fv.value, OntologyAnnotation):
-                            if fv.value.term != v:
+                for sample in cv_samples:
+                    for cv in [x for x in sample.characteristics if
+                               x.category.term == c]:
+                        if isinstance(cv.value, OntologyAnnotation):
+                            if cv.value.term != v:
                                 samples_to_remove.add(sample)
-                        elif fv.value != v:
+                        elif cv.value != v:
                             samples_to_remove.add(sample)
-        final_samples = fv_samples.difference(samples_to_remove)
+                    for source in sample.derives_from:
+                        for cv in [x for x in source.characteristics if
+                                   x.category.term == c]:
+                            if isinstance(cv.value, OntologyAnnotation):
+                                if cv.value.term != v:
+                                    samples_to_remove.add(sample)
+                            elif cv.value != v:
+                                samples_to_remove.add(sample)
+        final_cv_samples = cv_samples.difference(samples_to_remove)
     else:
-        final_samples = material_samples
+        final_cv_samples = final_fv_samples
+    print(final_cv_samples)
+    final_samples = final_cv_samples
+
     if debug:
-        print(len(final_samples))
+        print('Final number of samples: {}'.format(len(final_samples)))
     results = []
     for sample in final_samples:
         results.append({
@@ -362,8 +400,8 @@ def query_isatab(options):
                 for node_label in data_node_labels:
                     if node_label in table_headers:
                         data_files.extend(list(sample_rows[node_label]))
-                result['data_files'] = [i for i in list(data_files) if
-                                        str(i) not in  ('nan', '')]
+                result['data_files'] = list(set(i for i in list(data_files) if
+                                        str(i) not in  ('nan', '')))
     results_json = {
         'query': query,
         'results': results
