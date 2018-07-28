@@ -1,30 +1,39 @@
 {
+    "study_metadata": {
+        "study_consent": "disease-specific research and clinical care (DUO:0000007)",
+        "affiliation": "Affiliation",
+        "study_use_condition": "collaboration required (DUO:0000020)",
+        "last_name": "Last Name",
+        "first_name": "First name",
+        "email": "email__at__email.com",
+        "description": "Study Description",
+        "title": "Study Title"
+    },
     "qc_planning": {
         "qc_plans": []
     },
     "treatment_plan": {
         "study_type": {
+            "study_type_selector": "full_factorial",
             "multiple_interventions": {
                 "multiple_interventions_selector": "single",
                 "group_size": "3",
                 "intervention_type": {
-                    "duration": "t0,t1,t2",
-                    "intervention_type_selector": "chemical intervention",
                     "intensity": "low dose,moderate dose,high dose",
-                    "agent": "aspirin,ibuprofen,morphine"
+                    "agent": "aspirin,ibuprofen,morphine",
+                    "duration": "t0,t1,t2",
+                    "intervention_type_selector": "chemical intervention"
                 }
-            },
-            "study_type_selector": "full_factorial_intervention"
+            }
         }
     },
     "sample_and_assay_planning": {
         "sample_plans": [
             {
-                "material_type": "blood (UBERON:0000178)",
-                "sample_collections": 1,
                 "assay_plans": [
                     {
                         "assay_type": {
+                            "assay_type_selector": "ms",
                             "injections": [
                                 {
                                     "injection_mode": {
@@ -35,36 +44,19 @@
                                             }
                                         ],
                                         "chromatography_instrument": "Agilent 6890 GC",
-                                        "injection_mode_selector": "GC",
-                                        "derivatizations": [
-                                            {
-                                                "derivatization": "acetylation (MSIO:0000112)"
-                                            }
-                                        ],
-                                        "instrument": "AB SCIEX API 4000"
+                                        "derivatizations": [],
+                                        "instrument": "AB SCIEX API 4000",
+                                        "injection_mode_selector": "GC"
                                     }
                                 }
                             ],
-                            "sample_fractions": [
-                                {
-                                    "sample_fraction": "non-polar"
-                                }
-                            ],
-                            "assay_type_selector": "ms"
+                            "sample_fractions": []
                         }
                     }
-                ]
+                ],
+                "sample_collections": 1,
+                "material_type": "blood (UBERON:0000178)"
             }
         ]
-    },
-    "study_metadata": {
-        "first_name": "First name",
-        "last_name": "Last Name",
-        "description": "Study Description",
-        "study_use_condition": "collaboration required (DUO:0000020)",
-        "title": "Study Title",
-        "affiliation": "Affiliation",
-        "email": "email__at__email.com",
-        "study_consent": "no restriction (DUO:0000004)"
     }
 }
