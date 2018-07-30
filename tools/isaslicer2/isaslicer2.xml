@@ -68,7 +68,7 @@
                 </param>
             </repeat>
             <repeat name="parameter_selection" title="Parameter selection criteria" default="0" help="Search across all Parameter Values in a study.">
-                <param name="parameter_name" type="text" label="Parameter name to filter on." help="Parameter name relevant to the specified MetaboLights study. e.g. Acquisition mode.">
+                <param name="parameter_name" type="text" label="Parameter name to filter on." help="Parameter name relevant to the specified MetaboLights study. e.g. Scan polarity.">
                     <validator type="empty_field" message="Parameter name must not be empty"/>
                 </param>
                 <param name="parameter_value" type="text" label="Parameter value to filter on." help="Parameter value relevant to the specified MetaboLights study. e.g. positive.">
