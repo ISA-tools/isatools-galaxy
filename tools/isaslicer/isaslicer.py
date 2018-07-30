@@ -320,7 +320,7 @@ def query_isatab(options):
         x.get('characteristic_name').strip():
             x.get('characteristic_value').strip() for x in
             query.get('characteristics_selection', [])}
-    print(final_fv_samples)
+
     cv_samples = set()
     if characteristics_selection:
         first_pass = True
@@ -364,7 +364,13 @@ def query_isatab(options):
         final_cv_samples = cv_samples.difference(samples_to_remove)
     else:
         final_cv_samples = final_fv_samples
-    print(final_cv_samples)
+
+    # filter samples by process parameter
+    parameters_selection = {
+        x.get('parameter_name').strip():
+            x.get('parameter_value').strip() for x in
+        query.get('parameter_selection', [])}
+
     final_samples = final_cv_samples
 
     if debug:
@@ -397,11 +403,24 @@ def query_isatab(options):
                     'Free Induction Decay Data File',
                     'Derived Array Data Matrix File', 'Image File',
                     'Derived Data File', 'Metabolite Assignment File']
-                for node_label in data_node_labels:
-                    if node_label in table_headers:
-                        data_files.extend(list(sample_rows[node_label]))
-                result['data_files'] = list(set(i for i in list(data_files) if
-                                        str(i) not in  ('nan', '')))
+                if parameters_selection:
+                    for p, v in parameters_selection.items():
+                        sample_pv_rows = sample_rows.loc[
+                            sample_rows['Parameter Value[{}]'.format(p)] == v]
+                        for node_label in data_node_labels:
+                            if node_label in table_headers:
+                                data_files.extend(
+                                    list(sample_pv_rows[node_label]))
+                    result['data_files'].extend(list(set(
+                        i for i in list(data_files) if
+                        str(i) not in ('nan', ''))))
+                else:
+                    for node_label in data_node_labels:
+                        if node_label in table_headers:
+                            data_files.extend(list(sample_rows[node_label]))
+                    result['data_files'].extend(
+                        list(set(i for i in list(data_files) if
+                                 str(i) not in  ('nan', ''))))
     results_json = {
         'query': query,
         'results': results
