@@ -400,8 +400,8 @@ def query_isatab(options):
                 for node_label in data_node_labels:
                     if node_label in table_headers:
                         data_files.extend(list(sample_rows[node_label]))
-                result['data_files'] = list(set(i for i in list(data_files) if
-                                        str(i) not in  ('nan', '')))
+                result['data_files'].extend(list(set(
+                    i for i in list(data_files) if str(i) not in  ('nan', ''))))
     results_json = {
         'query': query,
         'results': results
