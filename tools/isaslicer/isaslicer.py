@@ -231,7 +231,54 @@ def make_parser():
     subparser.add_argument('--output', nargs=1, type=argparse.FileType(mode='w'),
                            help="Input ISA-Tab zip path")
 
+    subparser = subparsers.add_parser(
+        'filter-data', aliases=['filter'],
+        help="Filter out data based on slicer2")
+    subparser.set_defaults(func=filter_data)
+    subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab path")
+    subparser.add_argument('output_path', nargs=1, type=str, help="Output data files path")
+    subparser.add_argument('--slice', nargs=1, type=argparse.FileType(mode='r'),
+                           help="slice")
+    subparser.add_argument('--filename_filter', type=str, help="shell-like wildcard to filter files")
+
     return parser
+
+
+def filter_data(options):
+    loglines = []
+    source_dir = options.input_path[0] if options.input_path else ""
+    output_path = options.output_path[0]
+    filename_filter = options.filename_filter
+    if source_dir:
+        if not os.path.exists(source_dir):
+            raise IOError('Source path does not exist!')
+    data_files = []
+    slice_json = options.slice[0]
+    for result in json.load(slice_json)['results']:
+        data_files.extend(result.get('data_files', []))
+    reduced_data_files = list(set(data_files))
+    filtered_files = glob.glob(os.path.join(source_dir, filename_filter))
+    to_copy = []
+    for filepath in filtered_files:
+        if os.path.basename(filepath) in reduced_data_files:
+            to_copy.append(filepath)
+    loglines.append("Using slice results from {}\n".format(slice_json))
+    for filepath in to_copy:
+        loglines.append("Copying {}\n".format(os.path.basename(filepath)))
+        # try:
+        #     shutil.copyfile(
+        #         filepath, os.path.join(output_path, os.path.basename(filepath)))
+        # except Exception as e:
+        #     print(e)
+        #     exit(1)
+        try:
+            os.symlink(
+                filepath, os.path.join(output_path, os.path.basename(filepath)))
+        except Exception as e:
+            print(e)
+            exit(1)
+    with open('cli.log', 'w') as fp:
+        fp.writelines(loglines)
 
 
 def query_isatab(options):
