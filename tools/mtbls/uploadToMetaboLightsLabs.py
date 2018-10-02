@@ -64,7 +64,7 @@ def main(arguments):
     uploadToMetaboLightsLabs.py -t <MetaboLights Labs API_KEY> --i [ <filesToUpload> ] -p <MetaboLights Labs Project_ID> -n -s <ENV>
     or
     python uploadToMetaboLightsLabs.py -t <MetaboLights Labs API_KEY> --I <path to IsaTab folder> --v <path to validation report JSON> -p <MetaboLights Labs Project_ID> -n -s <ENV>
-    or 
+    or
     uploadToMetaboLightsLabs.py -t <MetaboLights Labs API_KEY> --I <path to IsaTab folder> --v <path to validation report JSON> -p <MetaboLights Labs Project_ID> -n -s <ENV>
 Arguments:
     -t MetaboLights Labs API_KEY
@@ -142,7 +142,7 @@ def compileAsperaCommand(asperaConfiguration):
             'asperaURL'] + "'")
     asperaSecret = asperaConfiguration['asperaSecret']
     return [asperaSecret,
-            "ascp -QT -L . -l 1g " + filesLocation + " " + remoteHost]
+            "ascp -QT -P 33001 -L . -l 300M " + filesLocation + " " + remoteHost]
 
 
 def requestUploadConfiguration():
