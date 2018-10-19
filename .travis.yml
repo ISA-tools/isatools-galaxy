@@ -11,7 +11,6 @@ install:
  - pip install --upgrade pip setuptools
  - pip install planemo==$PLANEMO_RELEASE
  - git clone -b feature/isa_data_type_plus_enhancements https://github.com/phnmnl/galaxy ${GALAXY_REPO}
- - cp ${TRAVIS_BUILD_DIR}/tool-data/isa_cvterms.loc ${GALAXY_REPO}/tool-data/
 
 script:
  - planemo lint ${TRAVIS_BUILD_DIR}/tools/converters/
