@@ -130,7 +130,6 @@ def executeAsperaUpload(cmds):
 
 
 def compileAsperaCommand(asperaConfiguration):
-    asperaConfiguration = json.loads(asperaConfiguration)
     filesLocation = (str(
         ' '.join(str(e) for e in directories).strip() + " " + ' '.join(
             str(e) for e in files))).strip()
