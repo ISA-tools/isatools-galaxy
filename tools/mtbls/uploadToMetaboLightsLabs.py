@@ -22,6 +22,7 @@ Arguments:
 import os
 import sys
 import argparse
+import ast
 import logging
 import json
 import requests
@@ -57,7 +58,7 @@ tmpdir = ""
 
 
 def main(arguments):
-    logging.basicConfig(filename=log_file, level=logging.INFO)
+    logging.basicConfig(filename=log_file, level=logging.DEBUG)
     usage = """
     python uploadToMetaboLightsLabs.py -t <MetaboLights Labs API_KEY> --i [ <filesToUpload> ] -p <MetaboLights Labs Project_ID> -n -s <ENV>
     or
@@ -104,15 +105,18 @@ Arguments:
         # Request MetaboLights Labs webservice for aspera upload configuration
         logging.info("Requesting project aspera upload configuration")
         asperaConfiguration = requestUploadConfiguration()
+        #logging.debug("(from Main) eval asperaConfiguration:" + eval(asperaConfiguration) + asperaConfiguration +" ??")
         logging.info("Required project details obtained")
         # Compile the aspera CLI command from the configuration
-        logging.info("Compling aspera command")
+        logging.info("Compiling aspera command")
         asperaCommand = compileAsperaCommand(asperaConfiguration)
+        logging.info("asperaConfiguration: " + asperaConfiguration[0] + asperaConfiguration[1] + asperaConfiguration[2] + asperaConfiguration[3] + asperaConfiguration[4] )
+        #logging.info("asperaConfiguration: " + asperaConfiguration["content"]["asperaServer"] )
         logging.info("Checking aspera Environment variables")
         executeAsperaUpload(asperaCommand)
     else:
         logging.info("Input validation Failed: Terminating program")
-        print "Invalid Input: Please check the " + log_file + " for more details"
+        print( "Invalid Input: Please check the " + log_file + " for more details")
 
 
 def executeAsperaUpload(cmds):
@@ -130,36 +134,60 @@ def executeAsperaUpload(cmds):
 
 
 def compileAsperaCommand(asperaConfiguration):
-    filesLocation = (str(
-        ' '.join(str(e) for e in directories).strip() + " " + ' '.join(
-            str(e) for e in files))).strip()
-    remoteHost = asperaConfiguration['asperaUser'] + "@" + asperaConfiguration[
-        'asperaServer'] + ":/" + env + "/userSpace/" + asperaConfiguration[
-                     'asperaURL']
-    logging.info(
-        "Project Location:" + " '/" + env + "/userSpace/" + asperaConfiguration[
-            'asperaURL'] + "'")
-    asperaSecret = asperaConfiguration['asperaSecret']
-    return [asperaSecret,
-            "ascp -QT -P 33001 -L . -l 300M " + filesLocation + " " + remoteHost]
+
+    logging.debug("this is asperaConfiguration (from compileAsperaCommand: " + asperaConfiguration)
+    try:
+        # asperaConfiguration no longer a proper dictionary, just a regular string => need to convert back
+        asperaConfiguration_asDict = ast.literal_eval(asperaConfiguration)
+        # if isinstance(asperaConfiguration_asDict, dict):
+        #     for k, v in asperaConfiguration_asDict.items():
+        #         print(k, ' ', v)
+        # else:
+        #     print("asperationConfiguration", asperaConfiguration, "is no dictionary!")
+
+    except IOError as e:
+        print(e)
+
+    filesLocation = (str(' '.join(str(e) for e in directories).strip() + " " + ' '.join(str(e) for e in files))).strip()
+    remoteHost = asperaConfiguration_asDict['asperaUser'] + "@" + asperaConfiguration_asDict['asperaServer'] + ":/" + env + "/userSpace/" + asperaConfiguration_asDict['asperaURL']
+    # logging.debug("remoteHost = " + remoteHost)
+    logging.info("Project Location: " + "'/" + env + "/userSpace/" + asperaConfiguration_asDict['asperaURL'] + "'")
+    # asperaSecret = asperaConfiguration["asperaSecret"]
+    asperaSecret = asperaConfiguration_asDict['asperaSecret']
+    #logging.info("aspera secret:"  + asperaConfiguration_asDict['asperaSecret'])
+    return [asperaSecret,"ascp -QT -P 33001 -L . -l 300M " + filesLocation + " " + remoteHost]
 
 
 def requestUploadConfiguration():
+    #logging.basicConfig(file=sys.stderr, level=logging.DEBUG)
     # Requesting MetaboLightsLabs Webservice for the project configuration
     url = serverPortDictionary[env][
               "server"] + "webservice/labs-workspace/asperaConfiguration"
     payload = json.dumps({'api_token': api_token, 'project_id': project_id,
                           'new_project_flag': new_project_flag})
     headers = {'content-type': "application/json", 'cache-control': "no-cache"}
+    # logging.debug("Here is the url: %s", url)
+    # logging.debug("Here is the payload: %s", payload)
+    # logging.debug("And, finally, the headers: %s", headers)
     try:
         response = requests.request("POST", url, data=str(payload),
                                     headers=headers)
+        response.raise_for_status()
+    except requests.HTTPError as e:
+        logging.fatal("Request for upload configuration from MetaboLights server was unsuccessful")
+        logging.fatal("Server responded: %s", response.text)
+        logging.exception(e)
+        sys.exit(1)
     except requests.exceptions.RequestException as e:  # This is the correct syntax
         logging.error(e)
-        print "Request failed! Refer to the log file for more details"
+        print("Request failed! Refer to the log file for more details")
         sys.exit(1)
+
+    # logging.debug("response: %s", response)
+    # logging.debug("response.text: %s", response.text)
     try:
         response_json = json.loads(response.text)['content']
+        # logging.debug("response json: %s", response_json)
     except ValueError as e:
         logging.error(e)
         print('Could not decode response from server!')
