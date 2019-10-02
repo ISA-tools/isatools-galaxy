@@ -1,37 +1,36 @@
 language: python
+cache: pip
+
+python: 2.7
 
 before_install:
- - export GALAXY_REPO=${TRAVIS_BUILD_DIR}/galaxy
- - export PLANEMO_RELEASE=0.54.0
+  - export GALAXY_RELEASE=release_19.05
 
 install:
- - sudo apt-get install -y python-virtualenv
- - virtualenv planemo-venv
- - . planemo-venv/bin/activate
- - pip install --upgrade pip setuptools
- - pip install planemo==$PLANEMO_RELEASE
- - git clone -b feature/isa_data_type_plus_enhancements https://github.com/phnmnl/galaxy ${GALAXY_REPO}
+  - pip install flake8 flake8-import-order planemo
+  - planemo --version
+  - git diff --quiet "$TRAVIS_COMMIT_RANGE" -- ; GIT_DIFF_EXIT_CODE=$?
+  - |
+    if [ "$GIT_DIFF_EXIT_CODE" -gt 1 ] ; then
+        git remote set-branches --add origin master
+        git fetch
+        TRAVIS_COMMIT_RANGE=origin/master...
+    fi
+  - echo $TRAVIS_COMMIT_RANGE
+  - |
+    planemo ci_find_repos --exclude_from .tt_skip \
+                          --changed_in_commit_range "$TRAVIS_COMMIT_RANGE" \
+                          --output changed_repositories.list
+  - cat changed_repositories.list
 
 script:
- - planemo lint ${TRAVIS_BUILD_DIR}/tools/converters/
- - planemo lint ${TRAVIS_BUILD_DIR}/tools/isacreate/
- - planemo lint ${TRAVIS_BUILD_DIR}/tools/isaslicer/
- - planemo lint ${TRAVIS_BUILD_DIR}/tools/isaslicer2/
- - planemo lint ${TRAVIS_BUILD_DIR}/tools/mtbls/
- - planemo lint ${TRAVIS_BUILD_DIR}/tools/other/
- - planemo lint ${TRAVIS_BUILD_DIR}/tools/validators/
- - planemo lint ${TRAVIS_BUILD_DIR}/tools/visualizations/
- - planemo test --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/converters/
- - planemo test --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/isacreate/
- - planemo test --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/isaslicer/
- - planemo test --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/isaslicer2/
- - planemo test --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/mtbls/
- - planemo test --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/other/
- - planemo test --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/validators/
- - planemo test --galaxy_root=${GALAXY_REPO} --tool_data_table=${TRAVIS_BUILD_DIR}/config/tool_data_table_conf.xml ${TRAVIS_BUILD_DIR}/tools/visualizations/
-
-
-branches:
-  only:
-  - master
-  - develop
+  - set -e
+  - cd "$TRAVIS_BUILD_DIR" && flake8 --exclude=.git .
+  - |
+    while read -r DIR; do
+        planemo shed_lint --tools --ensure_metadata --report_level warn --fail_level error --recursive "$DIR"
+    done < changed_repositories.list
+  - |
+    while read -r DIR; do
+        planemo test --galaxy_branch "$GALAXY_RELEASE" "$DIR"
+    done < changed_repositories.list

@@ -1,7 +1,7 @@
 #!/usr/bin/python
-import os
 import inspect
 import json
+import os
 
 
 def get_terms(k):

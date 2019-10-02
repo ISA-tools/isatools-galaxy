@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 
-import sys
-import shutil
 import argparse
-import os
-import logging
 import glob
-import re
-import pandas as pd
 import json
-import zipfile
+import logging
+import os
+import re
+import shutil
+import sys
 import tempfile
+import zipfile
 
+import pandas as pd
 from isatools import isatab
+from isatools.model import OntologyAnnotation
 from isatools.net import mtbls as MTBLS
-from isatools.model import OntologyAnnotation, Sample
 
 logger = None
 
@@ -26,11 +26,11 @@ def make_parser():
 
     parser.add_argument('--log-level', choices=[
         'DEBUG', 'INFO', 'WARN', 'ERROR', 'FATAL'],
-                        default='INFO', help="Set the desired logging level")
+        default='INFO', help="Set the desired logging level")
 
     subparsers = parser.add_subparsers(
         title='Actions',
-        dest='command') # specified subcommand will be available in attribute 'command'
+        dest='command')  # specified subcommand will be available in attribute 'command'
     subparsers.required = True
 
     # mtblisa commands
@@ -45,7 +45,7 @@ def make_parser():
         help="Name of output archive (extension will be added)")
     subparser.add_argument('--format', metavar="FMT", choices=[
         'zip', 'tar', 'gztar', 'bztar', 'xztar'], default='zip',
-                           help="Type of archive to create")
+        help="Type of archive to create")
 
     subparser = subparsers.add_parser('mtbls-get-study', aliases=['gs'],
                                       help="Get ISA study from MetaboLights")
@@ -74,14 +74,14 @@ def make_parser():
         'factor', help="The desired factor. Use `get-factors` to get the list "
                        "of available factors")
     subparser.add_argument(
-        'output',nargs='?', type=argparse.FileType('w'), default=sys.stdout,
+        'output', nargs='?', type=argparse.FileType('w'), default=sys.stdout,
         help="Output file")
 
     subparser = subparsers.add_parser('mtbls-get-data-list', aliases=['gd'],
                                       help="Get data files list in json format")
     subparser.set_defaults(func=get_data_files_command)
     subparser.add_argument('study_id')
-    subparser.add_argument('output',nargs='?', type=argparse.FileType('w'), default=sys.stdout,
+    subparser.add_argument('output', nargs='?', type=argparse.FileType('w'), default=sys.stdout,
                            help="Output file")
     subparser.add_argument(
         '--json-query',
@@ -132,7 +132,7 @@ def make_parser():
         'factor', help="The desired factor. Use `get-factors` to get the list "
                        "of available factors")
     subparser.add_argument(
-        'output',nargs='?', type=argparse.FileType('w'), default=sys.stdout,
+        'output', nargs='?', type=argparse.FileType('w'), default=sys.stdout,
         help="Output file")
 
     subparser = subparsers.add_parser(
@@ -145,14 +145,14 @@ def make_parser():
         'factor', help="The desired factor. Use `get-factors` to get the list "
                        "of available factors")
     subparser.add_argument(
-        'output',nargs='?', type=argparse.FileType('w'), default=sys.stdout,
+        'output', nargs='?', type=argparse.FileType('w'), default=sys.stdout,
         help="Output file")
 
     subparser = subparsers.add_parser('isa-tab-get-data-list', aliases=['isagdl'],
                                       help="Get data files list in json format")
     subparser.set_defaults(func=isatab_get_data_files_list_command)
     subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab path")
-    subparser.add_argument('output',nargs='?', type=argparse.FileType('w'), default=sys.stdout,
+    subparser.add_argument('output', nargs='?', type=argparse.FileType('w'), default=sys.stdout,
                            help="Output file")
     subparser.add_argument(
         '--json-query',
@@ -165,7 +165,7 @@ def make_parser():
                                       help="Get data files list in json format")
     subparser.set_defaults(func=zip_get_data_files_list_command)
     subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab zip path")
-    subparser.add_argument('output',nargs='?', type=argparse.FileType('w'), default=sys.stdout,
+    subparser.add_argument('output', nargs='?', type=argparse.FileType('w'), default=sys.stdout,
                            help="Output file")
     subparser.add_argument(
         '--json-query',
@@ -467,7 +467,7 @@ def query_isatab(options):
                             data_files.extend(list(sample_rows[node_label]))
                     result['data_files'].extend(
                         list(set(i for i in list(data_files) if
-                                 str(i) not in  ('nan', ''))))
+                                 str(i) not in ('nan', ''))))
     results_json = {
         'query': query,
         'results': results
@@ -567,7 +567,7 @@ def get_factors_command(options):
 def get_factor_values_command(options):
     import json
     logger.info("Getting values for factor {factor} in study {study_id}. Writing to {output_file}."
-        .format(factor=options.factor, study_id=options.study_id, output_file=options.output.name))
+                .format(factor=options.factor, study_id=options.study_id, output_file=options.output.name))
     fvs = MTBLS.get_factor_values(options.study_id, options.factor)
     if fvs is not None:
         json.dump(list(fvs), options.output, indent=4)
@@ -871,19 +871,21 @@ def slice_data_files(dir, factor_selection=None):
                 table_headers = list(df.columns.values)
                 sample_rows = df.loc[df['Sample Name'] == sample_name]
 
-                data_node_labels = ['Raw Data File', 'Raw Spectral Data File',
-                            'Derived Spectral Data File',
-                            'Derived Array Data File',
-                            'Array Data File',
-                            'Protein Assignment File',
-                            'Peptide Assignment File',
-                            'Post Translational Modification Assignment File',
-                            'Acquisition Parameter Data File',
-                            'Free Induction Decay Data File',
-                            'Derived Array Data Matrix File',
-                            'Image File',
-                            'Derived Data File',
-                            'Metabolite Assignment File']
+                data_node_labels = [
+                    'Raw Data File',
+                    'Raw Spectral Data File',
+                    'Derived Spectral Data File',
+                    'Derived Array Data File',
+                    'Array Data File',
+                    'Protein Assignment File',
+                    'Peptide Assignment File',
+                    'Post Translational Modification Assignment File',
+                    'Acquisition Parameter Data File',
+                    'Free Induction Decay Data File',
+                    'Derived Array Data Matrix File',
+                    'Image File',
+                    'Derived Data File',
+                    'Metabolite Assignment File']
                 for node_label in data_node_labels:
                     if node_label in table_headers:
                         data_files.extend(list(sample_rows[node_label]))
@@ -898,7 +900,7 @@ def isatab_get_factor_names_command(options):
     input_path = next(iter(options.input_path))
     logger.info("Getting factors for study %s. Writing to %s.",
                 input_path, options.output.name)
-    _RX_FACTOR_VALUE = re.compile('Factor Value\[(.*?)\]')
+    _RX_FACTOR_VALUE = re.compile(r'Factor Value\[(.*?)\]')
     factors = set()
     for table_file in glob.iglob(os.path.join(input_path, '[a|s]_*')):
         with open(os.path.join(input_path, table_file)) as fp:
@@ -927,7 +929,7 @@ def zip_get_factor_names_command(options):
         import tempfile
         tmpdir = tempfile.mkdtemp()
         zfp.extractall(path=tmpdir)
-        _RX_FACTOR_VALUE = re.compile('Factor Value\[(.*?)\]')
+        _RX_FACTOR_VALUE = re.compile(r'Factor Value\[(.*?)\]')
         factors = set()
         for table_file in glob.iglob(os.path.join(tmpdir, '[a|s]_*')):
             logging.info('Searching {}'.format(table_file))
@@ -950,7 +952,7 @@ def zip_get_factor_names_command(options):
 def isatab_get_factor_values_command(options):
     import json
     logger.info("Getting values for factor {factor} in study {input_path}. Writing to {output_file}."
-        .format(factor=options.factor, input_path=options.input_path, output_file=options.output.name))
+                .format(factor=options.factor, input_path=options.input_path, output_file=options.output.name))
     fvs = set()
 
     input_path = options.input_path[-1]
@@ -986,8 +988,8 @@ def zip_get_factor_values_command(options):
                 input_path, options.output.name)
     logger.info("Getting values for factor {factor} in study {input_path}. "
                 "Writing to {output_file}.".format(
-        factor=options.factor, input_path=options.input_path,
-        output_file=options.output.name))
+                    factor=options.factor, input_path=options.input_path,
+                    output_file=options.output.name))
     fvs = set()
     factor_name = options.factor
 
@@ -1034,8 +1036,8 @@ def isatab_get_factors_summary_command(options):
 
     for sample in all_samples:
         sample_and_fvs = {
-                'sample_name': sample.name,
-            }
+            'sample_name': sample.name,
+        }
 
         for fv in sample.factor_values:
             if isinstance(fv.value, (str, int, float)):
@@ -1191,8 +1193,8 @@ def get_characteristics_summary(input_path):
     samples_and_characs = []
     for sample in all_samples:
         sample_and_characs = {
-                'name': sample.name
-            }
+            'name': sample.name
+        }
 
         for source in sample.derives_from:
             for c in source.characteristics:
@@ -1305,8 +1307,9 @@ def get_filtered_df_on_factors_list(input_path):
             df.columns = cols
 
         for query in queries:
-            df2 = df.query(query)  # query uses pandas.eval, which evaluates
-                                   # queries like pure Python notation
+            # query uses pandas.eval, which evaluates queries like pure Python
+            # notation
+            df2 = df.query(query)
             if 'Sample_Name' in df.columns:
                 print('Group: {query} / Sample_Name: {sample_name}'.format(
                     query=query, sample_name=list(df2['Sample_Name'])))
@@ -1317,8 +1320,8 @@ def get_filtered_df_on_factors_list(input_path):
 
             if 'Raw_Spectral_Data_File' in df.columns:
                 print('Group: {query} / Raw_Spectral_Data_File: {filename}'
-                    .format( query=query[13:-2],
-                             filename=list(df2['Raw_Spectral_Data_File'])))
+                      .format(query=query[13:-2],
+                              filename=list(df2['Raw_Spectral_Data_File'])))
     return queries
 
 
@@ -1343,7 +1346,7 @@ def _configure_logger(options):
 
     global logger
     logger = logging.getLogger()
-    logger.setLevel(logging_level) # there's a bug somewhere.  The level set through basicConfig isn't taking effect
+    logger.setLevel(logging_level)  # there's a bug somewhere.  The level set through basicConfig isn't taking effect
 
 
 def _parse_args(args):

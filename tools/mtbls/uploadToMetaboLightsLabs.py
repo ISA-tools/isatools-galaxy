@@ -19,18 +19,19 @@ Arguments:
     -s server [ "prod", "dev", "test" ]
 """
 
-import os
-import sys
 import argparse
 import ast
-import logging
+import glob
 import json
-import requests
+import logging
+import os
 import shutil
 import subprocess
+import sys
 import tempfile
-import glob
 import zipfile
+
+import requests
 
 api_token = None
 directories = []
@@ -105,13 +106,13 @@ Arguments:
         # Request MetaboLights Labs webservice for aspera upload configuration
         logging.info("Requesting project aspera upload configuration")
         asperaConfiguration = requestUploadConfiguration()
-        #logging.debug("(from Main) eval asperaConfiguration:" + eval(asperaConfiguration) + asperaConfiguration +" ??")
+        # logging.debug("(from Main) eval asperaConfiguration:" + eval(asperaConfiguration) + asperaConfiguration +" ??")
         logging.info("Required project details obtained")
         # Compile the aspera CLI command from the configuration
         logging.info("Compiling aspera command")
         asperaCommand = compileAsperaCommand(asperaConfiguration)
         logging.info("asperaConfiguration: " + asperaConfiguration[0] + asperaConfiguration[1] + asperaConfiguration[2] + asperaConfiguration[3] + asperaConfiguration[4] )
-        #logging.info("asperaConfiguration: " + asperaConfiguration["content"]["asperaServer"] )
+        # logging.info("asperaConfiguration: " + asperaConfiguration["content"]["asperaServer"] )
         logging.info("Checking aspera Environment variables")
         executeAsperaUpload(asperaCommand)
     else:
@@ -154,15 +155,15 @@ def compileAsperaCommand(asperaConfiguration):
     logging.info("Project Location: " + "'/" + env + "/userSpace/" + asperaConfiguration_asDict['asperaURL'] + "'")
     # asperaSecret = asperaConfiguration["asperaSecret"]
     asperaSecret = asperaConfiguration_asDict['asperaSecret']
-    #logging.info("aspera secret:"  + asperaConfiguration_asDict['asperaSecret'])
-    return [asperaSecret,"ascp -QT -P 33001 -L . -l 300M " + filesLocation + " " + remoteHost]
+    # logging.info("aspera secret:"  + asperaConfiguration_asDict['asperaSecret'])
+    return [asperaSecret, "ascp -QT -P 33001 -L . -l 300M " + filesLocation + " " + remoteHost]
 
 
 def requestUploadConfiguration():
-    #logging.basicConfig(file=sys.stderr, level=logging.DEBUG)
+    # logging.basicConfig(file=sys.stderr, level=logging.DEBUG)
     # Requesting MetaboLightsLabs Webservice for the project configuration
-    url = serverPortDictionary[env][
-              "server"] + "webservice/labs-workspace/asperaConfiguration"
+    url = serverPortDictionary[env]["server"] \
+        + "webservice/labs-workspace/asperaConfiguration"
     payload = json.dumps({'api_token': api_token, 'project_id': project_id,
                           'new_project_flag': new_project_flag})
     headers = {'content-type': "application/json", 'cache-control': "no-cache"}
