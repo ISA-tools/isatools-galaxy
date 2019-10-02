@@ -1,4 +1,5 @@
 <tool id="isa_factors_viz" name="isa_factors_viz" version="0.5">
+    <description>Visualizes factors and its values on ISA-Tab and MetaboLights factors JSON</description>
     <requirements>
         <requirement type="package" version="1.10.4">r-data.table</requirement>
         <requirement type="package" version="1.5">r-jsonlite</requirement>
@@ -8,7 +9,7 @@
     <stdio>
         <exit_code range="1:" />
     </stdio>
-    <description>Visualizes factors and its values on ISA-Tab and MetaboLights factors JSON</description>
+    
     <command><![CDATA[
     #if $input_type_conditional.input_type == "mtbls-id"
         $__tool_directory__/makeParallelCoordsPlot.R -s "$input_type_conditional.mtbls_id" -o \$PWD

@@ -36,7 +36,7 @@
             <param name="isatab_input" value="BII-S-7.zip" ftype="isa-tab"/>
             <param name="slice_input" value="sliced_result.json" ftype="json"/>
             <param name="filename_filter" value="i_*.txt"/>
-            <output name="output" compare="sim_size">
+            <output name="log_file" compare="sim_size">
                 <extra_files type="file" name="i_investigation.txt" value="i_investigation.txt" compare="re_match"/>
             </output>
         </test>
