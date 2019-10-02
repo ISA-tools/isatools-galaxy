@@ -8,7 +8,7 @@ output_file_path = sys.argv[2]
 
 try:
     from isatools.convert import isatab2json
-except ImportError as e:
+except ImportError:
     raise RuntimeError('Could not import isatools package')
 
 isatab_dir = input_path

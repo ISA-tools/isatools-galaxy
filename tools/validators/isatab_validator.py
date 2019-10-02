@@ -2,9 +2,10 @@
 import glob
 import json
 import os
+import shutil
 import sys
-import zipfile
 import tempfile
+import zipfile
 
 input_path = sys.argv[1]
 json_output_path = sys.argv[2]
@@ -12,7 +13,7 @@ html_output_path = sys.argv[3]
 
 try:
     from isatools import isatab
-except ImportError as e:
+except ImportError:
     raise RuntimeError('Could not import isatools.isatab package')
 
 tmp_dir = tempfile.mkdtemp()
@@ -35,7 +36,6 @@ if len(i_files) == 1:
         if json_report is not None:
             with open(json_output_path, 'w') as out_fp:
                 json.dump(json_report, out_fp, indent=4)
-import shutil
 shutil.rmtree(tmp_dir)
 
 
