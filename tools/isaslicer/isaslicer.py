@@ -108,7 +108,7 @@ def make_parser():
         'isa-tab-get-factors', aliases=['isagf'],
         help="Get factor names from a study in json format")
     subparser.set_defaults(func=isatab_get_factor_names_command)
-    subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab path")
+    subparser.add_argument('input_path', type=str, help="Input ISA-Tab path")
     subparser.add_argument(
         'output', nargs='?', type=argparse.FileType('w'), default=sys.stdout,
         help="Output file")
@@ -117,7 +117,7 @@ def make_parser():
         'zip-get-factors', aliases=['zipgf'],
         help="Get factor names from a study in json format")
     subparser.set_defaults(func=zip_get_factor_names_command)
-    subparser.add_argument('input_path', nargs=1, type=str,
+    subparser.add_argument('input_path', type=str,
                            help="Input ISA-Tab zip path")
     subparser.add_argument(
         'output', nargs='?', type=argparse.FileType('w'), default=sys.stdout,
@@ -127,7 +127,7 @@ def make_parser():
         'isa-tab-get-factor-values', aliases=['isagfv'],
         help="Get factor values from a study in json format")
     subparser.set_defaults(func=isatab_get_factor_values_command)
-    subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab path")
+    subparser.add_argument('input_path', type=str, help="Input ISA-Tab path")
     subparser.add_argument(
         'factor', help="The desired factor. Use `get-factors` to get the list "
                        "of available factors")
@@ -139,7 +139,7 @@ def make_parser():
         'zip-get-factor-values', aliases=['zipgfv'],
         help="Get factor values from a study in json format")
     subparser.set_defaults(func=zip_get_factor_values_command)
-    subparser.add_argument('input_path', nargs=1, type=str,
+    subparser.add_argument('input_path', type=str,
                            help="Input ISA-Tab zip path")
     subparser.add_argument(
         'factor', help="The desired factor. Use `get-factors` to get the list "
@@ -151,7 +151,7 @@ def make_parser():
     subparser = subparsers.add_parser('isa-tab-get-data-list', aliases=['isagdl'],
                                       help="Get data files list in json format")
     subparser.set_defaults(func=isatab_get_data_files_list_command)
-    subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab path")
+    subparser.add_argument('input_path', type=str, help="Input ISA-Tab path")
     subparser.add_argument('output', nargs='?', type=argparse.FileType('w'), default=sys.stdout,
                            help="Output file")
     subparser.add_argument(
@@ -164,7 +164,7 @@ def make_parser():
     subparser = subparsers.add_parser('zip-get-data-list', aliases=['zipgdl'],
                                       help="Get data files list in json format")
     subparser.set_defaults(func=zip_get_data_files_list_command)
-    subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab zip path")
+    subparser.add_argument('input_path', type=str, help="Input ISA-Tab zip path")
     subparser.add_argument('output', nargs='?', type=argparse.FileType('w'), default=sys.stdout,
                            help="Output file")
     subparser.add_argument(
@@ -177,8 +177,8 @@ def make_parser():
     subparser = subparsers.add_parser('isa-tab-get-data-collection', aliases=['isagdc'],
                                       help="Get data files collection")
     subparser.set_defaults(func=isatab_get_data_files_collection_command)
-    subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab path")
-    subparser.add_argument('output_path', nargs=1, type=str, help="Output data files path")
+    subparser.add_argument('input_path', type=str, help="Input ISA-Tab path")
+    subparser.add_argument('output_path', type=str, help="Output data files path")
     subparser.add_argument(
         '--json-query',
         help="Factor query in JSON (e.g., '{\"Gender\":\"Male\"}'")
@@ -189,8 +189,8 @@ def make_parser():
     subparser = subparsers.add_parser('zip-get-data-collection', aliases=['zipgdc'],
                                       help="Get data files collection")
     subparser.set_defaults(func=zip_get_data_files_collection_command)
-    subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab zip path")
-    subparser.add_argument('output_path', nargs=1, type=str, help="Output data files path")
+    subparser.add_argument('input_path', type=str, help="Input ISA-Tab zip path")
+    subparser.add_argument('output_path', type=str, help="Output data files path")
     subparser.add_argument(
         '--json-query',
         help="Factor query in JSON (e.g., '{\"Gender\":\"Male\"}'")
@@ -199,7 +199,7 @@ def make_parser():
         'isa-tab-get-factors-summary', aliases=['isasum'],
         help="Get the variables summary from a study, in json format")
     subparser.set_defaults(func=isatab_get_factors_summary_command)
-    subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab path")
+    subparser.add_argument('input_path', type=str, help="Input ISA-Tab path")
     subparser.add_argument(
         'output', nargs='?', type=argparse.FileType('w'), default=sys.stdout,
         help="Output file")
@@ -208,7 +208,7 @@ def make_parser():
         'zip-get-factors-summary', aliases=['zipsum'],
         help="Get the variables summary from a study, in json format")
     subparser.set_defaults(func=zip_get_factors_summary_command)
-    subparser.add_argument('input_path', nargs=1, type=str,
+    subparser.add_argument('input_path', type=str,
                            help="Input ISA-Tab zip path")
     subparser.add_argument(
         'json_output', nargs='?', type=argparse.FileType('w'),
@@ -223,21 +223,21 @@ def make_parser():
         'isaslicer2-slice', aliases=['slice2'],
         help="Slice ISA-Tabs version 2")
     subparser.set_defaults(func=query_isatab)
-    subparser.add_argument('--source_dir', nargs=1, type=str,
+    subparser.add_argument('--source_dir', type=str,
                            help="Input ISA-Tab zip path")
     subparser.add_argument(
         '--galaxy_parameters_file', type=argparse.FileType(mode='r'),
         help="Path to JSON file containing input Galaxy JSON")
-    subparser.add_argument('--output', nargs=1, type=argparse.FileType(mode='w'),
+    subparser.add_argument('--output', type=argparse.FileType(mode='w'),
                            help="Input ISA-Tab zip path")
 
     subparser = subparsers.add_parser(
         'filter-data', aliases=['filter'],
         help="Filter out data based on slicer2")
     subparser.set_defaults(func=filter_data)
-    subparser.add_argument('input_path', nargs=1, type=str, help="Input ISA-Tab path")
-    subparser.add_argument('output_path', nargs=1, type=str, help="Output data files path")
-    subparser.add_argument('--slice', nargs=1, type=argparse.FileType(mode='r'),
+    subparser.add_argument('input_path', type=str, help="Input ISA-Tab path")
+    subparser.add_argument('output_path', type=str, help="Output data files path")
+    subparser.add_argument('--slice', type=argparse.FileType(mode='r'),
                            help="slice")
     subparser.add_argument('--filename_filter', type=str, help="shell-like wildcard to filter files")
 
@@ -246,14 +246,14 @@ def make_parser():
 
 def filter_data(options):
     loglines = []
-    source_dir = options.input_path[0] if options.input_path else ""
-    output_path = options.output_path[0]
+    source_dir = options.input_path if options.input_path else ""
+    output_path = options.output_path
     filename_filter = options.filename_filter
     if source_dir:
         if not os.path.exists(source_dir):
             raise IOError('Source path does not exist!')
     data_files = []
-    slice_json = options.slice[0]
+    slice_json = options.slice
     for result in json.load(slice_json)['results']:
         data_files.extend(result.get('data_files', []))
     reduced_data_files = list(set(data_files))
@@ -262,7 +262,7 @@ def filter_data(options):
     for filepath in filtered_files:
         if os.path.basename(filepath) in reduced_data_files:
             to_copy.append(filepath)
-    loglines.append("Using slice results from {}\n".format(slice_json))
+    loglines.append("Using slice results from {}\n".format(slice_json.name))
     for filepath in to_copy:
         loglines.append("Copying {}\n".format(os.path.basename(filepath)))
         # try:
@@ -282,9 +282,9 @@ def filter_data(options):
 
 
 def query_isatab(options):
-    source_dir = options.source_dir[0] if options.source_dir else ""
+    source_dir = options.source_dir if options.source_dir else ""
     galaxy_parameters_file = options.galaxy_parameters_file
-    output = options.output[0]
+    output = options.output
 
     debug = True
     if galaxy_parameters_file:
@@ -532,7 +532,6 @@ def get_study_command(options):
                 logger.debug("Deleting %s, if there's anything there", tmp_data)
                 shutil.rmtree(tmp_data, ignore_errors=True)
     elif options.isa_format == "isa-json":
-        import json
         isajson = MTBLS.getj(options.study_id)
         if isajson is None:
             raise RuntimeError("Error downloading ISA study")
@@ -552,8 +551,6 @@ def get_study_command(options):
 
 
 def get_factors_command(options):
-    import json
-
     logger.info("Getting factors for study %s. Writing to %s.",
                 options.study_id, options.output.name)
     factor_names = MTBLS.get_factor_names(options.study_id)
@@ -565,7 +562,6 @@ def get_factors_command(options):
 
 
 def get_factor_values_command(options):
-    import json
     logger.info("Getting values for factor {factor} in study {study_id}. Writing to {output_file}."
                 .format(factor=options.factor, study_id=options.study_id, output_file=options.output.name))
     fvs = MTBLS.get_factor_values(options.study_id, options.factor)
@@ -698,7 +694,7 @@ def isatab_get_data_files_list_command(options):
         logger.debug("No query was specified")
         json_struct = None
     factor_selection = json_struct
-    input_path = next(iter(options.input_path))
+    input_path = options.input_path
     result = slice_data_files(input_path, factor_selection=factor_selection)
     data_files = result
     logger.debug("Result data files list: %s", data_files)
@@ -728,7 +724,7 @@ def zip_get_data_files_list_command(options):
         logger.debug("No query was specified")
         json_struct = None
     factor_selection = json_struct
-    input_path = next(iter(options.input_path))
+    input_path = options.input_path
     with zipfile.ZipFile(input_path) as zfp:
         tmpdir = tempfile.mkdtemp()
         zfp.extractall(path=tmpdir)
@@ -750,7 +746,7 @@ def isatab_get_data_files_collection_command(options):
         logger.debug("This is the specified query:\n%s", options.json_query)
     else:
         logger.debug("No query was specified")
-    input_path = next(iter(options.input_path))
+    input_path = options.input_path
     if options.json_query is not None:
         json_struct = json.loads(options.json_query)
     elif options.galaxy_parameters_file:
@@ -770,7 +766,7 @@ def isatab_get_data_files_collection_command(options):
     logger.debug("Result data files list: %s", data_files)
     if data_files is None:
         raise RuntimeError("Error getting data files with isatools")
-    output_path = next(iter(options.output_path))
+    output_path = options.output_path
     logger.debug("copying data files to %s", output_path)
     for result in data_files:
         for data_file_name in result['data_files']:
@@ -786,15 +782,14 @@ def zip_get_data_files_collection_command(options):
         logger.debug("This is the specified query:\n%s", options.json_query)
     else:
         logger.debug("No query was specified")
-    input_path = next(iter(options.input_path))
-    output_path = next(iter(options.output_path))
+    input_path = options.input_path
+    output_path = options.output_path
     if options.json_query is not None:
         json_struct = json.loads(options.json_query)
         factor_selection = json_struct
     else:
         factor_selection = None
     with zipfile.ZipFile(input_path) as zfp:
-        import tempfile
         tmpdir = tempfile.mkdtemp()
         zfp.extractall(path=tmpdir)
         result = slice_data_files(tmpdir, factor_selection=factor_selection)
@@ -896,8 +891,7 @@ def slice_data_files(dir, factor_selection=None):
 
 
 def isatab_get_factor_names_command(options):
-    import json
-    input_path = next(iter(options.input_path))
+    input_path = options.input_path
     logger.info("Getting factors for study %s. Writing to %s.",
                 input_path, options.output.name)
     _RX_FACTOR_VALUE = re.compile(r'Factor Value\[(.*?)\]')
@@ -919,14 +913,11 @@ def isatab_get_factor_names_command(options):
 
 
 def zip_get_factor_names_command(options):
-    import json
-    input_path = next(iter(options.input_path))
+    input_path = options.input_path
     logger.info("Getting factors for study %s. Writing to %s.",
                 input_path, options.output.name)
     # unpack input_path
-    import zipfile
     with zipfile.ZipFile(input_path) as zfp:
-        import tempfile
         tmpdir = tempfile.mkdtemp()
         zfp.extractall(path=tmpdir)
         _RX_FACTOR_VALUE = re.compile(r'Factor Value\[(.*?)\]')
@@ -950,12 +941,11 @@ def zip_get_factor_names_command(options):
 
 
 def isatab_get_factor_values_command(options):
-    import json
     logger.info("Getting values for factor {factor} in study {input_path}. Writing to {output_file}."
                 .format(factor=options.factor, input_path=options.input_path, output_file=options.output.name))
     fvs = set()
 
-    input_path = options.input_path[-1]
+    input_path = options.input_path
     factor_name = options.factor
 
     for table_file in glob.iglob(os.path.join(input_path, '[a|s]_*')):
@@ -983,7 +973,7 @@ def isatab_get_factor_values_command(options):
 
 
 def zip_get_factor_values_command(options):
-    input_path = next(iter(options.input_path))
+    input_path = options.input_path
     logger.info("Getting factors for study %s. Writing to %s.",
                 input_path, options.output.name)
     logger.info("Getting values for factor {factor} in study {input_path}. "
@@ -1025,7 +1015,7 @@ def zip_get_factor_values_command(options):
 def isatab_get_factors_summary_command(options):
     logger.info("Getting summary for study %s. Writing to %s.",
                 options.input_path, options.output.name)
-    input_path = options.input_path[-1]
+    input_path = options.input_path
     ISA = isatab.load(input_path)
 
     all_samples = []
@@ -1068,7 +1058,7 @@ def isatab_get_factors_summary_command(options):
 def zip_get_factors_summary_command(options):
     logger.info("Getting summary for study %s. Writing to %s.",
                 options.input_path, options.json_output.name)
-    input_path = next(iter(options.input_path))
+    input_path = options.input_path
     with zipfile.ZipFile(input_path) as zfp:
         tmpdir = tempfile.mkdtemp()
         zfp.extractall(path=tmpdir)

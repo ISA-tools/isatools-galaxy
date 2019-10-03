@@ -1,28 +1,368 @@
 {
-  "results": [
-    {
-      "sample_name": "03_RIN_51"
+    "query": {
+        "characteristics_selection": [],
+        "parameter_selection": [],
+        "technology_type": "",
+        "measurement_type": "metabolite profiling",
+        "factor_selection": [
+            {
+                "factor_value": "RIN",
+                "factor_name": "Cultivars"
+            }
+        ]
     },
-    {
-      "sample_name": "02_RIN_51"
-    },
-    {
-      "sample_name": "01_RIN_51"
-    }
-  ],
-  "query": {
-    "sample_material_type": "",
-    "factor_selection": [
-      {
-        "factor_name": "Cultivars",
-        "factor_value": "RIN"
-      },
-      {
-        "factor_name": "Sample Time",
-        "factor_value": "51"
-      }
-    ],
-    "measurement_type": "metabolite profiling",
-    "technology_type": ""
-  }
+    "results": [
+        {
+            "sample_name": "02_RIN_47",
+            "data_files": [
+                "neg_20100924_15_RIN_47.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "20100920_15_RIN_47.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "01_RIN_49",
+            "data_files": [
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "neg_20100923_45_RIN_49.mzML",
+                "20100917_60_RIN_49.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "02_RIN_51",
+            "data_files": [
+                "neg_20100924_21_RIN_51.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "20100920_21_RIN_51.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "03_RIN_48",
+            "data_files": [
+                "neg_20100927_38_RIN_48.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "20100921_16_RIN_48.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "02_RIN_54",
+            "data_files": [
+                "neg_20100924_50_RIN_54.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "20100920_50_RIN_54.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "03_RIN_40",
+            "data_files": [
+                "neg_20100927_64_RIN_40.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "20100921_58_RIN_40.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "01_RIN_15",
+            "data_files": [
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "neg_20100923_34_RIN_15.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv",
+                "20100917_71_RIN_15.mzML"
+            ]
+        },
+        {
+            "sample_name": "01_RIN_25",
+            "data_files": [
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "neg_20100923_48_RIN_25.mzML",
+                "20100917_55_RIN_25.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "03_RIN_25",
+            "data_files": [
+                "neg_20100927_55_RIN_25.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "20100921_48_RIN_25.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "01_RIN_40",
+            "data_files": [
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "neg_20100923_58_RIN_40.mzML",
+                "20100917_64_RIN_40.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "01_RIN_47",
+            "data_files": [
+                "neg_20100923_66_RIN_47.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "20100917_11_RIN_47.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "01_RIN_48",
+            "data_files": [
+                "neg_20100923_16_RIN_48.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "20100917_38_RIN_48.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "02_RIN_25",
+            "data_files": [
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "neg_20100924_07_RIN_25.mzML",
+                "20100920_07_RIN_25.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "01_RIN_30",
+            "data_files": [
+                "neg_20100923_77_RIN_30.mzML",
+                "neg_20100923_38_RIN_30.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "20100917_16_RIN_30.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "01_RIN_51",
+            "data_files": [
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "neg_20100923_06_RIN_51.mzML",
+                "20100917_44_RIN_51.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "02_RIN_52",
+            "data_files": [
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "neg_20100924_59_RIN_52.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv",
+                "20100920_59_RIN_52.mzML"
+            ]
+        },
+        {
+            "sample_name": "03_RIN_20",
+            "data_files": [
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "neg_20100927_48_RIN_20.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv",
+                "20100921_13_RIN_20.mzML"
+            ]
+        },
+        {
+            "sample_name": "01_RIN_54",
+            "data_files": [
+                "neg_20100923_54_RIN_54.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "20100917_28_RIN_54.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "03_RIN_47",
+            "data_files": [
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "neg_20100927_11_RIN_47.mzML",
+                "20100921_66_RIN_47.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "02_RIN_20",
+            "data_files": [
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "neg_20100924_32_RIN_20.mzML",
+                "20100920_32_RIN_20.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "02_RIN_48",
+            "data_files": [
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "neg_20100924_53_RIN_48.mzML",
+                "20100920_53_RIN_48.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "03_RIN_30",
+            "data_files": [
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "neg_20100927_16_RIN_30.mzML",
+                "20100921_38_RIN_30.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "02_RIN_30",
+            "data_files": [
+                "neg_20100924_12_RIN_30.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv",
+                "20100920_12_RIN_30.mzML"
+            ]
+        },
+        {
+            "sample_name": "01_RIN_50",
+            "data_files": [
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "neg_20100923_69_RIN_50.mzML",
+                "20100917_31_RIN_50.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "02_RIN_49",
+            "data_files": [
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "neg_20100924_62_RIN_49.mzML",
+                "20100920_62_RIN_49.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "01_RIN_20",
+            "data_files": [
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "neg_20100923_13_RIN_20.mzML",
+                "20100917_48_RIN_20.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "03_RIN_54",
+            "data_files": [
+                "neg_20100927_28_RIN_54.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "20100921_54_RIN_54.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "02_RIN_53",
+            "data_files": [
+                "neg_20100924_28_RIN_53.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv",
+                "20100920_28_RIN_53.mzML"
+            ]
+        },
+        {
+            "sample_name": "02_RIN_15",
+            "data_files": [
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "neg_20100924_45_RIN_15.mzML",
+                "20100920_45_RIN_15.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "01_RIN_53",
+            "data_files": [
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "neg_20100923_23_RIN_53.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv",
+                "20100917_05_RIN_53.mzML"
+            ]
+        },
+        {
+            "sample_name": "03_RIN_50",
+            "data_files": [
+                "neg_20100927_31_RIN_50.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "20100921_69_RIN_50.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "03_RIN_52",
+            "data_files": [
+                "neg_20100927_23_RIN_52.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv",
+                "20100921_27_RIN_52.mzML"
+            ]
+        },
+        {
+            "sample_name": "03_RIN_53",
+            "data_files": [
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "neg_20100927_05_RIN_53.mzML",
+                "20100921_23_RIN_53.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "03_RIN_51",
+            "data_files": [
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "neg_20100927_44_RIN_51.mzML",
+                "20100921_06_RIN_51.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "02_RIN_50",
+            "data_files": [
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "neg_20100924_71_RIN_50.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv",
+                "20100920_71_RIN_50.mzML"
+            ]
+        },
+        {
+            "sample_name": "03_RIN_15",
+            "data_files": [
+                "neg_20100927_71_RIN_15.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv",
+                "20100921_34_RIN_15.mzML"
+            ]
+        },
+        {
+            "sample_name": "03_RIN_49",
+            "data_files": [
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "neg_20100927_60_RIN_49.mzML",
+                "20100921_45_RIN_49.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "01_RIN_52",
+            "data_files": [
+                "neg_20100923_27_RIN_52.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "20100917_23_RIN_52.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        },
+        {
+            "sample_name": "02_RIN_40",
+            "data_files": [
+                "neg_20100924_37_RIN_40.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry-1_v2_maf.tsv",
+                "20100920_37_RIN_40.mzML",
+                "m_esb tomato_metabolite profiling_mass spectrometry_v2_maf.tsv"
+            ]
+        }
+    ]
 }
