@@ -116,7 +116,6 @@ Arguments:
         asperaCommand = compileAsperaCommand(asperaConfiguration)
         logging.info("asperaConfiguration: " + asperaConfiguration[0] + asperaConfiguration[1] + asperaConfiguration[2] + asperaConfiguration[3] + asperaConfiguration[4] )
         logging.info("asperaConfiguration full: " + asperaConfiguration)
-       
         # logging.info("asperaConfiguration: " + asperaConfiguration["content"]["asperaServer"] )
         logging.info("Checking aspera Environment variables")
         executeAsperaUpload(asperaCommand)
