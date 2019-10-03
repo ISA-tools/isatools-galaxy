@@ -2,8 +2,7 @@
 <tool id="ISAslicer2" name="ISAslicer2" version="2.0">
     <description>Query and get a slice of data files from an ISA study</description>
     <requirements>
-        <requirement type="package" version="6.7">click</requirement>
-        <requirement type="package" version="0.10.0">isatools</requirement>
+        <requirement type="package" version="0.10.3">isatools</requirement>
     </requirements>
     <stdio>
         <exit_code range="1:" level="fatal"/>

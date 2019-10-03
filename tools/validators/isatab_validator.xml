@@ -3,7 +3,7 @@
     <description>Produce a validation report on an ISA-Tab</description>
 
     <requirements>
-        <requirement type="package" version="0.10.0">isatools</requirement>
+        <requirement type="package" version="0.10.3">isatools</requirement>
     </requirements>
 
     <stdio>
@@ -11,15 +11,14 @@
     </stdio>
 
     <command><![CDATA[
-        $__tool_directory__/isatab_validator.py "$isatab_input.extra_files_path" "$json_output" "$html_output"
-  ]]>
-    </command>
+$__tool_directory__/isatab_validator.py "$isatab_input.extra_files_path" "$json_output" "$html_output"
+    ]]></command>
     <inputs>
-        <param name="isatab_input" label="ISA" type="data" format="isa-tab"/>
+        <param name="isatab_input" type="data" format="isa-tab" label="ISA"/>
     </inputs>
     <outputs>
-        <data format="json" name="json_output" label="Validation report in JSON format."/>
-        <data format="html" name="html_output" label="Validation report in HTML format."/>
+        <data name="json_output" format="json" label="Validation report in JSON format."/>
+        <data name="html_output" format="html" label="Validation report in HTML format."/>
     </outputs>
 
     <tests>
