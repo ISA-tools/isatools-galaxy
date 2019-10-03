@@ -4,13 +4,13 @@ Term Source File
 Term Source Version
 Term Source Description
 INVESTIGATION
-Investigation Identifier	
+Investigation Identifier	ST000002
 Investigation Title	
 Investigation Description	
 Investigation Submission Date	
 Investigation Public Release Date	
 Comment[Primary Database]	NIH Metabolomics Workbench
-Comment[conversion date]	2018-06-21
+Comment[conversion date]	2019-08-20
 Comment[conversion performer email]	philippe.rocca-serra@oerc.ox.ac.uk
 Comment[conversion software]	MW2ISA version 1.0
 INVESTIGATION PUBLICATIONS
@@ -34,18 +34,18 @@ Investigation Person Roles
 Investigation Person Roles Term Accession Number
 Investigation Person Roles Term Source REF
 STUDY
-Study Identifier	ST000110
-Study Title	SIRM Analysis of human P493 cells under hypoxia in [U-13C/15N] labeledmedium (Both positive and ion mode FTMS)
-Study Description	 SIRM Analysis of MYC inducible P493 cells under normoxia and hypoxia in labeled Glutamine medium
+Study Identifier	ST000002
+Study Title	Intestinal Samples II pre/post transplantation
+Study Description	 Intestinal Samples II pre/post transplantation
 Study Submission Date	
 Study Public Release Date	2016-09-17
-Study File Name	s_ST000110.txt
+Study File Name	s_ST000002.txt
 Comment[MW creation date]	2016-09-17
 Comment[Version]	1
-Comment[number of study groups]	4
-Comment[total number of subjects]	8
+Comment[number of study groups]	2
+Comment[total number of subjects]	12
 STUDY DESIGN DESCRIPTORS
-Study Design Type	tracer
+Study Design Type	MS analysis
 Study Design Type Term Accession Number	
 Study Design Type Term Source REF	
 STUDY PUBLICATIONS
@@ -57,43 +57,43 @@ Study Publication Status
 Study Publication Status Term Accession Number	
 Study Publication Status Term Source REF	
 STUDY FACTORS
-Study Factor Name	Oxygen Condition	Treatment
-Study Factor Type	Oxygen Condition	Treatment
-Study Factor Type Term Accession Number		
-Study Factor Type Term Source REF	OBI	OBI
+Study Factor Name	Transplantation
+Study Factor Type	Transplantation
+Study Factor Type Term Accession Number	
+Study Factor Type Term Source REF	OBI
 STUDY ASSAYS
-Study Assay File Name	a_ST000110_AN000183.txt	a_ST000110_AN000184.txt	a_ST000110_AN000185.txt
-Study Assay Measurement Type	metabolite profiling	metabolite profiling	metabolite profiling
-Study Assay Measurement Type Term Accession Number			
-Study Assay Measurement Type Term Source REF	OBI	OBI	OBI
-Study Assay Technology Type	mass spectrometry	mass spectrometry	mass spectrometry
-Study Assay Technology Type Term Accession Number			
-Study Assay Technology Type Term Source REF	OBI	OBI	OBI
-Study Assay Technology Platform			
+Study Assay File Name	a_ST000002_AN000002.txt
+Study Assay Measurement Type	metabolite profiling
+Study Assay Measurement Type Term Accession Number	
+Study Assay Measurement Type Term Source REF	OBI
+Study Assay Technology Type	mass spectrometry
+Study Assay Technology Type Term Accession Number	
+Study Assay Technology Type Term Source REF	OBI
+Study Assay Technology Platform	
 STUDY PROTOCOLS
 Study Protocol Name	sample collection protocol	metabolite extraction protocol	treatment protocol	chromatography protocol	mass spectrometry protocol	nuclear magnetic resonance spectroscopy protocol	identification protocol	annotation protocol
 Study Protocol Type	material collection	material preparation	material processing	chromatography	mass spectrometry	nmr spectroscopy	identification	annotation
 Study Protocol Type Term Accession Number								
 Study Protocol Type Term Source REF								
-Study Protocol Description	 -	 -	 -		 FTMS Analytical Experiment with detection of compounds with unique CHONPS formulas.		ridiculous	
+Study Protocol Description	 -	 -	 -				ridiculous	
 Study Protocol URI								
 Study Protocol Version								
-Study Protocol Parameters Name				chromatography type;chromatography instrument;chromatography column;injection temperature;flow rate;solvent a;solvent b;chromatography setting file	mass spectrometry instrument;mass spectrometry instrument type;mass spectrometry type;ion mode;ionization mode;injection mode;acquisition file	nmr tube size;chemical shift reference compound;nmr solvent;zero filling;spectrometer frequency;relaxation delay;apodization;number of scans;baseline correction method;nmr solvent;nmr probe;nmr type;shimming method;nmr instrument;pulse program	analysis file;software	
-Study Protocol Parameters Name Term Accession Number				;;;;;;;	;;;;;;	;;;;;;;;;;;;;;	;	
-Study Protocol Parameters Name Term Source REF				;;;;;;;	;;;;;;	;;;;;;;;;;;;;;	;	
+Study Protocol Parameters Name				chromatography type;chromatography instrument;chromatography column;injection temperature;flow rate;solvent a;solvent b;chromatography setting file	mass spectrometry instrument;mass spectrometry instrument type;mass spectrometry type;ion mode;laser;matrix;nebulizer;octpole voltage;IT side octpole bias voltage;CDL side octpole bias voltage;CDL temperature;probe tip;resolution setting;sample dripping;ionization mode;injection mode;acquisition file	nmr tube size;chemical shift reference compound;nmr solvent;zero filling;spectrometer frequency;relaxation delay;apodization;number of scans;baseline correction method;nmr solvent;nmr probe;nmr type;shimming method;nmr instrument;pulse program	analysis file;software	
+Study Protocol Parameters Name Term Accession Number				;;;;;;;	;;;;;;;;;;;;;;;;	;;;;;;;;;;;;;;	;	
+Study Protocol Parameters Name Term Source REF				;;;;;;;	;;;;;;;;;;;;;;;;	;;;;;;;;;;;;;;	;	
 Study Protocol Components Name								
 Study Protocol Components Type								
 Study Protocol Components Type Term Accession Number								
 Study Protocol Components Type Term Source REF								
 STUDY CONTACTS
-Study Person Last Name	Fan
-Study Person First Name	Teresa
+Study Person Last Name	Hartman
+Study Person First Name	Amber
 Study Person Mid Initials	
-Study Person Email	twmfan@gmail.com
+Study Person Email	-
 Study Person Phone	
 Study Person Fax	
-Study Person Address	, -
-Study Person Affiliation	University of Kentucky, Toxicology
+Study Person Address	, 451 E. Health Sci. Drive, Davis, California 95616, USA
+Study Person Affiliation	University of California, Davis, Davis Genome Center, Fiehn
 Study Person Roles	
 Study Person Roles Term Accession Number	
 Study Person Roles Term Source REF	

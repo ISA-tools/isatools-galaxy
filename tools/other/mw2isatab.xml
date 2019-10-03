@@ -8,23 +8,34 @@
         mkdir study_dir &&
         mkdir -p '${output.files_path}' &&
         $__tool_directory__/mw2isatab.py '$mw_study_id' study_dir &&
-        cp -r study_dir/$mw_study_id/* '${output.files_path}'
+          cp -r study_dir/$mw_study_id/* '${output.files_path}'
 ]]>
     </command>
     <inputs>
-        <param name="mw_study_id" type="text" label="Metabolomics Workbench Study Identifier" help="MW study ID available at Metabolomics Workbench, e.g. ST000110."/>
+        <param name="mw_study_id" type="text" label="Metabolomics Workbench Study Identifier" help="MW study ID available at Metabolomics Workbench, e.g. ST000001."/>
     </inputs>
     <outputs>
-        <data name="output" format="isa-tab" label="$(mw_study_id) ISA-Tab"/>
+        <data name="output" format="isa-tab" label="$(mw_study_id)"/>
     </outputs>
     <tests>
         <test>
-            <param name="mw_study_id" value="ST000110"/>
+            <param name="mw_study_id" value="ST000002"/>
             <output name="output" compare="sim_size">
-                <extra_files type="file" name="i_investigation.txt" value="i_investigation.txt" compare="re_match"/>
-                <extra_files type="file" name="s_ST000110.txt" value="s_ST000110.txt" compare="re_match"/>
+                <extra_files type="file" name="i_investigation.txt" value="i_investigation.txt" lines_diff="8"/>
+<!--                <extra_files type="file" name="s_ST000002.txt" value="s_ST000002.txt"/>
+                <extra_files type="file" name="a_ST000002_AN000002.txt" value="a_ST000002_AN000002.txt"/>-->
             </output>
         </test>
+<!--        <test>
+            <param name="mw_study_id" value="ST000110"/>
+            <output name="output">
+                <extra_files type="file" name="i_investigation.txt" value="i_investigation.txt" lines_diff="8"/>
+                <extra_files type="file" name="s_ST000110.txt" value="s_ST000110.txt"/>
+                <extra_files type="file" name="a_ST000110_AN000183.txt" value="a_ST000110_AN000183.txt"/>
+                <extra_files type="file" name="a_ST000110_AN000184.txt" value="a_ST000110_AN000184.txt"/>
+                <extra_files type="file" name="a_ST000110_AN000185.txt" value="a_ST000110_AN000185.txt"/>
+            </output>
+        </test>-->        
     </tests>
     <help>
 <!-- @@@BEGIN_RST@@@ -->

@@ -3,6 +3,9 @@
 """
 Python script to upload project folders/files to MetaboLights Labs Projects
 
+Third party dependency: IMPORTANT!!!
+REMEMBER TO INSTALL ASPERA CONNECT When USING MTBLS UPLOADER
+
 Dependencies:
     os, sys, argparse, json, requests, subprocess
 
@@ -112,17 +115,21 @@ Arguments:
         logging.info("Compiling aspera command")
         asperaCommand = compileAsperaCommand(asperaConfiguration)
         logging.info("asperaConfiguration: " + asperaConfiguration[0] + asperaConfiguration[1] + asperaConfiguration[2] + asperaConfiguration[3] + asperaConfiguration[4] )
+        logging.info("asperaConfiguration full: " + asperaConfiguration)
+       
         # logging.info("asperaConfiguration: " + asperaConfiguration["content"]["asperaServer"] )
         logging.info("Checking aspera Environment variables")
         executeAsperaUpload(asperaCommand)
     else:
         logging.info("Input validation Failed: Terminating program")
-        print( "Invalid Input: Please check the " + log_file + " for more details")
+        print("Invalid Input: Please check the " + log_file + " for more details")
 
 
 def executeAsperaUpload(cmds):
     cmd = filter(None, cmds[1])
+    print("CMD:", cmds)
     cmd = filter(bool, cmd)
+    # logging.info("CMD:" , cmd)
     os.environ["ASPERA_SCP_PASS"] = cmds[0]
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE,
                          stderr=subprocess.PIPE)

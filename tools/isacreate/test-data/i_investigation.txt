@@ -1,0 +1,93 @@
+ONTOLOGY SOURCE REFERENCE
+Term Source Name	UBERON	OBI	ICO	DUO
+Term Source File				
+Term Source Version				
+Term Source Description				
+INVESTIGATION
+Investigation Identifier	ISA-19f61a60
+Investigation Title	Investigation
+Investigation Description	
+Investigation Submission Date	
+Investigation Public Release Date	
+INVESTIGATION PUBLICATIONS
+Investigation PubMed ID
+Investigation Publication DOI
+Investigation Publication Author List
+Investigation Publication Title
+Investigation Publication Status
+Investigation Publication Status Term Accession Number
+Investigation Publication Status Term Source REF
+INVESTIGATION CONTACTS
+Investigation Person Last Name	Last Name
+Investigation Person First Name	First name
+Investigation Person Mid Initials	
+Investigation Person Email	email__at__email.com
+Investigation Person Phone	
+Investigation Person Fax	
+Investigation Person Address	
+Investigation Person Affiliation	Affiliation
+Investigation Person Roles	
+Investigation Person Roles Term Accession Number	
+Investigation Person Roles Term Source REF	
+STUDY
+Study Identifier	ISA-19f61a60
+Study Title	Study Title
+Study Description	Study Description
+Study Submission Date	
+Study Public Release Date	
+Study File Name	s_study.txt
+Comment[Consent Information (ICO:0000011)]	disease-specific research and clinical care (DUO:0000007)
+Comment[Data Use Requirement (DUO:0000017)]	collaboration required (DUO:0000020)
+STUDY DESIGN DESCRIPTORS
+Study Design Type
+Study Design Type Term Accession Number
+Study Design Type Term Source REF
+STUDY PUBLICATIONS
+Study PubMed ID
+Study Publication DOI
+Study Publication Author List
+Study Publication Title
+Study Publication Status
+Study Publication Status Term Accession Number
+Study Publication Status Term Source REF
+STUDY FACTORS
+Study Factor Name	INTENSITY	AGENT	DURATION
+Study Factor Type	intensity	perturbation agent	time
+Study Factor Type Term Accession Number			
+Study Factor Type Term Source REF			
+STUDY ASSAYS
+Study Assay File Name
+Study Assay Measurement Type
+Study Assay Measurement Type Term Accession Number
+Study Assay Measurement Type Term Source REF
+Study Assay Technology Type
+Study Assay Technology Type Term Accession Number
+Study Assay Technology Type Term Source REF
+Study Assay Technology Platform
+STUDY PROTOCOLS
+Study Protocol Name	sample collection
+Study Protocol Type	sample collection
+Study Protocol Type Term Accession Number	
+Study Protocol Type Term Source REF	
+Study Protocol Description	
+Study Protocol URI	
+Study Protocol Version	
+Study Protocol Parameters Name	run order;collection event rank
+Study Protocol Parameters Name Term Accession Number	;
+Study Protocol Parameters Name Term Source REF	;
+Study Protocol Components Name	
+Study Protocol Components Type	
+Study Protocol Components Type Term Accession Number	
+Study Protocol Components Type Term Source REF	
+STUDY CONTACTS
+Study Person Last Name	Last Name
+Study Person First Name	First name
+Study Person Mid Initials	
+Study Person Email	email__at__email.com
+Study Person Phone	
+Study Person Fax	
+Study Person Address	
+Study Person Affiliation	Affiliation
+Study Person Roles	
+Study Person Roles Term Accession Number	
+Study Person Roles Term Source REF	

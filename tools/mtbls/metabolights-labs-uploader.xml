@@ -51,14 +51,19 @@
             <option value="yes">Yes</option>
             <option value="no" selected="true">No</option>
         </param>
-        <param name="labs_project_id" format="txt" type="text" label="Existing MetaboLights Labs Project ID" help="Enter the MetaboLights Labs Project ID if you want to add files to an existing project"/>
+        <param name="labs_project_id" type="text" label="Existing MetaboLights Labs Project ID" help="Enter the MetaboLights Labs Project ID if you want to add files to an existing project" optional="true"/>
     </inputs>
     <outputs>
         <data name="log_file" format="txt" label="Uploader Log" from_work_dir="cli.log"/>
     </outputs>
     <tests>
         <test>
-            <output name="log_file" file="cli.log"/>
+            <param name="metabolights_labs_key" value="36545bea-58c2-40f3-8c52-fe26a5a80df6"/>
+            <param name="input_type_selector" value="archives"/>
+            <param name="isa_file" value="MTBLS6.zip" ftype="zip"/>
+            <param name="create_new_project" value="yes"/>
+
+            <output name="log_file" file="cli.log" compare="sim_size"/>
         </test>
     </tests>
     <help>

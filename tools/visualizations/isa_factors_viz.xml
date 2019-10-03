@@ -39,15 +39,15 @@
         <data name="factors_plot" format="pdf" from_work_dir="factors_plot.pdf" label="Factors Parallel Sets Plot"/>
     </outputs>
     <tests>
-        <!--<test>-->
-            <!--<param name="input_type" value="mtbls-id"/>-->
-            <!--<param name="mtbls_id" value="MTBLS1"/>-->
-            <!--<output name="factors_plot" file="example.pdf"/>-->
-        <!--</test>-->
+<!--        <test>
+            <param name="input_type" value="mtbls-id"/>
+            <param name="mtbls_id" value="MTBLS1"/>
+            <output name="factors_plot" file="example.pdf"/>
+       </test>-->
         <test>
             <param name="input_type" value="isa-factors-json"/>
             <param name="factors_json" value="example.json" ftype="json"/>
-            <output name="factors_plot" file="example.pdf"/>
+            <output name="factors_plot" file="example.pdf" compare="sim_size"/>
         </test>
     </tests>
     <help>
