@@ -4,8 +4,7 @@
         Get a collection of ISA study data files filtered on factor values
     </description>
     <requirements>
-        <requirement type="package" version="6.7">click</requirement>
-        <requirement type="package" version="0.10.0">isatools</requirement>
+        <requirement type="package" version="0.10.3">isatools</requirement>
     </requirements>
     <stdio>
         <exit_code range="1:" level="fatal"/>
