@@ -1,8 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <tool id="isa_get_study_factor_values" name="isa_get_study_factor_values" version="@TOOL_VERSION@">
-    <description>
-        Get list of factor values for given factor used in a ISA study
-    </description>
+    <description>Get list of factor values for given factor used in a ISA study</description>
     <macros>
         <import>macros.xml</import>
     </macros>

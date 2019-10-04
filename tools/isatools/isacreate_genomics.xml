@@ -1,5 +1,5 @@
 <tool id="isacreate_genomics" name="isacreate_genomics" version="@TOOL_VERSION@">
-    <description>Create ISA templates based on study design information.</description>
+    <description>Create ISA templates based on study design information</description>
     <macros>
         <import>macros.xml</import>
     </macros>
