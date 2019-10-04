@@ -2,7 +2,7 @@
 <tool id="mw2isatab" name="mw2isatab" version="1.1">
     <description>A tool to obtain an ISA document from NIH Metabolomics Workbench</description>
     <requirements>
-        <requirement type="package" version="0.10.0">isatools</requirement>
+        <requirement type="package" version="0.10.3">isatools</requirement>
     </requirements>
     <command><![CDATA[
         mkdir study_dir &&
@@ -21,7 +21,7 @@
         <test>
             <param name="mw_study_id" value="ST000002"/>
             <output name="output" compare="sim_size">
-                <extra_files type="file" name="i_investigation.txt" value="i_investigation.txt" lines_diff="8"/>
+                <extra_files type="file" name="i_investigation.txt" value="mw2isatab_i_investigation.txt" lines_diff="8"/>
 <!--                <extra_files type="file" name="s_ST000002.txt" value="s_ST000002.txt"/>
                 <extra_files type="file" name="a_ST000002_AN000002.txt" value="a_ST000002_AN000002.txt"/>-->
             </output>
@@ -29,7 +29,7 @@
 <!--        <test>
             <param name="mw_study_id" value="ST000110"/>
             <output name="output">
-                <extra_files type="file" name="i_investigation.txt" value="i_investigation.txt" lines_diff="8"/>
+                <extra_files type="file" name="i_investigation.txt" value="mw2isatab_i_investigation.txt" lines_diff="8"/>
                 <extra_files type="file" name="s_ST000110.txt" value="s_ST000110.txt"/>
                 <extra_files type="file" name="a_ST000110_AN000183.txt" value="a_ST000110_AN000183.txt"/>
                 <extra_files type="file" name="a_ST000110_AN000184.txt" value="a_ST000110_AN000184.txt"/>

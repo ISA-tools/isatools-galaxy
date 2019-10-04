@@ -4,8 +4,8 @@
 
     <xml name="requirements">
         <requirements>
-            <requirement type="package" version="6.7">click</requirement>
-            <requirement type="package" version="0.10.2">isatools</requirement>
+            <requirement type="package" version="7.0">click</requirement>
+            <requirement type="package" version="0.10.3">isatools</requirement>
         </requirements>
     </xml>
 
