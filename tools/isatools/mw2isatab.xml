@@ -9,7 +9,7 @@
 mkdir study_dir &&
 mkdir -p '${output.files_path}' &&
 '$__tool_directory__/mw2isatab.py' '$mw_study_id' study_dir &&
-cp -r "study_dir/$mw_study_id/*" '${output.files_path}'
+cp -r 'study_dir/$mw_study_id'/* '${output.files_path}'
     ]]></command>
     <inputs>
         <param name="mw_study_id" type="text" label="Metabolomics Workbench Study Identifier" help="MW study ID available at Metabolomics Workbench, e.g. ST000001."/>
