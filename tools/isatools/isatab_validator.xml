@@ -1,11 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<tool id="isatab_validator" name="isatab_validator" version="1.1">
+<tool id="isatab_validator" name="isatab_validator" version="@TOOL_VERSION@">
     <description>Produce a validation report on an ISA-Tab</description>
-
-    <requirements>
-        <requirement type="package" version="0.10.3">isatools</requirement>
-    </requirements>
-
+    <macros>
+        <import>macros.xml</import>
+    </macros>
+    <expand macro="requirements"/>
     <stdio>
         <exit_code range="1:" level="fatal"/>
     </stdio>

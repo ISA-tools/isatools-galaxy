@@ -1,29 +1,26 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<tool id="isa_get_data_files_list" name="isa_get_data_files_list" version="1.1">
+<tool id="isa_get_data_files_list" name="isa_get_data_files_list" version="@TOOL_VERSION@">
     <description>Get a list of ISA study data files filtered on factor values</description>
-    <requirements>
-        <requirement type="package" version="0.10.3">isatools</requirement>
-    </requirements>
-
+    <macros>
+        <import>macros.xml</import>
+    </macros>
+    <expand macro="requirements"/>
     <stdio>
         <exit_code range="1:" level="fatal"/>
     </stdio>
     <command><![CDATA[
+#if $data_file.input == "mtbls_id"
+    #set $command = "mtbls-get-data-list"
+    #set $source = $data_file.mtbls_id
+#end if
 
-        #if $data_file.input == "mtbls_id"
-            #set $command = "mtbls-get-data-list"
-            #set $source = $data_file.mtbls_id
-        #end if
+#if $data_file.input == "isatab_input"
+    #set $command = "isa-tab-get-data-list"
+    #set $source = $data_file.isatab_input.extra_files_path
+#end if
 
-        #if $data_file.input == "isatab_input"
-            #set $command = "isa-tab-get-data-list"
-            #set $source = $data_file.isatab_input.extra_files_path
-        #end if
-
-        $__tool_directory__/isaslicer.py "$command" "${source}" "${output}" --galaxy_parameters_file="$inputs"
-
-    ]]>
-    </command>
+'$__tool_directory__/isaslicer.py' $command '${source}' '${output}' --galaxy_parameters_file='$inputs'
+    ]]></command>
     <configfiles>
         <inputs name="inputs" />
     </configfiles>

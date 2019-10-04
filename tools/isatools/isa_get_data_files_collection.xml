@@ -1,25 +1,25 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<tool id="isa_get_data_files_collection" name="isa_get_data_files_collection" version="1.1">
+<tool id="isa_get_data_files_collection" name="isa_get_data_files_collection" version="@TOOL_VERSION@">
     <description>
         Get a collection of ISA study data files filtered on factor values
     </description>
-    <requirements>
-        <requirement type="package" version="0.10.3">isatools</requirement>
-    </requirements>
+    <macros>
+        <import>macros.xml</import>
+    </macros>
+    <expand macro="requirements"/>
     <stdio>
         <exit_code range="1:" level="fatal"/>
     </stdio>
     <command><![CDATA[
-        $__tool_directory__/isaslicer.py isa-tab-get-data-collection
-        "${isatab_input.extra_files_path}" "./"
-        --galaxy_parameters_file="$inputs"
-]]>
-    </command>
+'$__tool_directory__/isaslicer.py' isa-tab-get-data-collection
+'${isatab_input.extra_files_path}' ./
+--galaxy_parameters_file='$inputs'
+    ]]></command>
     <configfiles>
         <inputs name="inputs" />
     </configfiles>
     <inputs>
-	    <param format="isa-tab" name="isatab_input" type="data" label="ISA-Tab" help="An ISA-Tab datatype history item"/>
+	    <param name="isatab_input" type="data" format="isa-tab" label="ISA-Tab" help="An ISA-Tab datatype history item"/>
         <repeat name="factor_value_series" title="Factor selection criteria" default="1">
             <param name="factor_name" type="text" label="Factor name to filter on." help="Factor name relevant to the specified MetaboLights study, e.g. genotype."/>
             <param name="factor_value" type="text" label="Factor value to filter on." help="Factor value relevant to the specified MetaboLights study, e.g. cyp79."/>

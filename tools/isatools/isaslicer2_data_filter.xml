@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<tool id="ISAslicer2_data_filter" name="ISAslicer2_data_filter" version="1.0">
+<tool id="ISAslicer2_data_filter" name="ISAslicer2_data_filter" version="@TOOL_VERSION@">
     <description>Filters data files based on ISAslicer2 slices</description>
-    <requirements>
-        <requirement type="package" version="0.10.3">isatools</requirement>
-    </requirements>
-
+    <macros>
+        <import>macros.xml</import>
+    </macros>
+    <expand macro="requirements"/>
     <stdio>
         <exit_code range="1:" level="fatal"/>
     </stdio>

@@ -1,11 +1,10 @@
 <macros>
-
-    <token name="@VERSION@">1.2.0</token>
+    <token name="@TOOL_VERSION@">0.10.3</token>
 
     <xml name="requirements">
         <requirements>
-            <requirement type="package" version="7.0">click</requirement>
-            <requirement type="package" version="0.10.3">isatools</requirement>
+            <requirement type="package" version="@TOOL_VERSION@">isatools</requirement>
+            <yield/>
         </requirements>
     </xml>
 
@@ -272,7 +271,7 @@
 .. image:: https://i0.wp.com/isa-tools.org/wp-content/uploads/2016/10/isatools_logo-1.png?zoom=1.25&fit=688%2C164
             :height: 25
             :width: 95
-            :target: http://www.isa-tools.org
+            :target: https://isa-tools.org/
 ]]></token>
 
     <token name="@ISACREATE_METABO_HELP@"><![CDATA[
