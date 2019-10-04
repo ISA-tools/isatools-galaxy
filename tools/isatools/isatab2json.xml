@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<tool id="isatab2json" name="isatab2json" version="@TOOL_VERSION@">
+    <description>Converts an ISA-Tab to ISA-JSON</description>
+    <macros>
+        <import>macros.xml</import>
+    </macros>
+    <expand macro="requirements"/>
+    <stdio>
+        <exit_code range="1:" level="fatal"/>
+    </stdio>
+    <command><![CDATA[
+'$__tool_directory__/isatab2json.py' '$isatab_input.extra_files_path' '$output'
+    ]]></command>
+    <inputs>
+        <param name="isatab_input" type="data" format="isa-tab" label="ISA"/>
+    </inputs>
+    <outputs>
+        <data name="output" format="json" label="ISA content in ISA-JSON format"/>
+    </outputs>
+    <tests>
+        <test>
+            <param name="isatab_input" value="MTBLS1" ftype="isa-tab"/>
+            <output name="output" file="MTBLS1.json" compare="sim_size"/>
+        </test>
+    </tests>
+
+    <help>
+<!-- @@@BEGIN_RST@@@ -->
+
+=====================
+isatab2json converter
+=====================
+
+This tool converts an ISA-Tab to ISA-JSON.
+
+-----
+Input
+-----
+
+ISA-Tab
+=======
+The input ISA-Tab must contain the i_*.txt, s_*.txt and a_*.txt files
+and be an ISA-Tab Galaxy history item.
+
+For details on the ISA-Tab format, please see
+http://isa-specs.readthedocs.io/en/latest/isatab.html
+
+.. class:: warningmark
+
+The input ISA-Tab must be valid.
+
+------
+Output
+------
+
+ISA content in ISA-JSON format
+==============================
+
+A single JSON file containing the ISA-Tab contents in *ISA-JSON*
+compliant format.
+
+For details on the ISA-JSON format, please see
+http://isa-specs.readthedocs.io/en/latest/isajson.html
+
+<!-- @@@END_RST@@@ -->
+    </help>
+    <citations>
+        <citation type="doi">10.5281/zenodo.163640</citation>
+        <citation type="doi">10.1038/ng.1054</citation>
+    </citations>
+</tool>

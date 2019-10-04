@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<tool id="mw2isatab" name="mw2isatab" version="@TOOL_VERSION@">
+    <description>A tool to obtain an ISA document from NIH Metabolomics Workbench</description>
+    <macros>
+        <import>macros.xml</import>
+    </macros>
+    <expand macro="requirements"/>
+    <command><![CDATA[
+mkdir study_dir &&
+mkdir -p '${output.files_path}' &&
+'$__tool_directory__/mw2isatab.py' '$mw_study_id' study_dir &&
+cp -r "study_dir/$mw_study_id/*" '${output.files_path}'
+    ]]></command>
+    <inputs>
+        <param name="mw_study_id" type="text" label="Metabolomics Workbench Study Identifier" help="MW study ID available at Metabolomics Workbench, e.g. ST000001."/>
+    </inputs>
+    <outputs>
+        <data name="output" format="isa-tab" label="$(mw_study_id)"/>
+    </outputs>
+    <tests>
+        <test>
+            <param name="mw_study_id" value="ST000002"/>
+            <output name="output" compare="sim_size">
+                <extra_files type="file" name="i_investigation.txt" value="mw2isatab_i_investigation.txt" lines_diff="8"/>
+<!--                <extra_files type="file" name="s_ST000002.txt" value="s_ST000002.txt"/>
+                <extra_files type="file" name="a_ST000002_AN000002.txt" value="a_ST000002_AN000002.txt"/>-->
+            </output>
+        </test>
+<!--        <test>
+            <param name="mw_study_id" value="ST000110"/>
+            <output name="output">
+                <extra_files type="file" name="i_investigation.txt" value="mw2isatab_i_investigation.txt" lines_diff="8"/>
+                <extra_files type="file" name="s_ST000110.txt" value="s_ST000110.txt"/>
+                <extra_files type="file" name="a_ST000110_AN000183.txt" value="a_ST000110_AN000183.txt"/>
+                <extra_files type="file" name="a_ST000110_AN000184.txt" value="a_ST000110_AN000184.txt"/>
+                <extra_files type="file" name="a_ST000110_AN000185.txt" value="a_ST000110_AN000185.txt"/>
+            </output>
+        </test>-->        
+    </tests>
+    <help>
+<!-- @@@BEGIN_RST@@@ -->
+
+============================================
+Get ISA metadata from Metabolomics Workbench
+============================================
+
+This tool produces an ISA-Tab archive (zip) given an NIH Metabolomics Workbench
+accession number. See http://www.metabolomicsworkbench.org/
+
+-----
+Input
+-----
+
+Metabolomics Workbench Study Identifier
+=======================================
+MW study ID available at Metabolomics Workbench, e.g. ST000110.
+
+------
+Output
+------
+
+ISA-Tab history item
+====================
+The output ISA-Tab history item will contain the i_*.txt, s_*.txt and a_*.txt
+files expected. The output also includes auto-generated Metabolite Assignment
+Files (MAF).
+
+For details on the ISA-Tab format, please see http://isa-specs.readthedocs.io/en/latest/isatab.html
+
+
+<!-- @@@END_RST@@@ -->
+    </help>
+
+    <citations>
+        <citation type="doi">10.1093/nar/gkv1042</citation>
+        <citation type="doi">10.5281/zenodo.163640</citation>
+        <citation type="doi">10.1038/ng.1054</citation>
+    </citations>
+
+</tool>
