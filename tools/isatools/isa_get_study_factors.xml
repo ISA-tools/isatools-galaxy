@@ -1,8 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <tool id="isa_get_study_factors" name="isa_get_study_factors" version="@TOOL_VERSION@">
-    <description>
-        Get list of study factors for a ISA study
-    </description>
+    <description>Get list of study factors for a ISA study</description>
     <macros>
         <import>macros.xml</import>
     </macros>
@@ -24,7 +22,7 @@
 '$__tool_directory__/isaslicer.py' $command '${source}' '${output}'
     ]]></command>
     <inputs>
-	    <conditional name="data_file">
+        <conditional name="data_file">
             <param name="input" type="select" label="Choose your ISA-Tab input source">
                 <option value="mtbls_id" selected="true">Metabolights study ID</option>
                 <option value="isatab_input">ISA-Tab datatype history item</option>

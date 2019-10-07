@@ -3,7 +3,6 @@ auto_tool_repositories:
   description_template: "{{ tool_name }}"
 categories:
 - Convert Formats
-- Genomics
 - Metabolomics
 - Transcriptomics
 homepage_url: https://isa-tools.org/

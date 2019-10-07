@@ -12,9 +12,7 @@
 #if $data_file.input == "mtbls_id"
     #set $command = "mtbls-get-factors-summary"
     #set $source = $data_file.mtbls_id
-#end if
-
-#if $data_file.input == "isatab_input"
+#else
     #set $command = "isa-tab-get-factors-summary"
     #set $source = $data_file.isatab_input.extra_files_path
 #end if
@@ -42,6 +40,7 @@
     </outputs>
     <tests>
         <test>
+            <param name="input" value="mtbls_id"/>
             <param name="mtbls_id" value="MTBLS1"/>
             <output name="output" file="mtbls1_factors_summary_out.json" compare="sim_size"/>
         </test>
