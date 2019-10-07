@@ -9,12 +9,10 @@
     <code file="isa_cvterms.py"/>
     <expand macro="stdio"/>
     <command><![CDATA[
-mkdir study_dir &&
 mkdir -p '${output.files_path}' &&
 '$__tool_directory__/isacreate.py'
 --galaxy_parameters_file='$inputs'
---target_dir='study_dir/' &&
-cp study_dir/* '${output.files_path}'
+--target_dir='${output.files_path}'
     ]]></command>
     <expand macro="configfiles"/>
     <inputs>

@@ -17,7 +17,7 @@
         <inputs name="inputs" />
     </configfiles>
     <inputs>
-	    <param name="isatab_input" type="data" format="isa-tab" label="ISA-Tab" help="An ISA-Tab datatype history item"/>
+        <param name="isatab_input" type="data" format="isa-tab" label="ISA-Tab" help="An ISA-Tab datatype history item"/>
         <repeat name="factor_value_series" title="Factor selection criteria" default="1">
             <param name="factor_name" type="text" label="Factor name to filter on." help="Factor name relevant to the specified MetaboLights study, e.g. genotype."/>
             <param name="factor_value" type="text" label="Factor value to filter on." help="Factor value relevant to the specified MetaboLights study, e.g. cyp79."/>

@@ -28,7 +28,7 @@
         <inputs name="inputs" />
     </configfiles>
     <inputs>
-	    <conditional name="input">
+        <conditional name="input">
             <param name="input_selector" type="select" label="Choose your ISA-Tab input source">
                 <option value="mtbls" selected="true">Metabolights study ID</option>
                 <option value="isa-tab">ISA-Tab datatype history item</option>
@@ -39,8 +39,7 @@
                 </param>
             </when>
             <when value="isa-tab">
-                <param format="isa-tab" name="isatab_input" type="data" label="ISA-Tab"  help="An ISA-Tab datatype history item"/>
-                <!--<param name="collection_output" type="boolean" checked="false" label="Output new dataset collection"/>-->
+                <param name="isatab_input" type="data" format="isa-tab" label="ISA-Tab" help="An ISA-Tab datatype history item"/>
             </when>
         </conditional>
         <section name="query" title="Query Builder" expanded="true" help="Queries attempt to match all of the conditions you specify in this section. Please consider each criteria in combinations of logical conjunctions (e.g. Factor Selection 1 AND Characteristics Selection 1, etc.).">
@@ -73,7 +72,7 @@
         </section>
     </inputs>
     <outputs>
-        <data format="json" name="output" label="Study sliced data files list"/>
+        <data name="output" format="json" label="Study sliced data files list"/>
     </outputs>
 
     <tests>

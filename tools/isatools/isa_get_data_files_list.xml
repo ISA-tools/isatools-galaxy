@@ -25,7 +25,7 @@
         <inputs name="inputs" />
     </configfiles>
     <inputs>
-	    <conditional name="data_file">
+        <conditional name="data_file">
             <param name="input" type="select" label="Choose your ISA-Tab input source">
                 <option value="mtbls_id" selected="true">Metabolights study ID</option>
                 <option value="isatab_input">ISA-Tab datatype history item</option>
